@@ -12,19 +12,19 @@ module.exports = {
 			userID: 		req.body.userID,
 			medicationID: 	req.body.medicationID,
 			name: 			req.body.name,
-			active: 		req.body.name,
+			active: 		req.body.active,
 			time: 			req.body.time,
 			amount: 		req.body.amount,
 			unit: 			req.body.unit
 		})
 		.then(function(reminder) {
 			sails.log.info("Created reminder: ", reminder);
-			return res.success({ reminderID: reminder.reminderID})
+			return res.success({ reminderID: reminder.reminderID});
 		})
 		.catch(function(err) {
-			sails.error.info("Could not create reminder: " + err);
+			sails.log.error("Could not create reminder: " + err);
 			return res.failure(err);
 		});
-	},
+	}
 };
 

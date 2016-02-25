@@ -30,10 +30,6 @@ module.exports = {
 	  	children: {
 	  		collection: 'user',
 	  		via: 'guardians'
-	  	},
-	  	medicationID: {
-	  		collection: 'Medication',
-	  		via: 
 	  	}
   	}
 };

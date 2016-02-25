@@ -50,5 +50,4 @@ module.exports.routes = {
   'POST /user/:id/children'   : 'UserController.addChild',
   'POST /user'                : 'UserController.create',
   'POST /reminder'            : 'ReminderController.create'
-
 };

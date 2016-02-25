@@ -14,28 +14,29 @@ module.exports = {
   			unique: true,
   			autoIncrement: true
   		},
-  		ownerID: {
+  		userID: {
   			model: 'User'
   		},
+  		medicationID: {
+	  		//model: 'medication'
+	  	},
   		name: {
   			type: 'string'
   		},
   		active: {
   			type: 'boolean'
   		}, 
-	  	medicationID: {
-	  		model: 'medication'
-	  	},
+	  	
 	  	time: {
 	  		type: 'datetime'
 	  	},
 	  	amount: {
-	  		type: 'double'
+	  		type: 'float'
 	  	},
 	  	unit: {
 	  		type: 'string',
 	  		enum: ['milliliter', 'pill', 'inhalation', 'mg', 'mcg', 'unit', 'gram']
 	  	}
-  }
+  	}
 };
 
