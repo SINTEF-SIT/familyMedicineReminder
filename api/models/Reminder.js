@@ -8,24 +8,34 @@
 module.exports = {
 
   	attributes: {
-  		id: {
+  		reminderID: {
   			type: 'string',
   			primaryKey: true,
-  			unique: true
+  			unique: true,
+  			autoIncrement: true
   		},
   		ownerID: {
-  			collection: 'user',
-  			via: 'owner'
+  			model: 'User'
   		},
-  		text: {
+  		name: {
   			type: 'string'
   		},
   		active: {
   			type: 'boolean'
   		}, 
 	  	medicationID: {
-	  		model: 'Medication'
+	  		model: 'medication'
+	  	},
+	  	time: {
+	  		type: 'datetime'
 	  	}
+	  	amount: {
+	  		type: 'double'
+	  	},
+	  	unit: {
+	  		type: 'string'
+	  	}
+
 
   }
 };
