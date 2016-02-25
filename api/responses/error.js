@@ -20,7 +20,7 @@ module.exports = function error(error) {
   var res = this.res;
   var sails = req._sails;
 
-  sails.log.silly('res.error() :: Sending error response with ', err);
+  sails.log.silly('res.error() :: Sending error response with ', error);
 
   // Set status code
   res.status(500);

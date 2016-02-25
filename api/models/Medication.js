@@ -25,7 +25,7 @@ module.exports = {
 
 		unit: {
 			type: 'string',
-			enum: ['milliliter', 'pill', 'inhalation', 'mg', 'mcg', 'unit', 'gram']
+			enum: ValidationService.validUnits
 		},
 
 		approved: {
@@ -36,6 +36,6 @@ module.exports = {
 			collection: reminder,
 			via: medicationID
 		}*/
-	}
+	},
 };
 
