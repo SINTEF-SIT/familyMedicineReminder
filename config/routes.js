@@ -46,8 +46,18 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  /***************************************************************************
+  * Routes related to UserController                                         *
+  ***************************************************************************/
+
   'GET /user/:id/children'    : 'UserController.getChildren',
   'POST /user/:id/children'   : 'UserController.addChild',
-  'POST /user'                : 'UserController.create'
+  'POST /user'                : 'UserController.create',
 
+  /***************************************************************************
+  * Routes related to MedicationController                                   *
+  ***************************************************************************/
+
+  'POST /medications'         : 'MedicationController.add',
+  'GET /medications'          : 'MedicationController.get'
 };

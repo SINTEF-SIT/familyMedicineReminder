@@ -9,9 +9,10 @@ module.exports = {
 
 	attributes: {
 		medicationID: {
-			type: 'string',
+			type: 'int',
 			primaryKey: true,
-			unique: true
+			unique: true,
+			autoIncrement: true
 		},
 
 		name: {
@@ -23,7 +24,8 @@ module.exports = {
 		},
 
 		unit: {
-			type: 'string'
+			type: 'string',
+			enum: ['milliliter', 'pill', 'inhalation', 'mg', 'mcg', 'unit', 'gram']
 		},
 
 		approved: {
