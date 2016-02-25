@@ -25,6 +25,20 @@ module.exports = {
 			sails.log.error("Could not create reminder: " + err);
 			return res.failure(err);
 		});
+	},
+	getReminders: function(req, res) {
+		var userID = req.param('userID');
+		sails.log.info(userID);
+
+		User.find({ userID : userID })
+		.then(function(user) {
+			return res.success(user[0].children);
+		})
+		.catch(function(err) {
+			sails.error.info("Could not get children: " + err);
+			return res.failure( {"message" : "Could not get children" });
+		});
 	}
+
 };
 
