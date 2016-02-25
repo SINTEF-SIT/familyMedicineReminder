@@ -12,25 +12,24 @@
 
 module.exports = {
 
-/**
-*	Anticipates a request with the fields 
-*	userID, username and password. Creates a unique ID 
-**/
-
+	/**
+	*	Anticipates a request with the fields 
+	*	userID, username and password. Creates a unique ID 
+	**/
 	create: function(req, res) {
 		userID = UserService.generateUniqueUserID();
 		User.create({
-			userID: userID,
-			username: req.username,
-			password: req.password
+			userID: 	userID,
+			username: 	req.body.username,
+			password: 	req.body.password
 		})
-		.then(function(resolve) {
-			sails.log.info("Created user: ", resolve);
-			return res.success({ userID: userID})
+		.then(function(user) {
+			sails.log.info("Created user: ", user);
+			res.success({ userID: userID });
 		})
 		.catch(function(err) {
-			sails.error.info("Could not create user: " + err);
-			return res.failure(err);
+			sails.error.info("Could not create user: ", err);
+			res.error({ "message" : "Could not create new user" });
 		});
 	},
 
@@ -43,8 +42,8 @@ module.exports = {
 			return res.success(user[0].children);
 		})
 		.catch(function(err) {
-			sails.error.info("Could not get children: " + err);
-			return res.failure( {"message" : "Could not get children" });
+			sails.error.info("Could not get children: ", err);
+			return res.error({ "message" : "Could not get children" });
 		});
 	},
 
@@ -62,8 +61,8 @@ module.exports = {
 			});
 		})
 		.catch(function(err) {
-			sails.log.error(err);
-			return res.error(err); //Maybe not expose error here
+			sails.log.error("Could not add child: ", err);
+			return res.error({"message" : "Could not add child"});
 		});
 	}
 };
