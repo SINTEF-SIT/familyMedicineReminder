@@ -27,16 +27,17 @@ module.exports = {
 		});
 	},
 	getReminders: function(req, res) {
-		var userID = req.param('userID');
-		sails.log.info(userID);
+		var userID = req.param('id');
+		sails.log.info('User '+ userID +' retrieves all reminders');
 
-		User.find({ userID : userID })
-		.then(function(user) {
-			return res.success(user[0].children);
+		Reminder.find({ userID : userID })
+		.then(function(reminders) {
+			sails.log.info('Reminders: ', reminders)
+			return res.success(reminders);
 		})
 		.catch(function(err) {
-			sails.error.info("Could not get children: " + err);
-			return res.failure( {"message" : "Could not get children" });
+			sails.error.info("Could not retrieve reminders: " + err);
+			return res.failure( {"message" : "Could not get reminders" });
 		});
 	}
 
