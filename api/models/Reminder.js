@@ -28,15 +28,14 @@ module.exports = {
 	  	},
 	  	time: {
 	  		type: 'datetime'
-	  	}
+	  	},
 	  	amount: {
 	  		type: 'double'
 	  	},
 	  	unit: {
-	  		type: 'string'
+	  		type: 'string',
+	  		enum: ['milliliter', 'pill', 'inhalation', 'mg', 'mcg', 'unit', 'gram']
 	  	}
-
-
   }
 };
 
