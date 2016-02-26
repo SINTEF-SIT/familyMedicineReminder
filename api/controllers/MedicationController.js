@@ -33,7 +33,7 @@ module.exports = {
 		})
 		.catch(function(err) {
 			sails.log.error("Could not create medication", err);
-			return res.error({ "message" : "Could not create medication: ", err});
+			return res.error("Internal server error when adding medication");
 		});
 	},
 
@@ -45,7 +45,7 @@ module.exports = {
 		})
 		.catch(function(err) {
 			sails.log.error(err);
-			return res.error({ message: err });
+			return res.error("Internal server error when retrieving medications.");
 		});
 	}
 };

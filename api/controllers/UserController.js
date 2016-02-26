@@ -29,7 +29,7 @@ module.exports = {
 		})
 		.catch(function(err) {
 			sails.error.info("Could not create user: ", err);
-			res.error({ "message" : "Could not create new user" });
+			res.error("Internal server error when creating user.");
 		});
 	},
 
@@ -43,7 +43,7 @@ module.exports = {
 		})
 		.catch(function(err) {
 			sails.error.info("Could not get children: ", err);
-			return res.error({ "message" : "Could not get children" });
+			return res.error("Internal server error when retrieving children.");
 		});
 	},
 
@@ -62,7 +62,7 @@ module.exports = {
 		})
 		.catch(function(err) {
 			sails.log.error("Could not add child: ", err);
-			return res.error({"message" : "Could not add child"});
+			return res.error("Internal server error when adding child.");
 		});
 	}
 };
