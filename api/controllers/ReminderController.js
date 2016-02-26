@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-	// Called when API is requested with POST at /user/:userID/reminder
+	// Executes when API is called with POST at /user/:userID/reminder
 	createReminder: function(req, res) {
 		var userID = req.param('id');
 		Reminder.create({
@@ -39,14 +39,11 @@ module.exports = {
 			return res.success(reminders);
 		})
 		.catch(function(err) {
-			sails.error.info("Could not retrieve reminders: " + err);
+			sails.log.error("Could not retrieve reminders: " + err);
 			return res.failure( {"message" : "Could not retrieve reminders" });
 		});
 	},
-
-	//update
-	//delete
-
+	// Executes when API is called with PUT at /user/:userID/reminder/:reminderID
 	updateReminder: function(req, res) {
 		var userID = req.param('userID');
 		var reminderID = req.param('reminderID');
@@ -63,17 +60,19 @@ module.exports = {
 			time: 			req.body.time,
 			amount: 		req.body.amount,
 			unit: 			req.body.unit,
-			frequency: 		req.body.frequency  
+			frequency: 		req.body.frequency
 		})
 		.then(function(reminder) {
 			sails.log.info('Updated reminder: ', reminder)
 			return res.success(reminder);
 		})
 		.catch(function(err) {
-			sails.error.info("Could not update reminder: " + err);
+			sails.log.error("Could not update reminder: " + err);
 			return res.failure( {"message" : "Could not update reminder" });
 		});
 	}
+
+	// deleteReminder
 
 };
 

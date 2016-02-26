@@ -9,7 +9,7 @@ module.exports = {
 
   	attributes: {
   		reminderID: {
-  			type: 'string',
+  			type: 'integer',
   			primaryKey: true,
   			unique: true,
   			autoIncrement: true
@@ -18,7 +18,8 @@ module.exports = {
   			model: 'User'
   		},
   		medicationID: {
-	  		//model: 'medication'
+        // Implement once Medication model and logic is
+	  		// model: 'medication'
 	  	},
   		name: {
   			type: 'string',
