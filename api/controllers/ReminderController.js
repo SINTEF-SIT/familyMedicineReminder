@@ -9,7 +9,7 @@ module.exports = {
 	// Executes when API is called with POST at /user/:userID/reminder
 	createReminder: function(req, res) {
 		var userID = req.param('id');
-		sails.log.info('User "' + userID + '" creates a reminder');
+		sails.log.info('User ' + userID + ' creates a reminder');
 
 		Reminder.create({
 			reminderID: 	req.body.reminderID,
@@ -33,7 +33,7 @@ module.exports = {
 	},
 	getReminders: function(req, res) {
 		var userID = req.param('id');
-		sails.log.info('User "'+ userID +'" retrieves all reminders');
+		sails.log.info('User '+ userID +' retrieves all reminders');
 
 		Reminder.find({ userID: userID })
 		.then(function(reminders) {
@@ -49,7 +49,7 @@ module.exports = {
 	updateReminder: function(req, res) {
 		var userID = req.param('userID');
 		var reminderID = req.param('reminderID');
-		sails.log.info('User "'+ userID +'" updates reminder "' + reminderID + '".');
+		sails.log.info('User '+ userID +' updates reminder ' + reminderID);
 
 		// Modifies :userID's reminder :reminderID 
 		// Reminder.update({Find Criteria}, {Updated Records})
@@ -69,7 +69,7 @@ module.exports = {
 			return res.success(reminder);
 		})
 		.catch(function(err) {
-			sails.log.error("Could not update reminder: " + err);
+			sails.log.error('Could not update reminder: ' + err);
 			return res.failure( {'message': 'Could not update reminder' });
 		});
 	},
@@ -77,13 +77,17 @@ module.exports = {
 	deleteReminder: function(req, res) {
 		var userID = req.param('userID');
 		var reminderID = req.param('reminderID');
-		sails.log.info('User "' + userID + '" deletes reminder "' + reminderID + '" ');
+		sails.log.info('User ' + userID + ' deletes reminder ' + reminderID + ' ');
 
 		// Reminder.destroy( { Criteria } )
 		// Warning: Calling destroy with no criteria as parameter will delete ALL records in table
 		Reminder.destroy({ reminderID: reminderID})
 		.then(function(reminder){
-			sails.log.info('Deleted reminder: ', reminder);
+			if (reminder == '' || reminder == '[]' || reminder == '{}') {
+				sails.log.info('No reminder to delete at reminderID = ' + reminderID);
+				return res.failure( {'message': 'No reminder to delete at reminderID = ' + reminderID})
+			};
+			sails.log.info('Deleted reminder: '+ reminder);
 			return res.success(reminder);
 		})
 		.catch(function(err){
