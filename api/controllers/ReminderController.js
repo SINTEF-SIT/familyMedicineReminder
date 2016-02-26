@@ -41,7 +41,11 @@ module.exports = {
 			return res.failure( {"message" : "Could not get reminders" });
 		});
 	},
-	: function(req, res) {
+
+	//update
+	//delete
+
+	updateReminder: function(req, res) {
 		var userID = req.param('id');
 		sails.log.info('User "'+ userID +'" retrieves all reminders');
 
@@ -54,6 +58,7 @@ module.exports = {
 			sails.error.info("Could not retrieve reminders: " + err);
 			return res.failure( {"message" : "Could not get reminders" });
 		});
+	}
 
 };
 

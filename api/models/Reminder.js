@@ -21,14 +21,17 @@ module.exports = {
 	  		//model: 'medication'
 	  	},
   		name: {
-  			type: 'string'
+  			type: 'string',
+        required: true
   		},
   		active: {
-  			type: 'boolean'
+  			type: 'boolean',
+        defaultsTo: true
   		}, 
 	  	
 	  	time: {
-	  		type: 'datetime'
+	  		type: 'datetime'//,
+        //required: true
 	  	},
 	  	amount: {
 	  		type: 'float'
@@ -36,7 +39,11 @@ module.exports = {
 	  	unit: {
 	  		type: 'string',
 	  		enum: ['milliliter', 'pill', 'inhalation', 'mg', 'mcg', 'unit', 'gram']
-	  	}
+	  	},
+      frequency: {
+        type: 'string',
+        defaultsTo: '0000000'
+      }
   	}
 };
 
