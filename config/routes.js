@@ -49,6 +49,7 @@ module.exports.routes = {
   'GET /user/:id/children'    : 'UserController.getChildren',
   'POST /user/:id/children'   : 'UserController.addChild',
   'POST /user'                : 'UserController.create',
-  'POST /reminder'            : 'ReminderController.create',
-  'GET /reminder/:id'         : 'ReminderController.getReminders'
+  'GET /user/:id/reminder/'   : 'ReminderController.getReminders',
+  'POST /user/:id/reminder/'  : 'ReminderController.createReminder'
+
 };

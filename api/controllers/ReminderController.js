@@ -6,10 +6,11 @@
  */
 
 module.exports = {
-	create: function(req, res) {
+	createReminder: function(req, res) {
+		var userID = req.param('id');
 		Reminder.create({
 			reminderID: 	req.body.reminderID,
-			userID: 		req.body.userID,
+			userID: 		userID,
 			medicationID: 	req.body.medicationID,
 			name: 			req.body.name,
 			active: 		req.body.active,
@@ -28,7 +29,7 @@ module.exports = {
 	},
 	getReminders: function(req, res) {
 		var userID = req.param('id');
-		sails.log.info('User '+ userID +' retrieves all reminders');
+		sails.log.info('User "'+ userID +'" retrieves all reminders');
 
 		Reminder.find({ userID : userID })
 		.then(function(reminders) {
@@ -39,7 +40,20 @@ module.exports = {
 			sails.error.info("Could not retrieve reminders: " + err);
 			return res.failure( {"message" : "Could not get reminders" });
 		});
-	}
+	},
+	: function(req, res) {
+		var userID = req.param('id');
+		sails.log.info('User "'+ userID +'" retrieves all reminders');
+
+		Reminder.find({ userID : userID })
+		.then(function(reminders) {
+			sails.log.info('Reminders: ', reminders)
+			return res.success(reminders);
+		})
+		.catch(function(err) {
+			sails.error.info("Could not retrieve reminders: " + err);
+			return res.failure( {"message" : "Could not get reminders" });
+		});
 
 };
 
