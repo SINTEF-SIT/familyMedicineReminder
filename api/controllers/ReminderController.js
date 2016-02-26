@@ -9,6 +9,8 @@ module.exports = {
 	// Executes when API is called with POST at /user/:userID/reminder
 	createReminder: function(req, res) {
 		var userID = req.param('id');
+		sails.log.info('User "' + userID + '" creates a reminder');
+
 		Reminder.create({
 			reminderID: 	req.body.reminderID,
 			userID: 		userID,
@@ -21,11 +23,11 @@ module.exports = {
 			frequency: 		req.body.frequency  
 		})
 		.then(function(reminder) {
-			sails.log.info("Created reminder: ", reminder);
+			sails.log.info('Created reminder: ', reminder);
 			return res.success({ reminderID: reminder.reminderID});
 		})
 		.catch(function(err) {
-			sails.log.error("Could not create reminder: " + err);
+			sails.log.error('Could not create reminder: ' + err);
 			return res.failure(err);
 		});
 	},
@@ -35,12 +37,12 @@ module.exports = {
 
 		Reminder.find({ userID: userID })
 		.then(function(reminders) {
-			sails.log.info('Reminders: ', reminders)
+			sails.log.info('Reminders: ', reminders);
 			return res.success(reminders);
 		})
 		.catch(function(err) {
-			sails.log.error("Could not retrieve reminders: " + err);
-			return res.failure( {"message" : "Could not retrieve reminders" });
+			sails.log.error('Could not retrieve reminders: ' + err);
+			return res.failure( {'message' : 'Could not retrieve reminders' });
 		});
 	},
 	// Executes when API is called with PUT at /user/:userID/reminder/:reminderID
@@ -63,16 +65,32 @@ module.exports = {
 			frequency: 		req.body.frequency
 		})
 		.then(function(reminder) {
-			sails.log.info('Updated reminder: ', reminder)
+			sails.log.info('Updated reminder: ' + reminder);
 			return res.success(reminder);
 		})
 		.catch(function(err) {
 			sails.log.error("Could not update reminder: " + err);
-			return res.failure( {"message" : "Could not update reminder" });
+			return res.failure( {'message': 'Could not update reminder' });
+		});
+	},
+
+	deleteReminder: function(req, res) {
+		var userID = req.param('userID');
+		var reminderID = req.param('reminderID');
+		sails.log.info('User "' + userID + '" deletes reminder "' + reminderID + '" ');
+
+		// Reminder.destroy( { Criteria } )
+		// Warning: Calling destroy with no criteria as parameter will delete ALL records in table
+		Reminder.destroy({ reminderID: reminderID})
+		.then(function(reminder){
+			sails.log.info('Deleted reminder: ', reminder);
+			return res.success(reminder);
+		})
+		.catch(function(err){
+			sails.log.error('Could not delete reminder: ' + err);
+			return res.failure( {'message': 'Could not delete reminder'} );
 		});
 	}
-
-	// deleteReminder
 
 };
 
