@@ -15,11 +15,12 @@ module.exports = {
 		*  Validations
 		*/
 
+		if (!req.body.name) 	return res.failure("The medication has to have a name.");
+		if (!req.body.amount) 	return res.failure("The medication needs an amount.");
+		if (!req.body.unit) 	return res.failure("The medication has to have a dosage unit.");
+
 		if (ValidationService.validMedicationUnits.indexOf(req.body.unit) === -1) {
 			return res.failure(req.body.unit + " is not a valid unit");
-		}
-		if (req.body.name === '') {
-			return res.failure("The medication has to have a name");
 		}
 
 		Medication.create({

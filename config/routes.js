@@ -58,6 +58,6 @@ module.exports.routes = {
   * Routes related to MedicationController                                   *
   ***************************************************************************/
 
-  'POST /medications'         : 'MedicationController.add',
-  'GET /medications'          : 'MedicationController.get'
+  'POST /medication'         : 'MedicationController.add',
+  'GET /medication'          : 'MedicationController.get'
 };

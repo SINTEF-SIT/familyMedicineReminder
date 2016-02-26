@@ -16,7 +16,8 @@ module.exports = {
 		},
 
 		name: {
-			type: 'string'
+			type: 'string',
+			required: true
 		},
 
 		amount: {
