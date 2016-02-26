@@ -51,6 +51,7 @@ module.exports.routes = {
   'POST /user'                : 'UserController.create',
   'GET /user/:id/reminder/'   : 'ReminderController.getReminders',
   'POST /user/:id/reminder/'  : 'ReminderController.createReminder',
-  'PUT /user/:userID/reminder/:reminderID': 'ReminderController.updateReminder'
+  'PUT /user/:userID/reminder/:reminderID'    : 'ReminderController.updateReminder',
+  'DELETE /user/:userID/reminder/:reminderID' : 'ReminderController.deleteReminder'
 
 };
