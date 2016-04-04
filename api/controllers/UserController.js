@@ -25,11 +25,11 @@ module.exports = {
 		})
 		.then(function(user) {
 			sails.log.info("Created user: ", user);
-			res.success({ userID: userID });
+			res.send(user);
 		})
 		.catch(function(err) {
 			sails.error.info("Could not create user: ", err);
-			res.error({ "message" : "Could not create new user" });
+			res.send({ "message" : "Could not create new user" });
 		});
 	},
 
@@ -39,11 +39,11 @@ module.exports = {
 
 		User.find({ userID : userID })
 		.then(function(user) {
-			return res.success(user[0].children);
+			return res.send(user[0].children);
 		})
 		.catch(function(err) {
 			sails.error.info("Could not get children: ", err);
-			return res.error({ "message" : "Could not get children" });
+			return res.send({ "message" : "Could not get children" });
 		});
 	},
 
@@ -57,12 +57,12 @@ module.exports = {
 			user[0].children.add(childID);
 			user[0].save(function(err) {
 				if (err) 	sails.log.error(err);
-				else 		return res.success();
+				else 		return res.send();
 			});
 		})
 		.catch(function(err) {
 			sails.log.error("Could not add child: ", err);
-			return res.error({"message" : "Could not add child"});
+			return res.send({"message" : "Could not add child"});
 		});
 	}
 };

@@ -30,12 +30,12 @@ module.exports = {
 		// Runs if all went well
 		.then(function(reminder) { 
 			sails.log.info('Created reminder: ', reminder);
-			return res.success({ reminderID: reminder.reminderID});
+			return res.send({ reminderID: reminder.reminderID});
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
 			sails.log.error('Could not create reminder: ' + err);
-			return res.failure(err);
+			return res.send(err);
 		});
 	},
 
@@ -53,12 +53,12 @@ module.exports = {
 		// Runs if all went well
 		.then(function(reminders) {
 			sails.log.info('Reminders: ', reminders);
-			return res.success(reminders);
+			return res.send(reminders);
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
 			sails.log.error('Could not retrieve reminders: ' + err);
-			return res.failure( {'message' : 'Could not retrieve reminders' });
+			return res.send( {'message' : 'Could not retrieve reminders' });
 		});
 	},
 
@@ -87,12 +87,12 @@ module.exports = {
 		// Runs if all went well
 		.then(function(reminder) {
 			sails.log.info('Updated reminder: ' + reminder);
-			return res.success(reminder);
+			return res.send(reminder);
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
 			sails.log.error('Could not update reminder: ' + err);
-			return res.failure( {'message': 'Could not update reminder' });
+			return res.send( {'message': 'Could not update reminder' });
 		});
 	},
 
@@ -111,18 +111,17 @@ module.exports = {
 			// Handle empty reminder object (trying to delete non-existing reminder)
 			if (reminder == '' || reminder == '[]' || reminder == '{}') {
 				sails.log.info('No reminder to delete at reminderID = ' + reminderID);
-				return res.failure( {'message': 'No reminder to delete at reminderID = ' + reminderID})
+				return res.send( {'message': 'No reminder to delete at reminderID = ' + reminderID})
 			};
 			// If all went well
 			sails.log.info('Deleted reminder: '+ reminder);
-			return res.success(reminder);
+			return res.send(reminder);
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err){
 			sails.log.error('Could not delete reminder: ' + err);
-			return res.failure( {'message': 'Could not delete reminder'} );
+			return res.send( {'message': 'Could not delete reminder'} );
 		});
 	}
-
 };
 
