@@ -15,21 +15,21 @@ module.exports = {
 	  	},
 
 	  	username: {
-	  		type: "string"
+	  		type: 'string'
 	  	},
 
 	  	password: {
-	  		type: "string"
+	  		type: 'string'
 	  	},
 
 	  	guardians: {
-	  		collection: "user",
-	  		via: "children"
+	  		collection: 'user',
+	  		via: 'children'
 	  	},
 
 	  	children: {
-	  		collection: "user",
-	  		via: "guardians"
+	  		collection: 'user',
+	  		via: 'guardians'
 	  	}
   	}
 };
