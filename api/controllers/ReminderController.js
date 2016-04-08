@@ -1,4 +1,4 @@
-/**
+ /**
  * ReminderController
  *
  * @description :: Server-side logic for managing reminders
@@ -11,30 +11,32 @@ module.exports = {
 	// Creates new reminder on gived userID
 	createReminder: function(req, res) {
 		// Extracts variable from URL
-		var userID = req.param('id');
+		sails.log.debug('in create reminder');
+		var userID = req.param('userID');
 		sails.log.info('User ' + userID + ' creates a reminder');
 
 		// Model.create( { Record(s) to Create } )
 		// Creates an object of the model with the given attributes
-		Reminder.create({
-			reminderID: 	req.body.reminderID,
-			userID: 		userID,
-			medicationID: 	req.body.medicationID,
-			name: 			req.body.name,
-			active: 		req.body.active,
-			time: 			req.body.time,
-			amount: 		req.body.amount,
-			unit: 			req.body.unit,
-			frequency: 		req.body.frequency  
-		})
-		// Runs if all went well
-		.then(function(reminder) { 
-			sails.log.info('Created reminder: ', reminder);
-			return res.send({ reminderID: reminder.reminderID});
-		})
+		Medication.findOne({ 'owner' : userID, 'medicationID' : req.body.medicationID })
+		.populate('reminders')
+		.then(medication => {
+			if (typeof medication === 'undefined')	return Promise.reject("No such medicaiton");
+			medication.reminders.add({
+				'name': 		req.body.name,
+				'active': 		req.body.active,
+				'time': 		req.body.time,
+				'amount': 		req.body.amount,
+				'unit': 		req.body.unit,
+				'frequency': 	req.body.frequency
+			});
+			medication.save(err => {
+				if (err) return Promise.reject("Error saving medication")
+			});
+			res.send({'message' : 'reminder saved successfully'});
+		})		
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
-			sails.log.error('Could not create reminder: ' + err);
+			sails.log.error('Could not create reminder:', err);
 			return res.send(err);
 		});
 	},

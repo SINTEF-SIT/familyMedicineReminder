@@ -49,16 +49,16 @@ module.exports.routes = {
   * Routes related to UserController                                         *
   ***************************************************************************/
 
-  'GET /user/:id/children'                    : 'UserController.getChildren',
-  'POST /user/:id/children'                   : 'UserController.addChild',
+  'GET /user/:userID/children'                    : 'UserController.getChildren',
+  'POST /user/:userID/children'                   : 'UserController.addChild',
   'POST /user'                                : 'UserController.create',
 
   /***************************************************************************
   * Routes related to ReminderController                                     *
   ***************************************************************************/
   
-  'GET /user/:id/reminder/'                   : 'ReminderController.getReminders',
-  'POST /user/:id/reminder/'                  : 'ReminderController.createReminder',
+  'GET /user/:userID/reminder'                   : 'ReminderController.getReminders',
+  'POST /user/:userID/reminder'                  : 'ReminderController.createReminder',
   'PUT /user/:userID/reminder/:reminderID'    : 'ReminderController.updateReminder',
   'DELETE /user/:userID/reminder/:reminderID' : 'ReminderController.deleteReminder',
 
@@ -66,6 +66,6 @@ module.exports.routes = {
   * Routes related to MedicationController                                   *
   ***************************************************************************/
 
-  'POST /user/:id/medication'                 : 'MedicationController.add',
-  'GET /user/:id/medication'                  : 'MedicationController.get'
+  'POST /user/:userID/medication'                 : 'MedicationController.add',
+  'GET /user/:userID/medication'                  : 'MedicationController.get'
 };

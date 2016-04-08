@@ -15,16 +15,18 @@ module.exports = {
   			autoIncrement: true
   		},
   		userID: {
-  			model: 'User'
+  			model: 'user'
   		},
-  		medicationID: {
-        // Implement once Medication model and logic is
-	  		// model: 'medication'
+
+  		medication: {
+	  		model: 'medication'
 	  	},
+
   		name: {
   			type: 'string',
         required: true
   		},
+
   		active: {
   			type: 'boolean',
         defaultsTo: true
@@ -34,13 +36,16 @@ module.exports = {
 	  		type: 'datetime'//,
         //required: true
 	  	},
+
 	  	amount: {
 	  		type: 'float'
 	  	},
+
 	  	unit: {
 	  		type: 'string',
-	  		enum: ['milliliter', 'pill', 'inhalation', 'mg', 'mcg', 'unit', 'gram']
+	  		enum: ValidationService.validUnits
 	  	},
+
       frequency: {
         type: 'string',
         defaultsTo: '0000000'

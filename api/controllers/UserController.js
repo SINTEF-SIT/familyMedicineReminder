@@ -39,7 +39,7 @@ module.exports = {
 	// Fails if no such user exists
 
 	getChildren: function(req, res) {
-		var userID = req.param('id');
+		var userID = req.param('userID');
 
 		User.findOne({ userID : userID })
 		.populate('children')
@@ -64,7 +64,7 @@ module.exports = {
 	// Fails if childID is already a child of userID or something went wrong when saving
 
 	addChild: function(req, res) {
-		var userID = req.param('id');
+		var userID = req.param('userID');
 		var childID = req.body.childID;
 
 		User.findOne({ userID: userID })

@@ -13,7 +13,7 @@ module.exports = {
 	// Fails if no such user exists or an error occurred when saving the user
 
 	add: function(req,res) {	
-		var userID = req.param('id');
+		var userID = req.param('userID');
 
 		/*
 		*  Validations
@@ -48,7 +48,7 @@ module.exports = {
 	},
 
 	get: function(req, res) {
-		var userID = req.param('id');
+		var userID = req.param('userID');
 
 		User.findOne({'userID' : userID})
 		.populate('medications')
