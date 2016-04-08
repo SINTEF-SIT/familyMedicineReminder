@@ -35,6 +35,11 @@ module.exports = {
 	  	medications: {
 	  		collection: 'medication',
 	  		via: 'owner'
+	  	},
+
+	  	reminders: {
+	  		collections: 'reminders',
+	  		via: 'owner'
 	  	}
   	}
 };

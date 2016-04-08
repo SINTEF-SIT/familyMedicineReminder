@@ -23,6 +23,7 @@ module.exports = {
 			if (typeof medication === 'undefined')	return Promise.reject("No such medicaiton");
 			medication.reminders.add({
 				'name': 		req.body.name,
+				'owner':  		userID,
 				'active': 		req.body.active,
 				'time': 		req.body.time,
 				'amount': 		req.body.amount,
@@ -45,13 +46,13 @@ module.exports = {
 	// Gets all the reminders registered to the userID
 	getReminders: function(req, res) {
 		// Extracts variables from URL
-		var userID = req.param('id');
+		var userID = req.param('userID');
 
 		sails.log.info('User '+ userID +' retrieves all reminders');
 
 		// Model.find( { Criteria } )
 		// Finds all objects satisfying the criteria
-		Reminder.find({ userID: userID })
+		Reminder.find({ owner: userID })
 		// Runs if all went well
 		.then(function(reminders) {
 			sails.log.info('Reminders: ', reminders);
