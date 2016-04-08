@@ -32,11 +32,15 @@ module.exports = {
 		approved: {
 			type: 'boolean',
 			defaultsTo: false
-		}
+		},
 		/*reminders: {
 			collection: reminder,
 			via: medicationID
 		}*/
+
+		owner: {
+			model: 'user'
+		} 
 	}
 };
 

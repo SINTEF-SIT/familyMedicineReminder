@@ -30,6 +30,11 @@ module.exports = {
 	  	children: {
 	  		collection: 'user',
 	  		via: 'guardians'
+	  	},
+
+	  	medications: {
+	  		collection: 'medication',
+	  		via: 'owner'
 	  	}
   	}
 };

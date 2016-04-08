@@ -7,9 +7,13 @@
 
 module.exports = {
 
-	add: function(req,res) {
-		
-		//var userID = req.params(id);
+	// Executes when API is called with POST at /user/:userID/medication
+	// Returns all the medications of the user specified by 'userID'
+	//
+	// Fails if no such user exists or an error occurred when saving the user
+
+	add: function(req,res) {	
+		var userID = req.param('id');
 
 		/*
 		*  Validations
@@ -19,34 +23,44 @@ module.exports = {
 		if (!req.body.amount) 	return res.failure("The medication needs an amount.");
 		if (!req.body.unit) 	return res.failure("The medication has to have a dosage unit.");
 
-		if (ValidationService.validMedicationUnits.indexOf(req.body.unit) === -1) {
+		if (ValidationService.validUnits.indexOf(req.body.unit) === -1) {
 			return res.failure(req.body.unit + " is not a valid unit");
 		}
 
-		Medication.create({
-			name: 	req.body.name,
-			amount: req.body.amount,
-			unit: 	req.body.unit
-		})
-		.then(function(medication) {
-			sails.log.info("Created medication", medication);
-			return res.success();
+		User.findOne({'userID' : userID})
+		.populate('medications')
+		.then(function(user) {
+			if (typeof user === 'undefined')	return Promise.reject("No such user");
+			user.medications.add({
+				name: 	req.body.name,
+				amount: req.body.amount,
+				unit: 	req.body.unit
+			});
+			user.save(function(err) {
+				if (err)	return Promise.reject("Error when saving user.");
+			})
+			res.send({'message': 'medication saved successfully'});
 		})
 		.catch(function(err) {
-			sails.log.error("Could not create medication", err);
-			return res.error("Internal server error when adding medication");
+			sails.log.error(err);
+			res.send({"message" : err});
 		});
 	},
 
 	get: function(req, res) {
-		Medication.find()
-		.then(function(medications) {
-			sails.log.info("God medications: ", medications);
-			return res.success(medications);
+		var userID = req.param('id');
+
+		User.findOne({'userID' : userID})
+		.populate('medications')
+		.then(function(user) {
+			if (typeof user === 'undefined')	return Promise.reject("No such user");
+			sails.log.debug(user);
+			res.send({"medications" : user.medications});
+			return
 		})
 		.catch(function(err) {
 			sails.log.error(err);
-			return res.error("Internal server error when retrieving medications.");
+			return res.send({"message" : err});
 		});
 	}
 };
