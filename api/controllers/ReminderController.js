@@ -1,4 +1,4 @@
-/**
+ /**
  * ReminderController
  *
  * @description :: Server-side logic for managing reminders
@@ -11,30 +11,33 @@ module.exports = {
 	// Creates new reminder on gived userID
 	createReminder: function(req, res) {
 		// Extracts variable from URL
-		var userID = req.param('id');
+		sails.log.debug('in create reminder');
+		var userID = req.param('userID');
 		sails.log.info('User ' + userID + ' creates a reminder');
 
 		// Model.create( { Record(s) to Create } )
 		// Creates an object of the model with the given attributes
-		Reminder.create({
-			reminderID: 	req.body.reminderID,
-			userID: 		userID,
-			medicationID: 	req.body.medicationID,
-			name: 			req.body.name,
-			active: 		req.body.active,
-			time: 			req.body.time,
-			amount: 		req.body.amount,
-			unit: 			req.body.unit,
-			frequency: 		req.body.frequency  
-		})
-		// Runs if all went well
-		.then(function(reminder) { 
-			sails.log.info('Created reminder: ', reminder);
-			return res.send({ reminderID: reminder.reminderID});
-		})
+		Medication.findOne({ 'owner' : userID, 'medicationID' : req.body.medicationID })
+		.populate('reminders')
+		.then(medication => {
+			if (typeof medication === 'undefined')	return Promise.reject("No such medication");
+			medication.reminders.add({
+				'name': 		req.body.name,
+				'owner':  		userID,
+				'active': 		req.body.active,
+				'time': 		req.body.time,
+				'amount': 		req.body.amount,
+				'unit': 		req.body.unit,
+				'frequency': 	req.body.frequency
+			});
+			medication.save(err => {
+				if (err) return Promise.reject("Error saving medication")
+			});
+			res.send({'message' : 'reminder saved successfully'});
+		})		
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
-			sails.log.error('Could not create reminder: ' + err);
+			sails.log.error('Could not create reminder:', err);
 			return res.send(err);
 		});
 	},
@@ -43,16 +46,16 @@ module.exports = {
 	// Gets all the reminders registered to the userID
 	getReminders: function(req, res) {
 		// Extracts variables from URL
-		var userID = req.param('id');
+		var userID = req.param('userID');
 
-		sails.log.info('User '+ userID +' retrieves all reminders');
+		sails.log.debug('User '+ userID +' retrieves all reminders');
 
 		// Model.find( { Criteria } )
 		// Finds all objects satisfying the criteria
-		Reminder.find({ userID: userID })
+		Reminder.find({ owner: userID })
 		// Runs if all went well
 		.then(function(reminders) {
-			sails.log.info('Reminders: ', reminders);
+			sails.log.debug('Reminders: ', reminders);
 			return res.send(reminders);
 		})
 		// Triggered by unexpected behaviour or an exception
@@ -69,13 +72,11 @@ module.exports = {
 		var userID = req.param('userID');
 		var reminderID = req.param('reminderID');
 
-		sails.log.info('User '+ userID +' updates reminder ' + reminderID);
+		sails.log.debug('User '+ userID +' updates reminder ' + reminderID);
 
 		// Modifies :userID's reminder :reminderID 
 		// Model.update({Find Criteria}, {Updated Records})
 		Reminder.update({ reminderID: reminderID}, {
-			reminderID: 	reminderID,
-			userID: 		userID,
 			medicationID: 	req.body.medicationID,
 			name: 			req.body.name,
 			active: 		req.body.active,
@@ -86,13 +87,14 @@ module.exports = {
 		})
 		// Runs if all went well
 		.then(function(reminder) {
-			sails.log.info('Updated reminder: ' + reminder);
-			return res.send(reminder);
+			if (typeof reminder === 'undefined')	return Promise.reject('No such reminder');
+			sails.log.debug('Updated reminder: ' + reminder);
+			return res.send({'message' : 'reminder updated successfully'});
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
-			sails.log.error('Could not update reminder: ' + err);
-			return res.send( {'message': 'Could not update reminder' });
+			sails.log.error('Could not update reminder:', err);
+			return res.send( {'message': err} );
 		});
 	},
 
@@ -101,7 +103,6 @@ module.exports = {
 	deleteReminder: function(req, res) {
 		var userID = req.param('userID');
 		var reminderID = req.param('reminderID');
-		sails.log.info('User ' + userID + ' deletes reminder ' + reminderID + ' ');
 
 		// Model.destroy( { Criteria } )
 		// Warning: Calling destroy with no criteria as parameter will delete ALL records in table
@@ -109,18 +110,15 @@ module.exports = {
 		// Runs if all went well or object is empty
 		.then(function(reminder){
 			// Handle empty reminder object (trying to delete non-existing reminder)
-			if (reminder == '' || reminder == '[]' || reminder == '{}') {
-				sails.log.info('No reminder to delete at reminderID = ' + reminderID);
-				return res.send( {'message': 'No reminder to delete at reminderID = ' + reminderID})
-			};
+			if (typeof reminder[0] === 'undefined') return Promise.reject('No reminder to delete');
 			// If all went well
-			sails.log.info('Deleted reminder: '+ reminder);
-			return res.send(reminder);
+			sails.log.debug('User', userID, 'deletes reminder', reminderID);
+			return res.send( {'message' : 'Reminder successfully deleted.'} );
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err){
-			sails.log.error('Could not delete reminder: ' + err);
-			return res.send( {'message': 'Could not delete reminder'} );
+			sails.log.error('Could not delete reminder:', err);
+			return res.send( {'message': err} );
 		});
 	}
 };
