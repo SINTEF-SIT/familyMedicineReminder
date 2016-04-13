@@ -19,6 +19,28 @@
 
 module.exports.policies = {
 
+  ReminderController: { 
+
+      '*': ['isOwner', 'isOwnersGuardian']
+
+  }, 
+
+  UserController: {
+
+      'addChild': ['isOwner', 'isOwnersGuardian'],
+      'getChildren': ['isOwner', 'isOwnersGuardian'],
+      'create': 'isFirstTimeUser'
+
+  },
+
+  MedicationController: {
+
+    '*': ['isOwner', 'isOwnersGuardian']
+    
+  }
+
+
+
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions (`true` allows public     *
