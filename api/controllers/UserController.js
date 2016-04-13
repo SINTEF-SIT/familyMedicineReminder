@@ -78,7 +78,7 @@ module.exports = {
 		.then(function(user) {
 			user.children.add(childID);
 			user.save(function(err) {
-				if (err) 	return Promise.reject("Error when saving child");
+				if (err) 	return Promise.reject(err);
 			});
 			res.send({"message": "Child was added"});
 			sails.log.debug(userID, "added ", childID, "as a child")
@@ -87,6 +87,22 @@ module.exports = {
 		.catch(function(err) {
 			sails.log.error("Could not add child: ", err);
 			return res.send({"message" : err});
+		});
+	},
+
+	registerToken: function(req, res) {
+		var userID = req.param('userID');
+		var gcmToken = req.body.gcmToken;
+
+		User.update({userID: userID}, {gcmToken: gcmToken})
+		.then(function(updated) {
+			if (typeof updated == "undefined")	return Promise.reject("Could not add gcmToken");
+			sails.log.debug(updated);
+			return res.send({"message" : "gcmToken successfully registered"});
+		})
+		.catch(function(err) {
+			sails.log.error("Could not add gcmToken", err);
+			return res.send({"message" : "Could not register token"});
 		});
 	}
 };

@@ -49,9 +49,10 @@ module.exports.routes = {
   * Routes related to UserController                                         *
   ***************************************************************************/
 
-  'GET /user/:userID/children'                    : 'UserController.getChildren',
-  'POST /user/:userID/children'                   : 'UserController.addChild',
+  'GET /user/:userID/children'                : 'UserController.getChildren',
+  'POST /user/:userID/children'               : 'UserController.addChild',
   'POST /user'                                : 'UserController.create',
+  'POST /user/:userID/registerToken'          : 'UserController.registerToken',
 
   /***************************************************************************
   * Routes related to ReminderController                                     *
