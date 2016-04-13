@@ -19,9 +19,12 @@
 
 module.exports.policies = {
 
+  /*
   ReminderController: { 
 
-      '*': ['isOwner', 'isOwnersGuardian']
+      '*': ['isOwner', 'isOwnersGuardian', 'sessionAuth'],
+      updateReminder: ['isOwner', 'sessionAuth']
+      
 
   }, 
 
@@ -36,8 +39,12 @@ module.exports.policies = {
   MedicationController: {
 
     '*': ['isOwner', 'isOwnersGuardian']
-    
+
+  
+
   }
+
+  */
 
 
 

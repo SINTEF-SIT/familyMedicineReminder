@@ -17,11 +17,15 @@ module.exports = {
 	*	userID, username and password. Creates a unique ID 
 	**/
 	create: function(req, res) {
-		userID = UserService.generateUniqueUserID();
+		var userID = UserService.generateUniqueUserID();
+		require('crypto').randomBytes(20, function(err, buffer) {
+  			var password = buffer.toString('hex');
+  			sails.log('password created: ', password);
+		});
 		User.create({
 			userID: 	userID,
 			username: 	req.body.username,
-			password: 	req.body.password
+			password: 	password
 		})
 		.then(function(user) {
 			sails.log.debug("Created user: ", user);
