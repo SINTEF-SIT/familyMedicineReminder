@@ -18,10 +18,7 @@ module.exports = {
 	**/
 	create: function(req, res) {
 		var userID = UserService.generateUniqueUserID();
-		require('crypto').randomBytes(20, function(err, buffer) {
-  			var password = buffer.toString('hex');
-  			sails.log('password created: ', password);
-		});
+		
 		User.create({
 			userID: 	userID,
 			username: 	req.body.username,
