@@ -47,6 +47,23 @@ module.exports = {
       		delete obj.password;
       		return obj;
     	}
+  	},
 
+  	// Executes as a new User model is created, before data is input into model
+  	beforeCreate: function(user, cb) {
+  		// Generates salt
+    	bcrypt.genSalt(10, function(err, salt) {
+    		// Creates hash based on salt and password
+      		bcrypt.hash(user.password, salt, function(err, hash) {
+		        if (err) {
+		          console.log(err);
+		          Sails.log(err);
+		          cb(err);
+		        }else{
+		          user.password = hash;
+		          cb(null, user);
+		        }
+      		});
+    	});
   	}
 };
