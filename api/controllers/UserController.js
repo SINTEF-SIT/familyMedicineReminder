@@ -99,27 +99,11 @@ module.exports = {
 		.then(function(user) {
 			res.send({"message": "Token was added"});
 			sails.log.debug(userID, " added his token: ", token);
-			return Promise.resolve();
+			return res.send({"message" : "token registered server side"});
 		})
 		.catch(function(err) {
 			sails.log.error("Could not add token: ", err);
-			return res.send({"message" : err});
+			return res.send({"message" : "could not register token server side" + err});
 		});
 	},
-/*	
-		registerToken: function(req, res) {
-		var userID = req.param('userID');
-		var gcmToken = req.body.gcmToken;
-
-		User.update({userID: userID}, {gcmToken: gcmToken})
-		.then(function(updated) {
-			if (typeof updated == "undefined")	return Promise.reject("Could not add gcmToken");
-			sails.log.debug(updated);
-			return res.send({"message" : "gcmToken successfully registered"});
-		})
-		.catch(function(err) {
-			sails.log.error("Could not add gcmToken", err);
-			return res.send({"message" : "Could not register token"});
-		});
-	}*/
 };
