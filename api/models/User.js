@@ -45,6 +45,10 @@ module.exports = {
 	  	reminders: {
 	  		collections: 'reminders',
 	  		via: 'owner'
-	  	}
+	  	},
+
+/*	  	gcmToken: {
+	  		type: 'string'
+	  	}*/
   	}
 };
