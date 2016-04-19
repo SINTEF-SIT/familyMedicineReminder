@@ -18,20 +18,28 @@ module.exports = {
 	**/
 	create: function(req, res) {
 		var userID = UserService.generateUniqueUserID();
-		
-		User.create({
-			userID: 	userID,
-			username: 	req.body.username,
-			password: 	password
-		})
-		.then(function(user) {
-			sails.log.debug("Created user: ", user);
-			res.send(user);
-		})
-		.catch(function(err) {
-			sails.log.error("Could not create user: ", err);
-			res.send({ "message" : "Could not create new user" });
+		//var password = 
+		//sails.log('Password inside UserController: ', password);
+		var pw = UserService.generateRandomHexSequence(function(pw) {
+			sails.log('UserController pw ready: ', pw)
+			User.create({
+				userID: 	userID,
+				username: 	req.body.username,
+				password: 	pw
+			})
+			.then(function(user) {
+				sails.log('UserController pw then: ', pw);
+				sails.log.debug("Created user: ", user);
+				res.send(user);
+			})
+			.catch(function(err) {
+				sails.log.error("Could not create user: ", err);
+				res.send({ "message" : "Could not create new user" });
+			});
 		});
+		//UserService.generateRandomBytesSequence(10, function(pw){
+			
+		//});	
 	},
 
 	// Executes when API is called with GET at /user/:userID/children
