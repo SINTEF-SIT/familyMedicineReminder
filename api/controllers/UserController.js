@@ -88,5 +88,32 @@ module.exports = {
 			sails.log.error("Could not add child: ", err);
 			return res.send({"message" : err});
 		});
+	},
+	
+	associateToken: function(req, res) {
+		var userID = req.param('userID');
+		var childID = req.param('token');
+
+		User.findOne({ userID: userID })
+		.populate('children')
+		.then(function(user) {
+			if (user.children.every(child => child.userID !== childID)) {
+				return Promise.resolve(user);
+			}
+			return Promise.reject("User is already a child");
+		})
+		.then(function(user) {
+			user.children.add(childID);
+			user.save(function(err) {
+				if (err) 	return Promise.reject("Error when saving child");
+			});
+			res.send({"message": "Child was added"});
+			sails.log.debug(userID, "added ", childID, "as a child")
+			return Promise.resolve();
+		})
+		.catch(function(err) {
+			sails.log.error("Could not add child: ", err);
+			return res.send({"message" : err});
+		});
 	}
 };
