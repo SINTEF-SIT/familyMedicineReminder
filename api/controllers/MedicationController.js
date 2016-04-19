@@ -56,7 +56,7 @@ module.exports = {
 			if (typeof user === 'undefined')	return Promise.reject("No such user");
 			sails.log.debug(user);
 			res.send({"medications" : user.medications});
-			return
+			return 
 		})
 		.catch(function(err) {
 			sails.log.error(err);
@@ -64,4 +64,3 @@ module.exports = {
 		});
 	}
 };
-

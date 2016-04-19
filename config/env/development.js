@@ -21,4 +21,7 @@ module.exports = {
   //   connection: 'someMongodbServer'
   // }
 
+  //API-key for Google Cloud Messaging
+  apiKey: "AIzaSyARyD62D3oy-1xR4R1PiL1DiX9q-ykfqz0"
+
 };

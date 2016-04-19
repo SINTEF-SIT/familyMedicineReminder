@@ -25,6 +25,7 @@ module.exports = {
 		})
 		.then(function(user) {
 			sails.log.debug("Created user: ", user);
+			NotificationService.sendNotification('remindersChanged', "cVRin0IbVjw:APA91bEgO-6NaW32xai73-YZXCdDMI9EAn0ZmEC4dBmzNEWgJakgEC2iUzc-I8J8wVLhDL6Q5K_eLi-ZjjScZSkaB_H7oA0QWB_WtO7PMd54N7smvJbIBSP1LiTB_TXgkw_FHLCmRiTX");
 			res.send(user);
 		})
 		.catch(function(err) {

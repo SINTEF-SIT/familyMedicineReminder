@@ -2,12 +2,12 @@ var gcm = require("node-gcm");
 
 module.exports = {
 
-	notificationTypes: ['remindersChanged', 'medicationsChanged', 'onlineCheck'],
+	notificationTypes: ['remindersChanged', 'medicationsChanged'/*, 'onlineCheck'*/],
 
 	sendNotification: function(type, token) {
 
 		if (NotificationService.notificationTypes.indexOf(type) < 0) {
-			return sails.log.error('Type has to be a property of NotificationService.notificationTypes.')
+			return sails.log.error('Type has to be a property of NotificationService.notificationTypes.');
 		}
 
 		var sender = new gcm.Sender(sails.config.apiKey);

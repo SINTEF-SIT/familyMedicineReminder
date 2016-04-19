@@ -14,7 +14,8 @@
     "chai": "latest",
     "supertest": "latest",
     "request": "latest",
-    "bluebird": "latest"
+    "bluebird": "latest",
+    "node-gcm": "latest"
   },
   "scripts": {
     "debug": "node debug app.js",
