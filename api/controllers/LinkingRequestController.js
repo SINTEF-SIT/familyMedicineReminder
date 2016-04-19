@@ -16,16 +16,24 @@ module.exports = {
 		})
 		.then(function(linkingRequest) {
 			sails.log.debug("Created linkingrequest: ", linkingRequest);
+            return User.findOne({
+                userID:     patientID
+            });
+        })
+        .then(function (user) {
+            var patientToken = user.token;
+            sails.log(patientToken);
             // send notification to patient.
+            NotificationService.sendNotification('linkingRequest', patientToken);
             // patient gets the request.
             // patient sends back boolean confirmation.
             // patient is added as guardians 
 			res.send(linkingRequest);
-		})
-		.catch(function(err) {
-			sails.log.error("Could not create linking request: ", err);
-			res.send({ "message" : "Could not create new user" });
-		});
+        })
+        .catch(function (err) {
+            sails.log.error("Could not create linking request: ", err);
+
+        });
 	}
 };
 
