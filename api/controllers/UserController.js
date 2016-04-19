@@ -81,7 +81,7 @@ module.exports = {
 				if (err) 	return Promise.reject("Error when saving child");
 			});
 			res.send({"message": "Child was added"});
-			sails.log.debug(userID, "added ", childID, "as a child")
+			sails.log.debug(userID, "added ", childID, "as a child");
 			return Promise.resolve();
 		})
 		.catch(function(err) {
@@ -92,27 +92,16 @@ module.exports = {
 	
 	associateToken: function(req, res) {
 		var userID = req.param('userID');
-		var childID = req.param('token');
+		var token = req.param('token');
 
-		User.findOne({ userID: userID })
-		.populate('children')
+		User.update({ userID: userID }, {token : token})
 		.then(function(user) {
-			if (user.children.every(child => child.userID !== childID)) {
-				return Promise.resolve(user);
-			}
-			return Promise.reject("User is already a child");
-		})
-		.then(function(user) {
-			user.children.add(childID);
-			user.save(function(err) {
-				if (err) 	return Promise.reject("Error when saving child");
-			});
-			res.send({"message": "Child was added"});
-			sails.log.debug(userID, "added ", childID, "as a child")
+			res.send({"message": "Token was added"});
+			sails.log.debug(userID, " added his token: ", token);
 			return Promise.resolve();
 		})
 		.catch(function(err) {
-			sails.log.error("Could not add child: ", err);
+			sails.log.error("Could not add token: ", err);
 			return res.send({"message" : err});
 		});
 	}
