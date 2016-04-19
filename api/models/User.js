@@ -21,6 +21,11 @@ module.exports = {
 	  	password: {
 	  		type: 'string'
 	  	},
+		  
+		//gcm-token for push notifications.
+		token: {
+	  		type: 'string'
+	  	},
 
 	  	guardians: {
 	  		collection: 'user',
@@ -42,8 +47,8 @@ module.exports = {
 	  		via: 'owner'
 	  	},
 
-	  	gcmToken: {
+/*	  	gcmToken: {
 	  		type: 'string'
-	  	}
+	  	}*/
   	}
 };

@@ -49,19 +49,26 @@ module.exports.routes = {
   * Routes related to UserController                                         *
   ***************************************************************************/
 
+<<<<<<< HEAD
+  'GET /user/:userID/children'                    : 'UserController.getChildren',
+  'POST /user/:userID/children'                   : 'UserController.addChild',
+  'POST /user'                                    : 'UserController.create',
+  'POST /user/:userID/:token'                     : 'UserController.associateToken',
+=======
   'GET /user/:userID/children'                : 'UserController.getChildren',
   'POST /user/:userID/children'               : 'UserController.addChild',
   'POST /user'                                : 'UserController.create',
   'POST /user/:userID/registerToken'          : 'UserController.registerToken',
+>>>>>>> c69acb4e3796f4656905c394efe8c55273000d91
 
   /***************************************************************************
   * Routes related to ReminderController                                     *
   ***************************************************************************/
   
-  'GET /user/:userID/reminder'                   : 'ReminderController.getReminders',
-  'POST /user/:userID/reminder'                  : 'ReminderController.createReminder',
-  'PUT /user/:userID/reminder/:reminderID'    : 'ReminderController.updateReminder',
-  'DELETE /user/:userID/reminder/:reminderID' : 'ReminderController.deleteReminder',
+  'GET /user/:userID/reminder'                    : 'ReminderController.getReminders',
+  'POST /user/:userID/reminder'                   : 'ReminderController.createReminder',
+  'PUT /user/:userID/reminder/:reminderID'        : 'ReminderController.updateReminder',
+  'DELETE /user/:userID/reminder/:reminderID'     : 'ReminderController.deleteReminder',
 
   /***************************************************************************
   * Routes related to MedicationController                                   *

@@ -82,7 +82,7 @@ module.exports = {
 				if (err) 	return Promise.reject(err);
 			});
 			res.send({"message": "Child was added"});
-			sails.log.debug(userID, "added ", childID, "as a child")
+			sails.log.debug(userID, "added ", childID, "as a child");
 			return Promise.resolve();
 		})
 		.catch(function(err) {
@@ -90,8 +90,24 @@ module.exports = {
 			return res.send({"message" : err});
 		});
 	},
+	
+	associateToken: function(req, res) {
+		var userID = req.param('userID');
+		var token = req.param('token');
 
-	registerToken: function(req, res) {
+		User.update({ userID: userID }, {token : token})
+		.then(function(user) {
+			res.send({"message": "Token was added"});
+			sails.log.debug(userID, " added his token: ", token);
+			return Promise.resolve();
+		})
+		.catch(function(err) {
+			sails.log.error("Could not add token: ", err);
+			return res.send({"message" : err});
+		});
+	},
+/*	
+		registerToken: function(req, res) {
 		var userID = req.param('userID');
 		var gcmToken = req.body.gcmToken;
 
@@ -105,5 +121,5 @@ module.exports = {
 			sails.log.error("Could not add gcmToken", err);
 			return res.send({"message" : "Could not register token"});
 		});
-	}
+	}*/
 };
