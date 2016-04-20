@@ -10,6 +10,25 @@
  * http://passportjs.org/guide/providers/
  */
 
+
+// Using PassportJS as middleware
+
+var passport = require('passport'),
+LocalStrategy = require('passport-local').Strategy;
+
+module.exports = {
+    express: {
+        customMiddleware: function(app){
+            console.log('Express midleware for passport');
+            app.use(passport.initialize());
+            app.use(passport.session());
+        }
+    }
+};
+
+// Standard PassportJS configuration. To be deleted soon
+
+/*
 module.exports.passport = {
   local: {
     strategy: require('passport-local').Strategy
@@ -19,7 +38,7 @@ module.exports.passport = {
     strategy: require('passport-http').BasicStrategy,
     protocol: 'basic'
   },
-
+*/
   /*
   google: {
     name: 'Google',
