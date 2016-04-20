@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var bcrypt = require('bcrypt');
+
 module.exports = {
 
 	attributes: {
@@ -57,10 +59,11 @@ module.exports = {
       		bcrypt.hash(user.password, salt, function(err, hash) {
 		        if (err) {
 		          console.log(err);
-		          Sails.log(err);
+		          sails.log(err);
 		          cb(err);
 		        }else{
 		          user.password = hash;
+		          sails.log("Password hash: ", hash);
 		          cb(null, user);
 		        }
       		});

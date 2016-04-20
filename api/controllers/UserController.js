@@ -20,15 +20,14 @@ module.exports = {
 		var userID = UserService.generateUniqueUserID();
 		//var password = 
 		//sails.log('Password inside UserController: ', password);
-		var pw = UserService.generateRandomHexSequence(function(pw) {
-			sails.log('UserController pw ready: ', pw)
+		UserService.generateRandomHexSequence(function(pw) {
+			sails.log('Random generated password: ', pw)
 			User.create({
 				userID: 	userID,
 				username: 	req.body.username,
 				password: 	pw
 			})
 			.then(function(user) {
-				sails.log('UserController pw then: ', pw);
 				sails.log.debug("Created user: ", user);
 				res.send(user);
 			})

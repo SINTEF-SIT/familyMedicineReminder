@@ -1,9 +1,9 @@
 var passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
-  bcrypt = require('bcrypt'); &lt; code&gt;
+  bcrypt = require('bcrypt'); // &lt; /code&gt;
 //helper functions
 function findById(id, fn) {
-  User.findOne(id).done(function (err, user) { // If .done doesn't work, try .exec
+  User.findOne(id).exec(function (err, user) { // If .done doesn't work, try .exec
     if (err) {
       return fn(null, null);
     } else {
@@ -15,7 +15,7 @@ function findById(id, fn) {
 function findByUsername(u, fn) {
   User.findOne({
     username: u
-  }).done(function (err, user) { // If .done doesn't work, try .exec
+  }).exec(function (err, user) { // If .done doesn't work, try .exec
     // Error handling
     if (err) {
       return fn(null, null);
