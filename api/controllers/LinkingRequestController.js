@@ -34,6 +34,30 @@ module.exports = {
             sails.log.error("Could not create linking request: ", err);
 
         });
-	}
+	},
+    
+	getLinkingRequest: function(req, res) {
+		LinkingRequest.findOne({patientID: userID})
+		.then(function(linkingRequest) {
+			sails.log.debug("Created linkingrequest: ", linkingRequest);
+            return User.findOne({
+                userID:     patientID
+            });
+        })
+        .then(function (user) {
+            var patientToken = user.token;
+            sails.log(patientToken);
+            // send notification to patient.
+            NotificationService.sendNotification('linkingRequest', patientToken);
+            // patient gets the request.
+            // patient sends back boolean confirmation.
+            // patient is added as guardians 
+			res.send(linkingRequest);
+        })
+        .catch(function (err) {
+            sails.log.error("Could not create linking request: ", err);
+
+        });
+	}  
 };
 
