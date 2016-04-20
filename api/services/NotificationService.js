@@ -2,7 +2,13 @@ var gcm = require("node-gcm");
 
 module.exports = {
 
-	notificationTypes: ['remindersChanged', 'medicationsChanged', 'linkingRequest'/*, 'onlineCheck'*/],
+	notificationTypes: [
+		'remindersChanged',
+		'medicationsChanged',
+		'linkingRequest',
+		'positiveLinkingResponse', 
+		'negativeLinkingResponse'
+		/*, 'onlineCheck'*/],
 
 	sendNotification: function(type, token) {
 

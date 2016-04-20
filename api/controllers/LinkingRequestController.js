@@ -18,17 +18,20 @@ module.exports = {
 	createLinkingRequest: function(req, res) {
 		requestID = UserService.generateUniqueUserID();
 		LinkingRequest.create({
+            requestID:      requestID,
 		    patientID:      req.param('withID'),
 		    guardianID:     req.param('userID'),
             latestMessage:  'Created linking request'
 		})
 		.then(function(linkingRequest) {
-			sails.log.debug("Created linkingrequest: ", linkingRequest);
+            sails.log("1 linkingrequest.patientID: " + linkingRequest.patientID);
+			sails.log.debug("2 Created linkingrequest: ", linkingRequest);
             return User.findOne({
-                userID:     patientID
+                userID:     linkingRequest.patientID
             });
         })
         .then(function (user) {
+            sails.log.debug("3 user: " + user);
             var patientToken = user.token;
             sails.log(patientToken);
             // send notification to patient.
@@ -36,7 +39,6 @@ module.exports = {
             // patient gets the request.
             // patient sends back boolean confirmation to "respondToLinking.
             // patient is added as guardians 
-			res.send(linkingRequest);
         })
         .catch(function (err) {
             sails.log.error("Could not create linking request: ", err);
@@ -47,16 +49,23 @@ module.exports = {
 	responseToLinkingRequest: function(req, res) {
 		LinkingRequest.findOne({patientID: userID})
 		.then(function(linkingRequest) {
-			sails.log.debug("Created linkingrequest: ", linkingRequest);
-            return User.findOne({
-                userID:     patientID
+            sails.log("RESPONSETOLINKING: " + req.param('userID'));
+            sails.log("RESPONSETOLINKING: " + req.param('response'));
+            var users = []; 
+            var patient = User.findOne({
+                userID:     linkingRequest.patientID
             });
+            var guardian = User.findOne({
+                userID:     linkingRequest.guardianID
+            });
+            users.push(patient, guardian);
+            return users;
         })
-        .then(function (user) {
+        .then(function (users) {
             var patientToken = user.token;
             sails.log(patientToken);
             // send notification to patient.
-            NotificationService.sendNotification('linkingRequest', patientToken);
+            NotificationService.sendNotification('positiveLinkingResponse', patientToken);
             // patient gets the request.
             // patient sends back boolean confirmation.
             // patient is added as guardians 
