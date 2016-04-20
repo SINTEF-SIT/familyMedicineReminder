@@ -7,6 +7,23 @@
  * @docs        :: http://sailsjs.org/#!/documentation/concepts/Policies
  *
  */
+
+/**
+ * Allow any authenticated user.
+ */
+module.exports = function (req, res, ok) {
+ 
+  // User is allowed, proceed to controller
+  var is_auth = req.isAuthenticated()
+  if (is_auth) return next();
+  // User is not allowed
+  else return res.redirect("/login");
+};
+
+// Old predefined and built-in Sails authentification.
+// To be removed when Local authentification works
+
+/*
 module.exports = function(req, res, next) {
 
   // User is allowed, proceed to the next policy, 
@@ -19,3 +36,4 @@ module.exports = function(req, res, next) {
   // (default res.forbidden() behavior can be overridden in `config/403.js`)
   return res.forbidden('You are not permitted to perform this action.');
 };
+*/
