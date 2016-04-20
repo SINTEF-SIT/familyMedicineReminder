@@ -1,9 +1,17 @@
 /**
  * LinkingRequestController
+ * 
+ * FLOW:
+ * 1. guardian sends linking request to createLinkingRequest endpoint.
+ * 2. server creates linking request object.
+ * 3. server sends notification about linking request to patient.
+ * 4. patient responds to responseToLinkingRequest endpoint.
+ * 5. if response is positive and linkin request exists, server adds patient to guardian.
  *
  * @description :: Server-side logic for managing Linkingrequests
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+
 
 module.exports = {
     
@@ -26,7 +34,7 @@ module.exports = {
             // send notification to patient.
             NotificationService.sendNotification('linkingRequest', patientToken);
             // patient gets the request.
-            // patient sends back boolean confirmation.
+            // patient sends back boolean confirmation to "respondToLinking.
             // patient is added as guardians 
 			res.send(linkingRequest);
         })
@@ -36,7 +44,7 @@ module.exports = {
         });
 	},
     
-	getLinkingRequest: function(req, res) {
+	responseToLinkingRequest: function(req, res) {
 		LinkingRequest.findOne({patientID: userID})
 		.then(function(linkingRequest) {
 			sails.log.debug("Created linkingrequest: ", linkingRequest);
