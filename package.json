@@ -13,7 +13,7 @@
     "shortid": "2.2.4",
     "passport": "~0.1.16",
     "passport-local": "~0.1.6",
-    "bcrypt": "~0.7.6"
+    "bcrypt": "latest"
   },
   "scripts": {
     "debug": "node debug app.js",
