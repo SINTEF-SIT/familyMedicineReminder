@@ -21,6 +21,10 @@ module.exports = {
 	  	password: {
 	  		type: 'string'
 	  	},
+		
+		userRole: {
+	  		type: 'string'
+	  	}, 
 		  
 		//gcm-token for push notifications.
 		token: {
