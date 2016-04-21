@@ -5,17 +5,17 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "bluebird": "latest",
+    "chai": "latest",
     "include-all": "~0.1.6",
+    "mocha": "latest",
+    "node-gcm": "^0.14.0",
     "rc": "1.0.1",
+    "request": "latest",
     "sails": "~0.12.1",
     "sails-disk": "^0.10.9",
     "shortid": "2.2.4",
-    "mocha":  "latest",
-    "chai": "latest",
-    "supertest": "latest",
-    "request": "latest",
-    "bluebird": "latest",
-    "node-gcm": "latest"
+    "supertest": "latest"
   },
   "scripts": {
     "debug": "node debug app.js",

@@ -68,5 +68,13 @@ module.exports.routes = {
   ***************************************************************************/
 
   'POST /user/:userID/medication'                 : 'MedicationController.add',
-  'GET /user/:userID/medication'                  : 'MedicationController.get'
+  'GET /user/:userID/medication'                  : 'MedicationController.get',
+  
+  /***************************************************************************
+  * Routes related to MedicationController                                   *
+  ***************************************************************************/
+  
+  'POST /user/:userID/linking/:withID'            : 'LinkingRequestController.createLinkingRequest',
+  'POST /user/:userID/linkingresponse/:response'  : 'LinkingRequestController.responseToLinkingRequest'
+  
 };

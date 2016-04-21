@@ -21,11 +21,11 @@ module.exports = {
 		User.create({
 			userID: 	userID,
 			username: 	req.body.username,
-			password: 	req.body.password
+			password: 	req.body.password,
+			userRole:	req.body.userRole
 		})
 		.then(function(user) {
 			sails.log.debug("Created user: ", user);
-			NotificationService.sendNotification('remindersChanged', "cVRin0IbVjw:APA91bEgO-6NaW32xai73-YZXCdDMI9EAn0ZmEC4dBmzNEWgJakgEC2iUzc-I8J8wVLhDL6Q5K_eLi-ZjjScZSkaB_H7oA0QWB_WtO7PMd54N7smvJbIBSP1LiTB_TXgkw_FHLCmRiTX");
 			res.send(user);
 		})
 		.catch(function(err) {
@@ -99,27 +99,10 @@ module.exports = {
 		.then(function(user) {
 			res.send({"message": "Token was added"});
 			sails.log.debug(userID, " added his token: ", token);
-			return Promise.resolve();
 		})
 		.catch(function(err) {
 			sails.log.error("Could not add token: ", err);
-			return res.send({"message" : err});
+			return res.send({"message" : "could not register token server side" + err});
 		});
 	},
-/*	
-		registerToken: function(req, res) {
-		var userID = req.param('userID');
-		var gcmToken = req.body.gcmToken;
-
-		User.update({userID: userID}, {gcmToken: gcmToken})
-		.then(function(updated) {
-			if (typeof updated == "undefined")	return Promise.reject("Could not add gcmToken");
-			sails.log.debug(updated);
-			return res.send({"message" : "gcmToken successfully registered"});
-		})
-		.catch(function(err) {
-			sails.log.error("Could not add gcmToken", err);
-			return res.send({"message" : "Could not register token"});
-		});
-	}*/
 };
