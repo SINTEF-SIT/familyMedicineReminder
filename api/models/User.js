@@ -21,6 +21,10 @@ module.exports = {
 	  	password: {
 	  		type: 'string'
 	  	},
+		
+		userRole: {
+	  		type: 'string'
+	  	}, 
 		  
 		//gcm-token for push notifications.
 		token: {
@@ -44,11 +48,7 @@ module.exports = {
 
 	  	reminders: {
 	  		collections: 'reminders',
-	  		via: 'ownerId'
-	  	},
-
-/*	  	gcmToken: {
-	  		type: 'string'
-	  	}*/
+	  		via: 'owner'
+	  	}
   	}
 };
