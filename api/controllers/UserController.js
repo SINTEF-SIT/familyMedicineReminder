@@ -105,4 +105,46 @@ module.exports = {
 			return res.send({"message" : "could not register token server side" + err});
 		});
 	},
+/*	
+		registerToken: function(req, res) {
+		var userID = req.param('userID');
+		var gcmToken = req.body.gcmToken;
+
+		User.update({userID: userID}, {gcmToken: gcmToken})
+		.then(function(updated) {
+			if (typeof updated == "undefined")	return Promise.reject("Could not add gcmToken");
+			sails.log.debug(updated);
+			return res.send({"message" : "gcmToken successfully registered"});
+		})
+		.catch(function(err) {
+			sails.log.error("Could not add gcmToken", err);
+			return res.send({"message" : "Could not register token"});
+		});
+	}*/
+
+	initReminderSync: function(req, res) {
+		var userID = req.param('userID');
+		User.findOne({ userID  : userID })
+		.then(function(user) {
+			NotificationService.sendNotification('remindersChanged', user.token);
+			sails.log.debug("sent remindersync notifcation to", userID);
+			res.send("success");
+		})
+		.catch(function(err) {
+			sails.log.error("Could not send notification", err)
+		})
+	},
+
+	initMedicationSync: function(req, res) {
+		var userID = req.param('userID');
+		User.findOne({ userID  : userID })
+		.then(function(user) {
+			NotificationService.sendNotification('medicationsChanged', user.token);
+			sails.log.debug("sent medicationsync notifcation to", userID);
+			res.send("success");
+		})
+		.catch(function(err) {
+			sails.log.error("Could not send notification", err)
+		})
+	}
 };

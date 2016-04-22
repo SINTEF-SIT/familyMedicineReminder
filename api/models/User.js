@@ -43,7 +43,7 @@ module.exports = {
 
 	  	medications: {
 	  		collection: 'medication',
-	  		via: 'owner'
+	  		via: 'ownerId'
 	  	},
 
 	  	reminders: {
