@@ -18,10 +18,9 @@ module.exports = {
 	**/
 	create: function(req, res) {
 		var userID = UserService.generateUniqueUserID();
-		//var password = 
-		//sails.log('Password inside UserController: ', password);
+		sails.log('UserID created: ', userID);
 		UserService.generateRandomHexSequence(function(pw) {
-			sails.log('Random generated password: ', pw)
+			sails.log('Password created: ', pw)
 			User.create({
 				userID: 	userID,
 				username: 	req.body.username,

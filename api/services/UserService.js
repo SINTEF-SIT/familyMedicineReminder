@@ -12,7 +12,7 @@ module.exports = {
 	generateRandomHexSequence: function(cb) {
 		crypt.randomBytes(10, function(err, buffer) {
   			var password = buffer.toString('hex');
-  			sails.log('UserServices pw: ', password);
+  			// sails.log('UserServices-generated password: ', password);
   			cb(password);
   			return;
 		});

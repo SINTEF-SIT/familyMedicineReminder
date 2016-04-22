@@ -67,5 +67,14 @@ module.exports.routes = {
   ***************************************************************************/
 
   'POST /user/:userID/medication'                 : 'MedicationController.add',
-  'GET /user/:userID/medication'                  : 'MedicationController.get'
+  'GET /user/:userID/medication'                  : 'MedicationController.get',
+
+  '/login': {
+    controller: 'AuthController',
+    action: 'login'
+  },
+  '/logout': {
+    controller: 'AuthController',
+    action: 'logout'
+  }
 };

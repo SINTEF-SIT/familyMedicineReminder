@@ -63,7 +63,7 @@ module.exports = {
 		          cb(err);
 		        }else{
 		          user.password = hash;
-		          sails.log("Password hash: ", hash);
+		          sails.log("Password hash created: ", hash);
 		          cb(null, user);
 		        }
       		});
