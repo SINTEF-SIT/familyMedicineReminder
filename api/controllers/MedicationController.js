@@ -20,7 +20,7 @@ module.exports = {
 		*/
 
 		if (!req.body.name) 	return res.failure("The medication has to have a name.");
-		if (!req.body.amount) 	return res.failure("The medication needs an amount.");
+		if (!req.body.count) 	return res.failure("The medication needs an amount.");
 		if (!req.body.unit) 	return res.failure("The medication has to have a dosage unit.");
 
 		if (ValidationService.validUnits.indexOf(req.body.unit) === -1) {
@@ -32,9 +32,10 @@ module.exports = {
 		.then(function(user) {
 			if (typeof user === 'undefined')	return Promise.reject("No such user");
 			user.medications.add({
-				name: 	req.body.name,
-				amount: req.body.amount,
-				unit: 	req.body.unit
+				ownerId: 	userID,
+				name: 		req.body.name,
+				count: 	    req.body.amount,
+				unit: 		req.body.unit
 			});
 			user.save(function(err) {
 				if (err)	return Promise.reject("Error when saving user.");
@@ -55,7 +56,7 @@ module.exports = {
 		.then(function(user) {
 			if (typeof user === 'undefined')	return Promise.reject("No such user");
 			sails.log.debug(user);
-			res.send({"medications" : user.medications});
+			res.send(user.medications);
 			return 
 		})
 		.catch(function(err) {

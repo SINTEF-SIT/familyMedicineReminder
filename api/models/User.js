@@ -39,12 +39,12 @@ module.exports = {
 
 	  	medications: {
 	  		collection: 'medication',
-	  		via: 'owner'
+	  		via: 'ownerId'
 	  	},
 
 	  	reminders: {
 	  		collections: 'reminders',
-	  		via: 'owner'
+	  		via: 'ownerId'
 	  	},
 
 /*	  	gcmToken: {

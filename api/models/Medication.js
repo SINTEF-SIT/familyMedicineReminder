@@ -15,12 +15,16 @@ module.exports = {
 			autoIncrement: true
 		},
 
+		ownerId: {
+			model: 'user'
+		},
+
 		name: {
 			type: 'string',
 			required: true
 		},
 
-		amount: {
+		count: {
 			type: 'float'
 		},
 
@@ -29,18 +33,9 @@ module.exports = {
 			enum: ValidationService.validUnits
 		},
 
-		approved: {
-			type: 'boolean',
-			defaultsTo: false
-		},
-
 		reminders: {
 			collection: 'reminder',
-			via: 'medication'
-		},
-
-		owner: {
-			model: 'user'
+			via: 'medicine'
 		} 
 	}
 };

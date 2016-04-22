@@ -53,6 +53,10 @@ module.exports.routes = {
   'POST /user/:userID/children'                   : 'UserController.addChild',
   'POST /user'                                    : 'UserController.create',
   'POST /user/:userID/token/:token'               : 'UserController.associateToken',
+  //PURELY FOR DEVELOPMENT
+  'POST /user/:userID/reminderSync'               : 'UserController.initReminderSync',
+  'POST /user/:userID/medicationSync'             : 'UserController.initMedicationSync',
+
 
   /***************************************************************************
   * Routes related to ReminderController                                     *
