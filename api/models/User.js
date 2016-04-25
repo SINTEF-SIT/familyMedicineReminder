@@ -49,6 +49,11 @@ module.exports = {
 	  	reminders: {
 	  		collections: 'reminders',
 	  		via: 'owner'
-	  	}
+	  	},
+
+	  	jsonWebTokens: {
+	      collection: 'jwt',
+	      via: 'owner'
+    	}
   	}
 };
