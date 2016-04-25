@@ -1,6 +1,6 @@
 
 // module.exports.waterlock
-module.exports.waterlock = {
+module.exports = {
 
     // CHANGE THIS SECRET BEFORE PRODUCTION
     secret: '#MyCyFAppTokenPassword007',
