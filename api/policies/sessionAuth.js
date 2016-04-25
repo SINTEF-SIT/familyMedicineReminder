@@ -17,7 +17,10 @@ module.exports = function (req, res, ok) {
   var is_auth = req.isAuthenticated()
   if (is_auth) return next();
   // User is not allowed
+
+  // What to return if authentication doesn't work
   else return res.redirect("/login");
+
 };
 
 // Old predefined and built-in Sails authentification.

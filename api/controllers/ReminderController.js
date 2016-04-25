@@ -9,6 +9,7 @@ module.exports = {
 
 	// Executes when API is called with POST at /user/:userID/reminder
 	// Creates new reminder on gived userID
+
 	createReminder: function(req, res) {
 		// Extracts variable from URL
 		sails.log.debug('in create reminder');

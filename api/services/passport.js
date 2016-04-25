@@ -3,6 +3,7 @@ var passport = require('passport'),
   bcrypt = require('bcrypt'); // &lt; /code&gt;
 //helper functions
 function findById(id, fn) {
+  sails.log("services/passport.js findById()");
   User.findOne(id).exec(function (err, user) { // If .done doesn't work, try .exec
     if (err) {
       return fn(null, null);
@@ -13,6 +14,7 @@ function findById(id, fn) {
 }
  
 function findByUsername(u, fn) {
+  sails.log("services/passport.js findByUsername()");
   User.findOne({
     username: u
   }).exec(function (err, user) { // If .done doesn't work, try .exec

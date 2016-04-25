@@ -69,6 +69,10 @@ module.exports.routes = {
   'POST /user/:userID/medication'                 : 'MedicationController.add',
   'GET /user/:userID/medication'                  : 'MedicationController.get',
 
+  // (This would also work if you had a file at: `/views/home.ejs`)
+  '/': {
+    view: 'home/index'
+  },
   '/login': {
     controller: 'AuthController',
     action: 'login'

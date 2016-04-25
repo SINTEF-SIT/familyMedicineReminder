@@ -17,7 +17,9 @@ module.exports = {
 	  	},
 
 	  	username: {
-	  		type: 'string'
+	  		type: 'string',
+	  		required: false,
+	  		unique: false
 	  	},
 
 	  	password: {
@@ -43,6 +45,8 @@ module.exports = {
 	  		collections: 'reminders',
 	  		via: 'owner'
 	  	},
+
+	  	// Remove password before JSON object is printed
 	  	
 	  	toJSON: function() {
       		var obj = this.toObject();

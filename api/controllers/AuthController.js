@@ -10,9 +10,11 @@ var passport = require('passport');
 module.exports = {
  
   login: function (req, res) {
+  	sails.log("Authcontroller.js login()")
     res.view();
   },
   process: function(req, res){
+  	sails.log("Authcontroller.js process()")
     passport.authenticate('local', function(err, user, info) {
       if ((err) || (!user)) {
         return res.send({
@@ -29,6 +31,7 @@ module.exports = {
     })(req, res);
   },
   logout: function (req,res){
+  	sails.log("Authcontroller.js logout()")
     req.logout();
     res.send('logout successful');
   }
