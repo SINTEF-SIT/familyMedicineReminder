@@ -10,9 +10,8 @@ module.exports = {
   attributes: {
     
     token: 'string',
-	uses: {
-	  	collection: 'use',
-	  	via: 'jsonWebToken'
+	expiry: {
+	  	type: 'string'
 	},
 	owner: {
 		model: 'user',

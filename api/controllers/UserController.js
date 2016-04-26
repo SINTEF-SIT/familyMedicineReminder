@@ -17,12 +17,14 @@ module.exports = {
 	*	userID, username and password. Creates a unique ID 
 	**/
 	create: function(req, res) {
+		// Should userID be checked if it already exists in db?
+		// Blood will be shed if conflict occurs
 		userID = UserService.generateUniqueUserID();
 		sails.log('UserID created: ', userID);
 		
 		UserService.generateRandomHexSequence(function(pw) {
-			jwtToken = JwtService.encodeJsonWebToken(userID);
-			sails.log("jtwToken read: ", jwtToken);
+			var jwtToken = JwtService.encodeJsonWebToken(userID);
+			//sails.log("jtwToken read: ", jwtToken);
 			// ^To be inserted in User
 			sails.log('Password created: ', pw)
 			User.create({

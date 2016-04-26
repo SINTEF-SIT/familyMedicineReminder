@@ -1,6 +1,6 @@
 
 // module.exports.waterlock
-module.exports = {
+module.exports.jwt = {
 
     // CHANGE THIS SECRET BEFORE PRODUCTION
     secret: '#MyCyFAppToken//007',
@@ -32,5 +32,4 @@ module.exports = {
     // the user in the respnse - this is useful if
     // JWT is the default response for succesfull login
     includeUserInJwtResponse: false // remove?
-  },
 };

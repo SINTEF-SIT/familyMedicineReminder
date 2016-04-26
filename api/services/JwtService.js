@@ -8,15 +8,15 @@ module.exports = {
 		sails.log("Service: generateJsonWebToken()");
 		var config = sails.config.jwt;
 
-	    var expiryUnit = (config.expiry && config.expiry.unit) || 'days';
+	    var expiryUnit = config.expiry.unit || 'days';
 	    sails.log('expiryUnit: ', expiryUnit);
-	    var expiryLength = (config.expiry && config.expiry.length) || 7;
+	    var expiryLength = config.expiry.length || 1000;
 	    sails.log('expiryLength: ', expiryLength);
 
 	    var expires = moment().add(expiryLength, expiryUnit).valueOf();
 	    sails.log('expires: ', expires);
 
-	    var issued = Date.now();
+	    var issued = Date.now(); // Milliseconds since 1970 00:00
 	    //var user = user; // || req.session.user;
 
 		var decodedToken = {
@@ -27,10 +27,10 @@ module.exports = {
 	      nbf: issued,
 	      iat: issued,
 	      jti: uuid.v1(),
-	      secret: config.secret;
+	      secret: config.secret
 	    };
 
-	    sails.log('Token decoded:');
+	    sails.log('Decoded token:');
 	    sails.log(decodedToken);
 
 	    var token = jwt.encode({
@@ -43,7 +43,7 @@ module.exports = {
 	      jti: uuid.v1()
 	    }, config.secret);
 
-	    sails.log('Token encoded:');
+	    sails.log('Encoded token:');
 	    sails.log(token);
 
 	    return {
@@ -69,23 +69,21 @@ module.exports = {
    * @return {String} token
    * @api public
    */
-  getAccessToken: function(req){
-    var token = null;
-    if (req.headers && req.headers.authorization) {
-      var parts = req.headers.authorization.split(' ');
-      if (parts.length === 2){
-        var scheme = parts[0];
-        var credentials = parts[1];
+	  getAccessToken: function(req){
+	    var token = null;
+	    if (req.headers && req.headers.authorization) {
+	      var parts = req.headers.authorization.split(' ');
+	      if (parts.length === 2){
+	        var scheme = parts[0];
+	        var credentials = parts[1];
 
-        if (/^Bearer$/i.test(scheme)){
-           token = credentials;
-        }
-      }
-    }else{
-      token = this.allParams(req).access_token;
-    }
-    return token;
-  }
+	        if (/^Bearer$/i.test(scheme)){
+	           token = credentials;
+	        }
+	      }
+	    }else{
+	      token = this.allParams(req).access_token;
+	    }
+	    return token;
+	  }
 };
-	
-}
