@@ -20,22 +20,34 @@ module.exports = {
 		// Should userID be checked if it already exists in db?
 		// Blood will be shed if conflict occurs
 		userID = UserService.generateUniqueUserID();
-		sails.log('UserID created: ', userID);
+		// sails.log('UserID generated: ', userID); - done inside function
 		
 		UserService.generateRandomHexSequence(function(pw) {
 			var jwtToken = JwtService.encodeJsonWebToken(userID);
-			//sails.log("jtwToken read: ", jwtToken);
-			// ^To be inserted in User
-			sails.log('Password created: ', pw)
+			// sails.log("jwtToken.token recieved: ", jwtToken.token);
+			// sails.log("jwtToken.expires: ", jwtToken.expires);
+			
+			sails.log('Password created: ', pw);
 			User.create({
 				userID: 	userID,
 				username: 	req.body.username,
 				password: 	pw,
 				userRole:	req.body.userRole
 			})
-			.then(function(user) {
-				sails.log.debug("Created user: ", user);
+			.populate('jsonWebToken')
+			.then(user => {
+				user.jsonWebToken.add({
+				token: 		jwtToken.token,
+				expiry:		jwtToken.expires
+				});
+				user.save(err => {
+					if (err) return Promise.reject("Error saving jsonWebToken");
+				});
 				res.send(user);
+				sails.log.debug("Created user: ", user);
+				return Promise.resolve();
+				// return user.save(function(err){
+				// 		if (err) return Promise.reject("Could not save jwtToken");
 			})
 			.catch(function(err) {
 				sails.log.error("Could not create user: ", err);

@@ -5,16 +5,19 @@ var moment = require('moment');
 module.exports = {
 
 	encodeJsonWebToken: function(userID){
-		sails.log("Service: generateJsonWebToken()");
+		//sails.log("Service: generateJsonWebToken()");
 		var config = sails.config.jwt;
 
 	    var expiryUnit = config.expiry.unit || 'days';
-	    sails.log('expiryUnit: ', expiryUnit);
+	    //sails.log('expiryUnit: ', expiryUnit);
 	    var expiryLength = config.expiry.length || 1000;
-	    sails.log('expiryLength: ', expiryLength);
+	    //sails.log('expiryLength: ', expiryLength);
 
-	    var expires = moment().add(expiryLength, expiryUnit).valueOf();
-	    sails.log('expires: ', expires);
+	    var expires = moment().add(expiryLength, expiryUnit);
+	    var expiresMS = expires.valueOf();
+	    var expiresFormat = expires.format()
+	    sails.log('expiresFormat:', expiresFormat)
+	    sails.log('expiresMS: ', expiresMS);
 
 	    var issued = Date.now(); // Milliseconds since 1970 00:00
 	    //var user = user; // || req.session.user;
@@ -23,32 +26,33 @@ module.exports = {
 	      iss: userID, // + '|' + req.remoteAddress,
 	      sub: config.subject,
 	      aud: config.audience,
-	      exp: expires,
+	      exp: expiresMS,
 	      nbf: issued,
 	      iat: issued,
 	      jti: uuid.v1(),
-	      secret: config.secret
 	    };
 
 	    sails.log('Decoded token:');
 	    sails.log(decodedToken);
 
-	    var token = jwt.encode({
+	    var token = jwt.encode(decodedToken, config.secret);
+
+	    /*var token = jwt.encode({
 	      iss: userID, // + '|' + req.remoteAddress,
 	      sub: config.subject,
 	      aud: config.audience,
-	      exp: expires,
+	      exp: expiresMS,
 	      nbf: issued,
 	      iat: issued,
 	      jti: uuid.v1()
-	    }, config.secret);
+	    }, config.secret);*/
 
 	    sails.log('Encoded token:');
 	    sails.log(token);
 
 	    return {
 	      token: token,
-	      expires: expires
+	      expires: expiresFormat
 	    };
 	  },
 
