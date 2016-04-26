@@ -18,19 +18,26 @@ module.exports = {
 	**/
 	create: function(req, res) {
 		userID = UserService.generateUniqueUserID();
-		User.create({
-			userID: 	userID,
-			username: 	req.body.username,
-			password: 	req.body.password,
-			userRole:	req.body.userRole
-		})
-		.then(function(user) {
-			sails.log.debug("Created user: ", user);
-			res.send(user);
-		})
-		.catch(function(err) {
-			sails.log.error("Could not create user: ", err);
-			res.send({ "message" : "Could not create new user" });
+		sails.log('UserID created: ', userID);
+		
+		UserService.generateRandomHexSequence(function(pw) {
+			jwtToken = JwtService.encodeJsonWebToken(userID);
+			// To be inserted in User
+			sails.log('Password created: ', pw)
+			User.create({
+				userID: 	userID,
+				username: 	req.body.username,
+				password: 	pw,
+				userRole:	req.body.userRole
+			})
+			.then(function(user) {
+				sails.log.debug("Created user: ", user);
+				res.send(user);
+			})
+			.catch(function(err) {
+				sails.log.error("Could not create user: ", err);
+				res.send({ "message" : "Could not create new user" });
+			}); 
 		});
 	},
 
