@@ -19,7 +19,8 @@ module.exports = {
 	  	},
 
 	  	password: {
-	  		type: 'string'
+	  		type: 'string',
+	  		required: true
 	  	},
 		
 		userRole: {
@@ -51,7 +52,7 @@ module.exports = {
 	  		via: 'owner'
 	  	},
 
-	  	jsonWebTokens: {
+	  	jsonWebToken: {
 	      collection: 'jwt',
 	      via: 'owner'
     	}

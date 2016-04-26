@@ -8,8 +8,12 @@
 module.exports = {
 
   attributes: {
-    
-    token: 'string',
+
+    token: {
+    	type: 'string',
+    	primaryKey: true,
+  		unique: true
+    },
 	expiry: {
 	  	type: 'string'
 	},
