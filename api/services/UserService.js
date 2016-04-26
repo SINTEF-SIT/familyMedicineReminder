@@ -6,13 +6,14 @@ module.exports = {
 	generateUniqueUserID: function() {
 		do id = shortid.generate().slice(0,5);
 		while (! User.find({ userID: id }));
+		sails.log('UserID generated: ', userID);
 		return id;
 	},
 
 	generateRandomHexSequence: function(cb) {
 		crypt.randomBytes(10, function(err, buffer) {
   			var password = buffer.toString('hex');
-  			sails.log('UserServices-generated password: ', password);
+  			sails.log('PlainText password generated: ', password);
   			cb(password);
   			return;
 		});
