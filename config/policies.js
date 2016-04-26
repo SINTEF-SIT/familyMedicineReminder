@@ -19,9 +19,12 @@
 
 module.exports.policies = {
 
+  // * = hasJwt
+  // UserController.create() = hasPw
+
   /***************************************************************************
   *                                                                          *
-  * Default policy for all controllers and actions (`true` allows public     *
+  * Default pol'icy for all controllers and actions (`true` allows public     *
   * access)                                                                  *
   *                                                                          *
   ***************************************************************************/

@@ -22,7 +22,8 @@ module.exports = {
 		
 		UserService.generateRandomHexSequence(function(pw) {
 			jwtToken = JwtService.encodeJsonWebToken(userID);
-			// To be inserted in User
+			sails.log("jtwToken read: ", jwtToken);
+			// ^To be inserted in User
 			sails.log('Password created: ', pw)
 			User.create({
 				userID: 	userID,

@@ -3,13 +3,13 @@
 module.exports = {
 
     // CHANGE THIS SECRET BEFORE PRODUCTION
-    secret: '#MyCyFAppTokenPassword007',
+    secret: '#MyCyFAppToken//007',
     expiry:{
       unit: 'days',
       length: '600'
     },
-    audience: 'app name',
-    subject: 'subject',
+    audience: 'MyCyFapp',
+    subject: 'NTNU Informatics',
 
     // tracks jwt usage if set to true - Unlikely to work now
     trackUsage: true,
@@ -18,7 +18,7 @@ module.exports = {
     // express session object and attach the
     // user to it during the hasJsonWebToken
     // middleware - Unlikely to work now
-    stateless: false,
+    stateless: true, // was false
 
     // set the name of the jwt token property
     // in the JSON response
@@ -31,6 +31,6 @@ module.exports = {
     // configure whether or not to include
     // the user in the respnse - this is useful if
     // JWT is the default response for succesfull login
-    includeUserInJwtResponse: false
+    includeUserInJwtResponse: false // remove?
   },
 };
