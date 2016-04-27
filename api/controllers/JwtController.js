@@ -12,27 +12,25 @@ module.exports = {
 		sails.log.debug('User '+ userID +' retrieves Json web token(s)');
 
 		// Find user satisfying the criteria
-		User.find({ owner: userID })
-		// Find all jsonWebTokens associated with the user
-		.populate('jsonWebToken')
+		Jwt.find({ owner: userID })
 		// If all is well
-		.then(function(user) {
-			if (typeof user === 'undefined')	return Promise.reject("No such user");
-			sails.log.debug(user.jsonWebToken);
-			res.send(user.jsonWebToken);
+		.then(function(jwt) {
+			if (typeof jwt === 'undefined') return Promise.reject("No such user with Json web token";
+			sails.log.debug(jwt);
+			res.send(jwt);
 			return Promise.resolve();
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
-			sails.log.error("Could not retrieve user "+userID+"'s JSON web token(s):" + err);
-			return res.send( {"message" : "Could not retrieve user "+userID+ "'s JSON web token(s)"} );
+			sails.log.error("Could not retrieve user "+userID+"'s JSON web token:" + err);
+			return res.send( {"message" : "Could not retrieve user "+userID+ "'s JSON web token"} );
 		});
 	},
 
 	getAllJsonWebTokens: function(req, res) {
 		sails.log("Retrieves all Json web tokens");
 
-		Jwt.find({ revoked: false })
+		Jwt.find()
 		.then(function(jwt) {
 			if (typeof jwt === 'undefined') return Promise.reject('No Json web tokens in database');
 			sails.log.debug(jwt);
