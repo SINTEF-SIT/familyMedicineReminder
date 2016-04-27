@@ -55,6 +55,15 @@ module.exports = {
 	  	jsonWebToken: {
 	      collection: 'jwt',
 	      via: 'owner'
-    	}
+    	},
+
+    	// Remove password before JSON object is printed
+
+	  	toJSON: function() {
+			var obj = this.toObject();
+			delete obj.password;
+			return obj;
+		}
   	}
+
 };
