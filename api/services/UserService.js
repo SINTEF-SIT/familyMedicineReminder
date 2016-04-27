@@ -6,7 +6,7 @@ module.exports = {
 	generateUniqueUserID: function() {
 		do id = shortid.generate().slice(0,5);
 		while (! User.find({ userID: id }));
-		sails.log('UserID generated: ', userID);
+		sails.log('UserID generated: ', id);
 		return id;
 	},
 
