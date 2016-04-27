@@ -85,6 +85,7 @@ module.exports.routes = {
   * Routes related to JwtController                                          *
   ***************************************************************************/
 
-  'GET /jwt/:userID'                              : 'JwtController.getJsonWebToken'
+  'GET /jwt/:userID'                              : 'JwtController.getJsonWebToken',
+  'GET /jwt'                                      : 'JwtController.getAllJsonWebTokens'
   
 };

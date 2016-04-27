@@ -10,6 +10,7 @@ var bcrypt = require('bcrypt');
 module.exports = {
 
 	attributes: {
+		
 	  	userID: {
 	  		type: 'string',
 	  		primaryKey: true,
