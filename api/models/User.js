@@ -17,7 +17,9 @@ module.exports = {
 	  	},
 
 	  	username: {
-	  		type: 'string'
+	  		type: 'string',
+	  		required: false,
+	  		unique: false
 	  	},
 
 	  	password: {
