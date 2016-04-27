@@ -18,14 +18,9 @@ module.exports = {
 	**/
 	create: function(req, res) {
 		userID = UserService.generateUniqueUserID();
-		// sails.log('UserID generated: ', userID); - done inside function
-		
+				
 		UserService.generateRandomHexSequence(function(pw) {
 			var jwtToken = JwtService.encodeJsonWebToken(userID);
-			// sails.log("jwtToken.token recieved: ", jwtToken.token);
-			// sails.log("jwtToken.expires: ", jwtToken.expires);
-			
-			sails.log('Password created: ', pw);
 			User.create({
 				userID: 	userID,
 				username: 	req.body.username,

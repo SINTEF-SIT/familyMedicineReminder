@@ -79,6 +79,12 @@ module.exports.routes = {
   ***************************************************************************/
   
   'POST /user/:userID/linking/:withID'            : 'LinkingRequestController.createLinkingRequest',
-  'POST /user/:userID/linkingresponse/:response'  : 'LinkingRequestController.responseToLinkingRequest'
+  'POST /user/:userID/linkingresponse/:response'  : 'LinkingRequestController.responseToLinkingRequest',
+
+  /***************************************************************************
+  * Routes related to JwtController                                          *
+  ***************************************************************************/
+
+  'GET /jwt/:userID'                              : 'JwtController.getJsonWebToken'
   
 };
