@@ -19,6 +19,8 @@
 
 module.exports.policies = {
 
+  '*': 'printReq'
+
   // * = hasJwt
   // UserController.create() = hasPw
 

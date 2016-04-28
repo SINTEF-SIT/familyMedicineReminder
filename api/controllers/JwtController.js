@@ -15,7 +15,7 @@ module.exports = {
 		Jwt.find({ owner: userID })
 		// If all is well
 		.then(function(jwt) {
-			if (typeof jwt === 'undefined') return Promise.reject("No such user with Json web token";
+			if (typeof jwt === 'undefined') return Promise.reject("No such user with Json web token");
 			sails.log.debug(jwt);
 			res.send(jwt);
 			return Promise.resolve();
@@ -25,6 +25,7 @@ module.exports = {
 			sails.log.error("Could not retrieve user "+userID+"'s JSON web token:" + err);
 			return res.send( {"message" : "Could not retrieve user "+userID+ "'s JSON web token"} );
 		});
+		
 	},
 
 	getAllJsonWebTokens: function(req, res) {
@@ -33,7 +34,7 @@ module.exports = {
 		Jwt.find()
 		.then(function(jwt) {
 			if (typeof jwt === 'undefined') return Promise.reject('No Json web tokens in database');
-			sails.log.debug(jwt);
+			//sails.log.debug(jwt);
 			res.send(jwt);
 			return Promise.resolve();
 		})
