@@ -56,6 +56,11 @@ module.exports = {
 	    };
 	  },
 
+	  decodeJsonWebToken: function(token){
+	  	  var decodedToken = jwt.decode(token, sails.config.jwt.secret);
+	  	  return decodedToken;
+	  }
+
   /*	// howTo:
 		var payload = { foo: 'bar' };
 		// encode
@@ -66,28 +71,5 @@ module.exports = {
 		console.log(decoded); //=> { foo: 'bar' }
 		*/
 
-  /**
-   * Return access token from request
-   *
-   * @param  {Object} req the express request object
-   * @return {String} token
-   * @api public
-   */
-	  getAccessToken: function(req){
-	    var token = null;
-	    if (req.headers && req.headers.authorization) {
-	      var parts = req.headers.authorization.split(' ');
-	      if (parts.length === 2){
-	        var scheme = parts[0];
-	        var credentials = parts[1];
 
-	        if (/^Bearer$/i.test(scheme)){
-	           token = credentials;
-	        }
-	      }
-	    }else{
-	      token = this.allParams(req).access_token;
-	    }
-	    return token;
-	  }
 };
