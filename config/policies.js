@@ -19,10 +19,18 @@
 
 module.exports.policies = {
 
-  '*': 'printReq'
+  '*': 'printReq',
 
+  JwtController: {
+    getJsonWebToken: ['printReq', 'hasJsonWebToken'],
+    getAllJsonWebTokens: ['printReq'],
+    deleteJsonWebToken: ['printReq']
+  } 
+  
+};
   // * = hasJwt
   // UserController.create() = hasPw
+  // GET user medications etc = isowner, is guardian etc
 
   /***************************************************************************
   *                                                                          *
@@ -53,4 +61,4 @@ module.exports.policies = {
 		// before letting any users feed our rabbits
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
-};
+

@@ -63,7 +63,7 @@ module.exports = {
 				res.send({'message': returnString});
 			})
 			.catch(function(err){
-				sails.log.error('Could not delete JWT of user',userID);
+				sails.log.error('Could not delete JWT of user',idFromUser);
 				return res.send({'message': 'Could not delete JTW of user'});
 			});
 		} else {
