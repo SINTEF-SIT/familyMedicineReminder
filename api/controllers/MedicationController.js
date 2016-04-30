@@ -39,7 +39,7 @@ module.exports = {
 		Medication.create({
 			ownerId: 	userID,
 			name: 		req.body.name,
-			count: 	    req.body.amount,
+			count: 	    req.body.count,
 			unit: 		req.body.unit
 		})
 		.then(function(created) {
