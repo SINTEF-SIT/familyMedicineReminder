@@ -17,7 +17,7 @@ module.exports = {
 
 		// Model.create( { Record(s) to Create } )
 		// Creates an object of the model with the given attributes
-		Medication.findOne({ 'owner' : userID, 'medicationID' : req.body.medicine })
+		Medication.findOne({ 'owner' : userID, 'serverId' : req.body.medicine })
 		.populate('reminders')
 		.then(medication => {
 			if (typeof medication === 'undefined')	return Promise.reject("No such medication");

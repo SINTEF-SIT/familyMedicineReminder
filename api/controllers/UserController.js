@@ -78,8 +78,9 @@ module.exports = {
 		})
 		.then(function(user) {
 			user.children.add(childID);
-			user.save(function(err) {
+			user.save(function(err, user) {
 				if (err) 	return Promise.reject(err);
+				sails.log.debug(user);
 			});
 			res.send({"message": "Child was added"});
 			sails.log.debug(userID, "added ", childID, "as a child");
