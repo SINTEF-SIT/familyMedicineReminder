@@ -19,18 +19,32 @@
 
 module.exports.policies = {
 
-  '*': 'printReq',
+    '*': 'hasJsonWebToken'
+    /*
+    JwtController: {
+        getJsonWebToken: ['printReq', 'hasJsonWebToken'],
+        getAllJsonWebTokens: ['printReq'],
+        deleteJsonWebToken: ['printReq']
+    },
 
-  JwtController: {
-    getJsonWebToken: ['printReq', 'hasJsonWebToken'],
-    getAllJsonWebTokens: ['printReq'],
-    deleteJsonWebToken: ['printReq']
-  } 
-  
+    ReminderController: {
+        '*': ['printReq', 'hasJsonWebToken', 'isOwnerOrGuardian']
+    },
+
+    MedicationController: {
+        '*': ['printReq', 'hasJsonWebToken', 'isOwnerOrGuardian']
+    },
+    
+    UserController: {
+        '*': ['printReq', 'isOwnerOrGuardian'],
+        create: 'printReq'
+    },
+
+    LinkingRequestController: {
+        '*': 'printReq'
+    }
+  */
 };
-  // * = hasJwt
-  // UserController.create() = hasPw
-  // GET user medications etc = isowner, is guardian etc
 
   /***************************************************************************
   *                                                                          *

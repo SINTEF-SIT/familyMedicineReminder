@@ -9,21 +9,18 @@ module.exports = {
 
 	getJsonWebToken: function(req, res) {
 		var userID = req.param('userID');
-		sails.log.debug('User '+ userID +' retrieves Json web token(s)');
 
-		// Find user satisfying the criteria
 		Jwt.find({ owner: userID })
-		// If all is well
 		.then(function(jwt) {
 			if (typeof jwt === 'undefined') return Promise.reject("No such user with Json web token");
-			sails.log.debug(jwt);
+			// sails.log.debug(jwt);
 			res.send(jwt);
+			sails.log.debug('Delivered Json web token of user '+ userID);
 			return Promise.resolve();
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
 			sails.log.error("Could not retrieve user "+userID+"'s JSON web token:" + err);
-
 			return res.send( {"message" : "Could not retrieve user "+userID+ "'s JSON web token"} );
 		});
 		
@@ -31,13 +28,13 @@ module.exports = {
 
 	// Strictly for debugging and admin purposes. Admin-policy to be added for this function
 	getAllJsonWebTokens: function(req, res) {
-		sails.log("Retrieves all Json web tokens");
 
 		Jwt.find()
 		.then(function(jwt) {
 			if (typeof jwt === 'undefined') return Promise.reject('No Json web tokens in database');
 			//sails.log.debug(jwt);
 			res.send(jwt);
+			sails.log("Delivered all Json web tokens");
 			return Promise.resolve();
 		})
 		.catch(function(err) {
