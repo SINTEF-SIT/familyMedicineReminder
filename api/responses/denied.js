@@ -2,8 +2,6 @@
  * Module dependencies
  */
 
-var buildOutletFunction = require('../helpers/build-outlet-function');
-
 
 
 /**
@@ -20,12 +18,13 @@ var buildOutletFunction = require('../helpers/build-outlet-function');
  * ```
  */
 
-module.exports = function forbidden (data, options) {
+module.exports = function denied (data, options) {
 
-	var req = this.req;
+	  var req = this.req;
   	var res = this.res;
-
-  	return res.send({Error: data});
+    // var sails = req._sails;
+    res.status(403);
+  	return res.send({Forbidden: data});
 
   	/*
 
