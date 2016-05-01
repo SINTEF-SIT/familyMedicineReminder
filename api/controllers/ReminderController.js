@@ -8,7 +8,7 @@
 module.exports = {
 
 	// Executes when API is called with POST at /user/:userID/reminder
-	// Creates new reminder on gived userID
+	// Creates new reminder on gived userID, and 
 	createReminder: function(req, res) {
 		// Extracts variable from URL
 		sails.log.debug('in create reminder');
@@ -17,25 +17,34 @@ module.exports = {
 
 		// Model.create( { Record(s) to Create } )
 		// Creates an object of the model with the given attributes
-		Medication.findOne({ 'owner' : userID, 'serverId' : req.body.medicine })
-		.populate('reminders')
-		.then(medication => {
-			if (typeof medication === 'undefined')	return Promise.reject("No such medication");
-			medication.reminders.add({
-				ownerId:  		userID,
-				name: 			req.body.name,
-				date: 			req.body.date,
-				endDate: 		req.body.endDate,
-				isActive: 		req.body.active,
-				dosage: 		req.body.dosage,
-				days: 			req.body.frequency
+
+		Reminder.create({
+			ownerId:  		userID,
+			name: 			req.body.name,
+			date: 			req.body.date,
+			endDate: 		req.body.endDate,
+			isActive: 		req.body.active,
+			dosage: 		req.body.dosage,
+			days: 			req.body.days 
+		})
+		.then(function(reminder) {
+			if(typeof medication === "undefined") {
+				return Promise.resolve(reminder);
+			}
+			return Medication.findOne({'ownerId' : userID, 'serverId' : req.body.medicine })
+			.populate('reminders')
+			.then(medication => {
+				sails.log.debug(medication);
+				medication.reminders.add(reminder.serverId);
+				medication.save(err => {
+					if (err) return Promise.reject("Error associating medication with reminder.");
+					else Promise.resolve(reminder);
+				});
 			});
-			medication.save(err => {
-				if (err) return Promise.reject("Error saving medication")
-			});
-			res.send({'message' : 'reminder saved successfully'});
-		})		
-		// Triggered by unexpected behaviour or an exception
+		})
+		.then((reminder) => {
+			res.send(reminder.toJSON());
+		})
 		.catch(function(err) {
 			sails.log.error('Could not create reminder:', err);
 			return res.send(err);
