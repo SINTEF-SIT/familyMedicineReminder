@@ -25,22 +25,8 @@ module.exports = {
 			endDate: 		req.body.endDate,
 			isActive: 		req.body.active,
 			dosage: 		req.body.dosage,
-			days: 			req.body.days 
-		})
-		.then(function(reminder) {
-			if(typeof medication === "undefined") {
-				return Promise.resolve(reminder);
-			}
-			return Medication.findOne({'ownerId' : userID, 'serverId' : req.body.medicine })
-			.populate('reminders')
-			.then(medication => {
-				sails.log.debug(medication);
-				medication.reminders.add(reminder.serverId);
-				medication.save(err => {
-					if (err) return Promise.reject("Error associating medication with reminder.");
-					else Promise.resolve(reminder);
-				});
-			});
+			days: 			req.body.days,
+			medicine: 		req.body.medicine
 		})
 		.then((reminder) => {
 			res.send(reminder.toJSON());
@@ -53,22 +39,23 @@ module.exports = {
 
 	// Executes when API is called with GET at /user/:id/reminder/
 	// Gets all the reminders registered to the userID
-	getReminders: function(req, res) {
+	getReminders: (req, res) => {
 		// Extracts variables from URL
 		var userID = req.param('userID');
+		sails.log.debug(userID);
 
-		sails.log.debug('User '+ userID +' retrieves all reminders');
-
-		// Model.find( { Criteria } )
-		// Finds all objects satisfying the criteria
-		Reminder.find({ ownerId: userID })
-		// Runs if all went well
-		.then(function(reminders) {
+		Reminder.find({'ownerId' : userID})
+		.populate('medicine')
+		.then((reminders) => {
+			for (var i = 0; i < reminders.length; i++) {
+				if (typeof reminders[i].medicine !== "undefined") {
+					reminders[i].medicine = reminders[i].medicine.serverId;
+				}
+			}
 			sails.log.debug('Reminders: ', reminders);
 			return res.send(reminders);
 		})
-		// Triggered by unexpected behaviour or an exception
-		.catch(function(err) {
+		.catch( (err) => {
 			sails.log.error('Could not retrieve reminders: ' + err);
 			return res.send( {'message' : 'Could not retrieve reminders' });
 		});

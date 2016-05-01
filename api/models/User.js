@@ -47,8 +47,8 @@ module.exports = {
 	  	},
 
 	  	reminders: {
-	  		collections: 'reminders',
-	  		via: 'owner'
+	  		collection: 'reminder',
+	  		via: 'ownerId'
 	  	}
   	}
 };
