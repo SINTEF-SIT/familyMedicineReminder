@@ -14,13 +14,15 @@ module.exports = {
 	    //sails.log('expiryLength: ', expiryLength);
 
 	    var expires = moment().add(expiryLength, expiryUnit);
-	    var expiresMS = expires.valueOf();
+	    var expiresMS = expires.valueOf()/1000; // Should be in seconds
 	    var expiresFormat = expires.format()
 	    sails.log('expiresFormat:', expiresFormat)
 	    sails.log('expiresMS: ', expiresMS);
 
-	    var issued = Date.now(); // Milliseconds since 1970 00:00
+	    var issued = Date.now()/1000; // Should be in seconds - otherwise milliseconds since 1970 00:00
 	    //var user = user; // || req.session.user;
+
+	    // Maybe the plaintext password should be included in the encoded token?
 
 		var decodedToken = {
 	      iss: userID, // + '|' + req.remoteAddress,
@@ -59,6 +61,24 @@ module.exports = {
 	  decodeJsonWebToken: function(token){
 	  	  var decodedToken = jwt.decode(token, sails.config.jwt.secret);
 	  	  return decodedToken;
+	  },
+
+	  expiryDateIsInFuture: function(expiry){
+	  	  var now = Date.now();
+	  	  sails.log('Date.now():',now);
+	  	  sails.log('expiry*1000:',expiry*1000); // Should be in seconds not milliseconds
+	  	  if (now < expiry*1000){
+	  	  	sails.log('now < expiry');
+	  	  	sails.log(now+' < '+expiry*1000);
+	  	  	sails.log('Expiry is in the future');
+	  	  	return true;
+	  	  } else {
+	  	  	sails.log('now > expiry');
+	  	  	sails.log(now+' > '+expiry*1000);
+	  	  	sails.log('Token has expired');
+	  	  	return false;
+	  	  }
+	  	  
 	  }
 
   /*	// howTo:

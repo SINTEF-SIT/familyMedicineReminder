@@ -7,15 +7,20 @@
  *
  * @docs        :: http://waterlock.ninja/documentation
  */
-module.exports = function(req, res, next) {
 
+ var moment = require('moment');
+ 
+module.exports = function(req, res, next) {
+    sails.log('hasJsonWebToken');
     var accessToken = req.headers.access_token;
     // sails.log('accessToken:', accessToken);
     var userID = req.headers.user_id;
     // sails.log('userID:', userID);
     var model = req.options.model + 'Controller';
-    // sails.log('model:', model);
 
+    var decodedToken = JwtService.decodeJsonWebToken(accessToken);
+    // sails.log('model:', model);
+    sails.log('decodedToken:\n',decodedToken);
 
     // User-returned text to be changed to more discrete before production.
     // Security message is now very specific for debugging
@@ -33,6 +38,11 @@ module.exports = function(req, res, next) {
     } // Checks if HTTP header 'user_id' is on the right format
     if (userID.length != 5){
         var returnStr = "Request on "+model+" was denied: HTTP header 'user_id' is on wrong format";
+        sails.log.error(returnStr);
+        return res.denied(returnStr);
+    } // Check that token has not expired
+    if (!JwtService.expiryDateIsInFuture(decodedToken.exp)){
+        var returnStr = "Access denied: JSON web token has expired ("+moment(decodedToken.exp)+')';
         sails.log.error(returnStr);
         return res.denied(returnStr);
     }
