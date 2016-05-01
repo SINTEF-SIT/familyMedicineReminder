@@ -59,8 +59,20 @@ module.exports = {
 	  },
 
 	  decodeJsonWebToken: function(token){
-	  	  var decodedToken = jwt.decode(token, sails.config.jwt.secret);
-	  	  return decodedToken;
+	  		// handle expiry problems here?
+	  		try{
+	  			var decodedToken = jwt.decode(token, sails.config.jwt.secret);
+	  		} catch (err) {
+	  			// If the accessToken passes the formating test of the decoder (3 segments '.' )
+	  			// but makes no sense otherwise. This is to give a more descriptive user return and log
+	  			if (err.message === 'Unexpected token j' || err.message ===  'Unexpected end of input') 
+	  				return {errorMessage: "Specified JSON web token does not exist", errorCaught: true};
+        		//sails.log.error('Error object:', err);
+        		//sails.log.debug('ErrorMessage:',err.message);
+        		return {errorMessage: err.message, errorCaught: true}
+        		//return res.denied(returnStr);
+	  		}  
+	  		return {token: decodedToken, errorCaught: false};
 	  },
 
 	  expiryDateIsInFuture: function(expiry){
