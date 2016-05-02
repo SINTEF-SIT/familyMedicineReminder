@@ -121,13 +121,13 @@ module.exports = {
 		var userID = req.param('userID');
 		var gracePeriod = req.param('gracePeriod');
 
-		User.update({ userID: userID }, {token : token})
+		User.update({ userID: userID }, {gracePeriod : gracePeriod})
 		.then(function(user) {
-			res.send({"message": "Token was added"});
-			sails.log.debug(userID, " added his token: ", token);
+			res.send({"message": "gracePerio was set."});
+			sails.log.debug(userID, " set gracePeriod: ", gracePeriod);
 		})
 		.catch(function(err) {
-			sails.log.error("Could not add token: ", err);
+			sails.log.error("Could not set gracePeriod: ", err);
 			return res.send({"message" : "could not set gracePeriod server side" + err});
 		});
 	},
