@@ -8,11 +8,15 @@
 module.exports = {
 
 	attributes: {
-		medicationID: {
+		serverId: {
 			type: 'int',
 			primaryKey: true,
 			unique: true,
 			autoIncrement: true
+		},
+
+		ownerId: {
+			model: 'user'
 		},
 
 		name: {
@@ -20,7 +24,7 @@ module.exports = {
 			required: true
 		},
 
-		amount: {
+		count: {
 			type: 'float'
 		},
 
@@ -29,18 +33,9 @@ module.exports = {
 			enum: ValidationService.validUnits
 		},
 
-		approved: {
-			type: 'boolean',
-			defaultsTo: false
-		},
-
 		reminders: {
 			collection: 'reminder',
-			via: 'medication'
-		},
-
-		owner: {
-			model: 'user'
+			via: 'medicine'
 		} 
 	}
 };

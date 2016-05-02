@@ -17,18 +17,18 @@ module.exports = {
 
 		// Model.create( { Record(s) to Create } )
 		// Creates an object of the model with the given attributes
-		Medication.findOne({ 'owner' : userID, 'medicationID' : req.body.medicationID })
+		Medication.findOne({ 'owner' : userID, 'serverId' : req.body.medicine })
 		.populate('reminders')
 		.then(medication => {
 			if (typeof medication === 'undefined')	return Promise.reject("No such medication");
 			medication.reminders.add({
-				'name': 		req.body.name,
-				'owner':  		userID,
-				'active': 		req.body.active,
-				'time': 		req.body.time,
-				'amount': 		req.body.amount,
-				'unit': 		req.body.unit,
-				'frequency': 	req.body.frequency
+				ownerId:  		userID,
+				name: 			req.body.name,
+				date: 			req.body.date,
+				endDate: 		req.body.endDate,
+				isActive: 		req.body.active,
+				dosage: 		req.body.dosage,
+				days: 			req.body.frequency
 			});
 			medication.save(err => {
 				if (err) return Promise.reject("Error saving medication")
@@ -52,7 +52,7 @@ module.exports = {
 
 		// Model.find( { Criteria } )
 		// Finds all objects satisfying the criteria
-		Reminder.find({ owner: userID })
+		Reminder.find({ ownerId: userID })
 		// Runs if all went well
 		.then(function(reminders) {
 			sails.log.debug('Reminders: ', reminders);
@@ -77,13 +77,13 @@ module.exports = {
 		// Modifies :userID's reminder :reminderID 
 		// Model.update({Find Criteria}, {Updated Records})
 		Reminder.update({ reminderID: reminderID}, {
-			medicationID: 	req.body.medicationID,
+			ownerId:  		userID,
 			name: 			req.body.name,
-			active: 		req.body.active,
-			time: 			req.body.time,
-			amount: 		req.body.amount,
-			unit: 			req.body.unit,
-			frequency: 		req.body.frequency
+			date: 			req.body.date,
+			endDate: 		req.body.endDate,
+			isActive: 		req.body.active,
+			dosage: 		req.body.dosage,
+			days: 			req.body.frequency
 		})
 		// Runs if all went well
 		.then(function(reminder) {

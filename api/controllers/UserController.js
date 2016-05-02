@@ -77,8 +77,9 @@ module.exports = {
 		})
 		.then(function(user) {
 			user.children.add(childID);
-			user.save(function(err) {
+			user.save(function(err, user) {
 				if (err) 	return Promise.reject(err);
+				sails.log.debug(user);
 			});
 			res.send({"message": "Child was added"});
 			sails.log.debug(userID, "added ", childID, "as a child");
@@ -116,7 +117,7 @@ module.exports = {
 	*	Returns all the children of the user specified by 'userID'
 	*	Fails if no such user exists
 	**/
-		setGracePeriod: function(req, res) {
+	setGracePeriod: function(req, res) {
 		var userID = req.param('userID');
 		var gracePeriod = req.param('gracePeriod');
 
@@ -128,6 +129,32 @@ module.exports = {
 		.catch(function(err) {
 			sails.log.error("Could not add token: ", err);
 			return res.send({"message" : "could not set gracePeriod server side" + err});
+		});
+	},
+
+	initReminderSync: function(req, res) {
+		var userID = req.param('userID');
+		User.findOne({ userID  : userID })
+		.then(function(user) {
+			NotificationService.sendNotification('remindersChanged', user.token);
+			sails.log.debug("sent remindersync notifcation to", userID);
+			res.send("success");
+		})
+		.catch(function(err) {
+			sails.log.error("Could not send notification", err)
+		});
+	},
+
+	initMedicationSync: function(req, res) {
+		var userID = req.param('userID');
+		User.findOne({ userID  : userID })
+		.then(function(user) {
+			NotificationService.sendNotification('medicationsChanged', user.token);
+			sails.log.debug("sent medicationsync notifcation to", userID);
+			res.send("success");
+		})
+		.catch(function(err) {
+			sails.log.error("Could not send notification", err)
 		});
 	}
 };

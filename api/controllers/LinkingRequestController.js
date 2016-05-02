@@ -84,6 +84,11 @@ module.exports = {
         .catch(function (err) {
             sails.log.error("Could not create linking request: ", err);
         });
-	}  
+	},
+
+    polling: function(req, res) {
+        sails.log.info("Polling request received");
+        return res.send();
+    } 
 };
 

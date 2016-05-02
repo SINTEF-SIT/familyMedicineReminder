@@ -19,31 +19,37 @@ module.exports = {
 		*  Validations
 		*/
 
-		if (!req.body.name) 	return res.failure("The medication has to have a name.");
-		if (!req.body.amount) 	return res.failure("The medication needs an amount.");
-		if (!req.body.unit) 	return res.failure("The medication has to have a dosage unit.");
+		if (!req.body.name) {
+			sails.log.debug("No name!");
+			return res.failure("The medication has to have a name.");
+		}
+		if (!req.body.count) {
+			sails.log.debug("No count!")
+			return res.failure("The medication needs an amount.");
+		}
+		if (!req.body.unit) {
+			sails.log.debug("No unit!")
+			return res.failure("The medication has to have a dosage unit.");
+		}
 
 		if (ValidationService.validUnits.indexOf(req.body.unit) === -1) {
 			return res.failure(req.body.unit + " is not a valid unit");
 		}
 
-		User.findOne({'userID' : userID})
-		.populate('medications')
-		.then(function(user) {
-			if (typeof user === 'undefined')	return Promise.reject("No such user");
-			user.medications.add({
-				name: 	req.body.name,
-				amount: req.body.amount,
-				unit: 	req.body.unit
-			});
-			user.save(function(err) {
-				if (err)	return Promise.reject("Error when saving user.");
-			})
-			res.send({'message': 'medication saved successfully'});
+		Medication.create({
+			ownerId: 	userID,
+			name: 		req.body.name,
+			count: 	    req.body.amount,
+			unit: 		req.body.unit
+		})
+		.then(function(created) {
+			sails.log.debug("Medication created: " + created);
+			res.send(created.toJSON());
+			return Promise.resolve(created);
 		})
 		.catch(function(err) {
 			sails.log.error(err);
-			res.send({"message" : err});
+			res.send({"message" : "Could not create medication"});
 		});
 	},
 
@@ -55,7 +61,7 @@ module.exports = {
 		.then(function(user) {
 			if (typeof user === 'undefined')	return Promise.reject("No such user");
 			sails.log.debug(user);
-			res.send({"medications" : user.medications});
+			res.send(user.medications);
 			return 
 		})
 		.catch(function(err) {

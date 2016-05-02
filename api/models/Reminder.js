@@ -8,45 +8,45 @@
 module.exports = {
 
   	attributes: {
-  		reminderID: {
+  		reminderId: {
   			type: 'integer',
   			primaryKey: true,
   			unique: true,
   			autoIncrement: true
   		},
-  		owner: {
+  		ownerId: {
   			model: 'user'
   		},
 
-  		medication: {
+      name: {
+        type: 'string',
+        required: true
+      },
+
+      date: {
+        type: 'string',
+        required: true
+      },
+
+      endDate: {
+        type: 'string',
+        required: true
+      },
+
+  		medicine: {
 	  		model: 'medication'
 	  	},
 
-  		name: {
-  			type: 'string',
-        required: true
-  		},
+      dosage: {
+        type: 'float'
+      },
 
-  		active: {
+  		isActive: {
   			type: 'boolean',
         defaultsTo: true
   		}, 
-	  	
-	  	time: {
-	  		type: 'datetime'//,
-        //required: true
-	  	},
 
-	  	amount: {
-	  		type: 'float'
-	  	},
-
-	  	unit: {
-	  		type: 'string',
-	  		enum: ValidationService.validUnits
-	  	},
-
-      frequency: {
+      days: {
         type: 'string',
         defaultsTo: '0000000'
       }

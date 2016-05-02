@@ -54,6 +54,10 @@ module.exports.routes = {
   'POST /user'                                    : 'UserController.create',
   'PUT /user/:userID/token/:token'                : 'UserController.associateToken',
   'PUT /user/:userID/settings/:gracePeriod'       : 'UserController.setGracePeriod',
+  
+  //PURELY FOR DEVELOPMENT
+  'POST /user/:userID/reminderSync'               : 'UserController.initReminderSync',
+  'POST /user/:userID/medicationSync'             : 'UserController.initMedicationSync',
 
   /***************************************************************************
   * Routes related to ReminderController                                     *
@@ -76,6 +80,8 @@ module.exports.routes = {
   ***************************************************************************/
   
   'POST /user/:userID/linking/:withID'            : 'LinkingRequestController.createLinkingRequest',
-  'POST /user/:userID/linkingresponse/:response'  : 'LinkingRequestController.responseToLinkingRequest'
-  
+  'POST /user/:userID/linkingresponse/:response'  : 'LinkingRequestController.responseToLinkingRequest',
+
+  //Polling
+  'HEAD /api/polling'                             : 'LinkingRequestController.polling'
 };
