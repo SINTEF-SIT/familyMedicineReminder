@@ -14,10 +14,15 @@ module.exports = function(req, res, next) {
     // sails.log('Policy: hasJsonWebToken');
     var accessToken = req.headers.access_token;
     // sails.log('accessToken:', accessToken);
-    var userID = req.headers.user_id;
+    //var userID = req.headers.user_id;
     // sails.log('userID:', userID);
     var model = req.options.model + 'Controller';
     var originalUrl = req.originalUrl;
+
+    // If user has token with admin privileges, skip all authentification
+    if (JwtService.hasFullAccess(accessToken)) {
+        return next();
+    }
 
     // Decode the JSON web token using  At the same time it is validated in the module (jwt-simple)
     // for expiry, correct format, signature and algorithm. If an error is thrown by jwt-simple,

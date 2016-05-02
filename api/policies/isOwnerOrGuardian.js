@@ -2,10 +2,19 @@
 
 module.exports = function(req, res, next) {
 
+	 // If user has token with admin privileges, skip all authentification.
+	// Checking first, because req won't include decoded_token if user is amin, causing error
+    if (JwtService.hasFullAccess(req.headers.access_token)) {
+    	sails.log("Admin granted access to "+req.originalUrl);
+		return next();
+    }
+
 	//var decodedToken = req.decoded_token;
 	var userID = req.decoded_token.iss;
 	var targetUser = req.param('userID');
 	var originalUrl = req.originalUrl;
+
+
 
     // If it's the user's own data
     if (userID === targetUser) {

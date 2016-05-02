@@ -56,34 +56,38 @@ module.exports = {
 	      token: token,
 	      expires: expiresFormat
 	    };
-	  },
+	},
 
-	  decodeJsonWebToken: function(token){
-	  		// handle expiry problems here?
-	  		try{
-	  			var decodedToken = jwt.decode(token, sails.config.jwt.secret);
-	  		} catch (err) {
-	  			// If the accessToken passes the formating test of the decoder (3 segments '.' )
-	  			// but makes no sense otherwise. This is to give a more descriptive user return and log
-	  			if (err.message === 'Unexpected token j' || err.message ===  'Unexpected end of input') 
-	  				return {errorMessage: "Specified JSON web token does not exist", errorCaught: true};
-        		//sails.log.error('Error object:', err);
-        		//sails.log.debug('ErrorMessage:',err.message);
-        		return {errorMessage: err.message, errorCaught: true}
-        		//return res.denied(returnStr);
-	  		}  
-	  		return {token: decodedToken, errorCaught: false};
-	  }
+    decodeJsonWebToken: function(token){
+  		// handle expiry problems here?
+  		try{
+  			var decodedToken = jwt.decode(token, sails.config.jwt.secret);
+  		} catch (err) {
+  			// If the accessToken passes the formating test of the decoder (3 segments '.' )
+  			// but makes no sense otherwise. This is to give a more descriptive user return and log
+  			if (err.message === 'Unexpected token j' || err.message ===  'Unexpected end of input') 
+  				return {errorMessage: "Specified JSON web token does not exist", errorCaught: true};
+    		//sails.log.error('Error object:', err);
+    		//sails.log.debug('ErrorMessage:',err.message);
+    		return {errorMessage: err.message, errorCaught: true}
+    		//return res.denied(returnStr);
+  		}  
+  		return {token: decodedToken, errorCaught: false};
+	},
 
-  /*	// howTo:
-		var payload = { foo: 'bar' };
-		// encode
-		var token = jwt.encode(payload, secret);
+	hasFullAccess: function(accessToken) {
+		var allowedTokens = sails.config.globals.adminTokens;
+
+		if (typeof accessToken === 'undefined') return false;
 		
-		// decode
-		var decoded = jwt.decode(token, secret);
-		console.log(decoded); //=> { foo: 'bar' }
-		*/
-
+		for (var i = 0; i < allowedTokens.length; i++){
+			// sails.log('allowedTokens[i]:\n',allowedTokens[i]);
+			// sails.log('accessToken:\n',accessToken);
+			if (allowedTokens[i] === accessToken){
+				// sails.log("TOKENS ARE EQUAL")
+				return true;
+			}
+		} return false;
+	}
 
 };
