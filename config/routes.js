@@ -73,6 +73,7 @@ module.exports.routes = {
 
   'POST /user/:userID/medication'                 : 'MedicationController.add',
   'GET /user/:userID/medication'                  : 'MedicationController.get',
+  'PUT /user/:userID/medication/:medicationID'    : 'MedicationController.put',
   
   /***************************************************************************
   * Routes related to MedicationController                                   *
