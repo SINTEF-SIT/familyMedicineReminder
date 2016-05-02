@@ -20,7 +20,7 @@ module.exports = function(req, res, next) {
     if (userID === targetUser) {
      	sails.log("User "+userID+" access their own data");
      	return next();
-	} // Redundant? API calls without :userID in URL has policy hasFullAccess,
+	} // Redundant? API-calls without :userID in URL has policy hasFullAccess,
 	 // so this won't be caught here. But works well for testing. Remove later
 	if (typeof targetUser === 'undefined') {
 		var returnString = "Access to "+originalUrl+" denied: userID is not defined in URL";

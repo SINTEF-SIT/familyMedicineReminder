@@ -14,11 +14,11 @@ module.exports = function(req, res, next) {
 
 	var deniedReturn = "Access to "+originalUrl+" denied: Correct credentials for creating user is not provided";
 
-	// Handles non-existing create secret
+	// Handles non-existing createSecret
 	if (typeof userCreateSecret === 'undefined') {
 		sails.log.error(deniedReturn);
 		return res.denied(deniedReturn);
-	} // Handles correct input from user
+	} // Handles correct/incorrect input from user
 	if (systemCreateSecret === usersCreateSecret) return next();
 	else {		
 		sails.log.error(deniedReturn);

@@ -16,6 +16,11 @@ module.exports = {
 	*	Anticipates a request with the fields 
 	*	userID, username and password. Creates a unique ID 
 	**/
+
+	// Should add function for user to set their own password
+	// and posibility to "name" children using 'username' attribute?
+
+
 	create: function(req, res) {
 		userID = UserService.generateUniqueUserID();
 				
@@ -36,6 +41,7 @@ module.exports = {
 				user.save(err => {
 					if (err) return Promise.reject("Error saving jsonWebToken");
 				});
+				// The user somehow has to recieve the plaintext password
 				res.send(user);
 				sails.log.debug("Created user: ", user);
 				return Promise.resolve();
