@@ -35,7 +35,7 @@ module.exports = {
             var patientToken = user.token;
             sails.log(patientToken);
             // send notification to patient about incoming linkin request.
-            NotificationService.sendNotification('linkingRequest', patientToken);
+            NotificationService.sendNotification('linkingRequest', "", patientToken);
             var m = {"message" : "Successfully sent linking request to patient."};
             res.send(m);
         })
@@ -74,10 +74,10 @@ module.exports = {
                     guardian.save(function(err) {
                         if (err) Promise.reject("Could not save child");
                     });
-                    NotificationService.sendNotification('positiveLinkingResponse', guardianToken);      
+                    NotificationService.sendNotification('positiveLinkingResponse', patient.userID, guardianToken);      
                 });  
             } else {
-                NotificationService.sendNotification('negativeLinkingResponse', guardianToken);
+                NotificationService.sendNotification('negativeLinkingResponse', "", guardianToken);
                 return Promise.resolve();
             }
         })

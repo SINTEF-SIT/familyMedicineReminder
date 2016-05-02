@@ -103,7 +103,7 @@ module.exports = {
 
 		User.update({ userID: userID }, {token : token})
 		.then(function(user) {
-			res.send({"message": "Token was added"});
+			res.send({"message": "Token was added"});a
 			sails.log.debug(userID, " added his token: ", token);
 		})
 		.catch(function(err) {
@@ -136,7 +136,7 @@ module.exports = {
 		var userID = req.param('userID');
 		User.findOne({ userID  : userID })
 		.then(function(user) {
-			NotificationService.sendNotification('remindersChanged', user.token);
+			NotificationService.sendNotification('remindersChanged', "", user.token);
 			sails.log.debug("sent remindersync notifcation to", userID);
 			res.send("success");
 		})
@@ -149,7 +149,7 @@ module.exports = {
 		var userID = req.param('userID');
 		User.findOne({ userID  : userID })
 		.then(function(user) {
-			NotificationService.sendNotification('medicationsChanged', user.token);
+			NotificationService.sendNotification('medicationsChanged', "",user.token);
 			sails.log.debug("sent medicationsync notifcation to", userID);
 			res.send("success");
 		})
