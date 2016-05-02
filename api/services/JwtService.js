@@ -73,24 +73,6 @@ module.exports = {
         		//return res.denied(returnStr);
 	  		}  
 	  		return {token: decodedToken, errorCaught: false};
-	  },
-
-	  expiryDateIsInFuture: function(expiry){
-	  	  var now = Date.now();
-	  	  sails.log('Date.now():',now);
-	  	  sails.log('expiry*1000:',expiry*1000); // Should be in seconds not milliseconds
-	  	  if (now < expiry*1000){
-	  	  	sails.log('now < expiry');
-	  	  	sails.log(now+' < '+expiry*1000);
-	  	  	sails.log('Expiry is in the future');
-	  	  	return true;
-	  	  } else {
-	  	  	sails.log('now > expiry');
-	  	  	sails.log(now+' > '+expiry*1000);
-	  	  	sails.log('Token has expired');
-	  	  	return false;
-	  	  }
-	  	  
 	  }
 
   /*	// howTo:
