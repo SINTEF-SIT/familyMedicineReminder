@@ -25,7 +25,7 @@ module.exports = function(req, res, next) {
     var decoded = JwtService.decodeJsonWebToken(accessToken, res);    
     if (decoded.errorCaught){
         var errorReturn = "Access to "+originalUrl+" denied: " + decoded.errorMessage;
-        sails.log.error(errorReturn);
+        //sails.log.error(errorReturn);
         // return res.denied(decoded.errorMessage);
         return res.denied(errorReturn);
 
@@ -34,7 +34,8 @@ module.exports = function(req, res, next) {
     // Passing the decoded token on in the request object
     // so that later policies don't have to decode again
     req.decoded_token = decodedToken;
-    //sails.log('decodedToken:\n',decoded.token);
+    // sails.log("req.decoded_token:\n",req.decoded_token);
+    // sails.log('decodedToken:\n',decoded.token);
 
     // sails.log("REQ");
     // sails.log(req);
@@ -74,17 +75,17 @@ module.exports = function(req, res, next) {
     .then(function(jwt) {
         // sails.log('Jwt model found:\n',jwt);
         
-        if (typeof jwt === 'undefined' || jwt.token === null)  return res.denied("Acccess denied: Specified JSON web token does not exist");
-        if (jwt.revoked === true)  return res.denied("Access denied: Access from this JSON web token has been revoked");
+        if (typeof jwt === 'undefined' || jwt.token === null)  return res.denied("Acccess to "+originalUrl+" denied: Specified JSON web token does not exist");
+        if (jwt.revoked === true)  return res.denied("Access to "+originalUrl+" denied: Access from this JSON web token has been revoked");
         //if (expired) 
 
-        sails.log.debug('Access granted: User '+userID+" uses "+model);
+        sails.log.debug('Access to '+originalUrl+' granted: User '+userID+" uses "+model);
         next();   
         return Promise.resolve();
     })
         .catch(function(err) {
-        sails.log.error("Access denied: Error occured while authenticating JWT access:", err); //for user "+userID+": " + err);
-        return res.denied("Access denied: Error occured while authenticating JWT access for user");
+        sails.log.error("Access to "+originalUrl+" denied: Error occured while authenticating JWT access: "+ err); //for user "+userID+": " + err);
+        return res.denied("Access to "+originalUrl+" denied: Error occured while authenticating JWT access for user");
     });
 
   // Looks if there is a JWT with owners id, and then checks if it matches
