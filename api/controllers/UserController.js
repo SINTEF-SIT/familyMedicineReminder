@@ -34,11 +34,11 @@ module.exports = {
 		});
 	},
 
-	// Executes when API is called with GET at /user/:userID/children
-	// Returns all the children of the user specified by 'userID'
-	//
-	// Fails if no such user exists
-
+	/**
+	*	Executes when API is called with GET at /user/:userID/children
+	*	Returns all the children of the user specified by 'userID'
+	*	Fails if no such user exists
+	**/
 	getChildren: function(req, res) {
 		var userID = req.param('userID');
 
@@ -57,13 +57,12 @@ module.exports = {
 		});
 	},
 
-
-	// Executes when API is called with POST at /user/:userID/children, with body:
-	// childID = 'userID of child'
-	// Adds the user specified by childID as a child of the user specified by userID
-	//
-	// Fails if childID is already a child of userID or something went wrong when saving
-
+	/**
+	*	Executes when API is called with POST at /user/:userID/children, with body:
+	*	childID = 'userID of child'
+	*	Adds the user specified by childID as a child of the user specified by userID
+	*	Fails if childID is already a child of userID or something went wrong when saving
+	**/
 	addChild: function(req, res) {
 		var userID = req.param('userID');
 		var childID = req.body.childID;
@@ -91,6 +90,12 @@ module.exports = {
 		});
 	},
 	
+	/**
+	*	Executes when API is called with PUT at /user/:userID/token/:token
+	*	Fills the token field of a user with the specified token.
+	
+	*	Fails if no such user exists
+	**/
 	associateToken: function(req, res) {
 		var userID = req.param('userID');
 		var token = req.param('token');
@@ -105,4 +110,24 @@ module.exports = {
 			return res.send({"message" : "could not register token server side" + err});
 		});
 	},
+	
+	/**
+	*	Executes when API is called with GET at /user/:userID/children
+	*	Returns all the children of the user specified by 'userID'
+	*	Fails if no such user exists
+	**/
+		setGracePeriod: function(req, res) {
+		var userID = req.param('userID');
+		var gracePeriod = req.param('gracePeriod');
+
+		User.update({ userID: userID }, {token : token})
+		.then(function(user) {
+			res.send({"message": "Token was added"});
+			sails.log.debug(userID, " added his token: ", token);
+		})
+		.catch(function(err) {
+			sails.log.error("Could not add token: ", err);
+			return res.send({"message" : "could not set gracePeriod server side" + err});
+		});
+	}
 };
