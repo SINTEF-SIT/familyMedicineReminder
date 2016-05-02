@@ -67,7 +67,6 @@ config/local.js
 ################################################
 
 node_modules
-!node_modules/sails/lib/hooks/responses/defaults/forbidden.js
 bower_components
 
 
