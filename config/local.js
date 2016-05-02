@@ -25,6 +25,9 @@
 
 module.exports = {
 
+	// TODO: Change these before production
+	adminTokens: ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJFMU04dyIsInN1YiI6Ik5UTlUgSW5mb3JtYXRpY3MiLCJhdWQiOiJNeUN5RmFwcCIsImV4cCI6MTUxMzg4NDIyNS40NTIsIm5iZiI6MTQ2MjA0MDYyNS40NTUsImlhdCI6MTQ2MjA0MDYyNS40NTUsImp0aSI6ImFjYzdhMzAwLTBmMDAtMTFlNi1iZmQ0LTI3NTE1ZDVhMzhmYyJ9.KBsnHgRF1aStn-rF9uds4v9jyKFynRGS7EIpPugWEh0"],
+
   // Your SSL certificate and key, if you want to be able to serve HTTP responses
   // over https:// and/or use websockets over the wss:// protocol
   // (recommended for HTTP, strongly encouraged for WebSockets)
@@ -37,6 +40,7 @@ module.exports = {
   //   cert: require('fs').readFileSync(__dirname + './ssl/my_apps_ssl.crt')
   // },
 
+  // TODO: These are self signed certificates and must be replaced before production
   ssl: {
     key: require('fs').readFileSync(__dirname + '/ssl/server.key'),
     cert: require('fs').readFileSync(__dirname + '/ssl/server.crt')
@@ -55,6 +59,7 @@ module.exports = {
   // to 80 (http://) or 443 (https://) if you have an SSL certificate
 
   //port: process.env.PORT || 1337,
+  // Running HTTPS on port 443
   port: 443,
 
 
