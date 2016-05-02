@@ -52,11 +52,12 @@ module.exports.routes = {
   'GET /user/:userID/children'                    : 'UserController.getChildren',
   'POST /user/:userID/children'                   : 'UserController.addChild',
   'POST /user'                                    : 'UserController.create',
-  'POST /user/:userID/token/:token'               : 'UserController.associateToken',
+  'PUT /user/:userID/token/:token'                : 'UserController.associateToken',
+  'PUT /user/:userID/settings/:gracePeriod'       : 'UserController.setGracePeriod',
+  
   //PURELY FOR DEVELOPMENT
   'POST /user/:userID/reminderSync'               : 'UserController.initReminderSync',
   'POST /user/:userID/medicationSync'             : 'UserController.initMedicationSync',
-
 
   /***************************************************************************
   * Routes related to ReminderController                                     *

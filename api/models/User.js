@@ -30,6 +30,10 @@ module.exports = {
 		token: {
 	  		type: 'string'
 	  	},
+		  
+		gracePeriod: {
+	  		type: 'string'
+	  	},
 
 	  	guardians: {
 	  		collection: 'user',
