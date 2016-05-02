@@ -10,7 +10,7 @@ module.exports = {
 		'negativeLinkingResponse'
 		/*, 'onlineCheck'*/],
 
-	sendNotification: function(type, token) {
+	sendNotification: function(type, data, token) {
 
 		if (NotificationService.notificationActions.indexOf(type) < 0) {
 			return sails.log.error('Type has to be a property of NotificationService.notificationActions.');
@@ -28,7 +28,8 @@ module.exports = {
 		        body: 	"There are updates to your data."
 		    },
 		    data: {
-		    	"notification-action": type
+		    	"notification-action": type,
+				"data": data
 		    }
 		});
 
