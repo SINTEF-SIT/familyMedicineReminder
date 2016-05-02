@@ -97,7 +97,7 @@ module.exports = {
 				if (err) 	return Promise.reject(err);
 			});
 			res.send({"message": "Child was added"});
-			sails.log.debug(userID, "added ", childID, "as a child");
+			sails.log.debug(userID, "added", childID, "as a child");
 			return Promise.resolve();
 		})
 		.catch(function(err) {

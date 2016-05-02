@@ -20,11 +20,15 @@
 
 module.exports = function denied (data, options) {
 
-	  var req = this.req;
-  	var res = this.res;
     // var sails = req._sails;
+    //var req = this.req;
+  	var res = this.res;
+    
     res.status(403);
-  	return res.send({Forbidden: data});
+    //sails.log("res.statusCode:", res.statusCode);
+    
+    return res.send({Forbidden: data});
+  	
 
   	/*
 
