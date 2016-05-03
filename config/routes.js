@@ -82,6 +82,14 @@ module.exports.routes = {
   'POST /user/:userID/linking/:withID'            : 'LinkingRequestController.createLinkingRequest',
   'POST /user/:userID/linkingresponse/:response'  : 'LinkingRequestController.responseToLinkingRequest',
 
+  /***************************************************************************
+  * Routes related to JwtController                                          *
+  ***************************************************************************/
+
+  'GET /jwt/:userID'                              : 'JwtController.getJsonWebToken',
+  'GET /jwt'                                      : 'JwtController.getAllJsonWebTokens',
+  'DELETE /jwt/:id'                               : 'JwtController.deleteJsonWebToken',
+  
   //Polling
   'HEAD /api/polling'                             : 'LinkingRequestController.polling'
 };

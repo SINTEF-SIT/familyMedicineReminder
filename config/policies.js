@@ -19,9 +19,37 @@
 
 module.exports.policies = {
 
+    '*': ['hasJsonWebToken', 'isOwnerOrGuardian'], 
+
+    UserController: {
+        '*': ['hasJsonWebToken', 'isOwnerOrGuardian'],
+        create: 'canCreateUser'
+    }, 
+
+    JwtController: {
+        getJsonWebToken: ['hasJsonWebToken', 'isOwnerOrGuardian'],
+        getAllJsonWebTokens: ['hasFullAccess'],
+        deleteJsonWebToken: ['hasFullAccess']
+    },
+    
+
+    ReminderController: {
+        '*': ['hasJsonWebToken', 'isOwnerOrGuardian']
+    },
+
+    MedicationController: {
+        '*': ['hasJsonWebToken', 'isOwnerOrGuardian']
+    },
+
+    LinkingRequestController: {
+        '*': ['hasJsonWebToken', 'isOwnerOrGuardian']
+    }
+  
+};
+
   /***************************************************************************
   *                                                                          *
-  * Default policy for all controllers and actions (`true` allows public     *
+  * Default pol'icy for all controllers and actions (`true` allows public     *
   * access)                                                                  *
   *                                                                          *
   ***************************************************************************/
@@ -48,4 +76,4 @@ module.exports.policies = {
 		// before letting any users feed our rabbits
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
-};
+

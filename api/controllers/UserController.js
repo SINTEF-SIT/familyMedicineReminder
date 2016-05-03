@@ -16,21 +16,42 @@ module.exports = {
 	*	Anticipates a request with the fields 
 	*	userID, username and password. Creates a unique ID 
 	**/
+
+	// Should add function for user to set their own password
+	// and posibility to "name" children using 'username' attribute?
+
+
 	create: function(req, res) {
 		userID = UserService.generateUniqueUserID();
-		User.create({
-			userID: 	userID,
-			username: 	req.body.username,
-			password: 	req.body.password,
-			userRole:	req.body.userRole
-		})
-		.then(function(user) {
-			sails.log.debug("Created user: ", user);
-			res.send(user);
-		})
-		.catch(function(err) {
-			sails.log.error("Could not create user: ", err);
-			res.send({ "message" : "Could not create new user" });
+				
+		UserService.generateRandomHexSequence(function(pw) {
+			var jwtToken = JwtService.encodeJsonWebToken(userID);
+			User.create({
+				userID: 	userID,
+				username: 	req.body.username,
+				password: 	pw,
+				userRole:	req.body.userRole
+			})
+			.populate('jsonWebToken')
+			.then(user => {
+				user.jsonWebToken.add({
+				token: 		jwtToken.token,
+				expiry:		jwtToken.expires
+				});
+				user.save(err => {
+					if (err) return Promise.reject("Error saving jsonWebToken");
+				});
+				// The user somehow has to recieve the plaintext password
+				res.send(user);
+				sails.log.debug("Created user: ", user);
+				return Promise.resolve();
+				// return user.save(function(err){
+				// 		if (err) return Promise.reject("Could not save jwtToken");
+			})
+			.catch(function(err) {
+				sails.log.error("Could not create user: ", err);
+				res.send({ "message" : "Could not create new user" });
+			}); 
 		});
 	},
 
@@ -82,7 +103,7 @@ module.exports = {
 				sails.log.debug(user);
 			});
 			res.send({"message": "Child was added"});
-			sails.log.debug(userID, "added ", childID, "as a child");
+			sails.log.debug(userID, "added", childID, "as a child");
 			return Promise.resolve();
 		})
 		.catch(function(err) {
