@@ -42,7 +42,8 @@ module.exports.policies = {
     },
 
     LinkingRequestController: {
-        '*': ['hasJsonWebToken', 'isOwnerOrGuardian']
+        '*': ['hasJsonWebToken', 'isOwnerOrGuardian'],
+        'polling' : ['hasJsonWebToken']
     }
   
 };

@@ -40,10 +40,10 @@ module.exports = {
   // },
 
   // TODO: These are self signed certificates and must be replaced before production
-  ssl: {
+  /*ssl: {
     key: require('fs').readFileSync(__dirname + '/ssl/server.key'),
     cert: require('fs').readFileSync(__dirname + '/ssl/server.crt')
-  },
+  },*/
 
 
   // The `port` setting determines which TCP port your app will be deployed on
@@ -59,7 +59,7 @@ module.exports = {
 
   //port: process.env.PORT || 1337,
   // Running HTTPS on port 443
-  port: 443,
+  port: 1337,
 
 
 

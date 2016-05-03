@@ -121,6 +121,7 @@ module.exports = {
 	*	Fails if no such user exists
 	**/
 	associateToken: function(req, res) {
+		sails.log.debug("In associateToken");
 		var userID = req.param('userID');
 		var token = req.param('token');
 
