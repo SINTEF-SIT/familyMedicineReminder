@@ -67,25 +67,37 @@ module.exports = {
 		// Extracts variables from URL
 		var userID = req.param('userID');
 		var reminderID = req.param('reminderID');
-
-		sails.log.debug('User '+ userID +' updates reminder ' + reminderID);
-
+		sails.log.debug("1. UserID: " + userID + ", reminderID: " + reminderID);
 		// Modifies :userID's reminder :reminderID 
 		// Model.update({Find Criteria}, {Updated Records})
-		Reminder.update({ reminderID: reminderID}, {
+		Reminder.update({ serverId: reminderID}, {
 			ownerId:  		userID,
 			name: 			req.body.name,
 			date: 			req.body.date,
 			endDate: 		req.body.endDate,
-			isActive: 		req.body.active,
+			isActive: 		req.body.isActive,
 			dosage: 		req.body.dosage,
-			days: 			req.body.frequency
+			days: 			req.body.days,
+			//medicine: 		req.body.medicine  
 		})
 		// Runs if all went well
-		.then(function(reminder) {
-			if (typeof reminder === 'undefined')	return Promise.reject('No such reminder');
-			sails.log.debug('Updated reminder: ' + reminder);
-			return res.send({'message' : 'reminder updated successfully'});
+		.then(reminders => {
+			sails.log.debug("Reminder array: ", reminders);
+			if (typeof reminders[0] === 'undefined') {
+				return Promise.reject('No such reminder');
+			}
+			return Reminder.findOne({'serverId' : reminderID}).populate('medicine');
+		})
+		.then(reminder => {
+			reminder.medicine = req.body.medicine;
+			reminder.save(err => {
+				if(err) return Promise.reject("Could not update medication of reminder");
+			});
+			return Promise.resolve(reminder);
+		})
+		.then(reminder => {
+			sails.log.debug("Reminder to send: ", reminder);
+			res.send(reminder);
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
