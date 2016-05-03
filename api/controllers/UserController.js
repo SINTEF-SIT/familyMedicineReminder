@@ -103,7 +103,7 @@ module.exports = {
 
 		User.update({ userID: userID }, {token : token})
 		.then(function(user) {
-			res.send({"message": "Token was added"});a
+			res.send({"message": "Token was added"});
 			sails.log.debug(userID, " added his token: ", token);
 		})
 		.catch(function(err) {
