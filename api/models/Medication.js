@@ -8,7 +8,7 @@
 module.exports = {
 
 	attributes: {
-		medicationID: {
+		serverId: {
 			type: 'int',
 			primaryKey: true,
 			unique: true,
