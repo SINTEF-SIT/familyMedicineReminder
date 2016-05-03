@@ -8,7 +8,7 @@
 module.exports = {
 
 	// Executes when API is called with POST at /user/:userID/reminder
-	// Creates new reminder on gived userID
+	// Creates new reminder on gived userID, and 
 	createReminder: function(req, res) {
 		// Extracts variable from URL
 		sails.log.debug('in create reminder');
@@ -17,25 +17,20 @@ module.exports = {
 
 		// Model.create( { Record(s) to Create } )
 		// Creates an object of the model with the given attributes
-		Medication.findOne({ 'owner' : userID, 'serverId' : req.body.medicine })
-		.populate('reminders')
-		.then(medication => {
-			if (typeof medication === 'undefined')	return Promise.reject("No such medication");
-			medication.reminders.add({
-				ownerId:  		userID,
-				name: 			req.body.name,
-				date: 			req.body.date,
-				endDate: 		req.body.endDate,
-				isActive: 		req.body.active,
-				dosage: 		req.body.dosage,
-				days: 			req.body.frequency
-			});
-			medication.save(err => {
-				if (err) return Promise.reject("Error saving medication")
-			});
-			res.send({'message' : 'reminder saved successfully'});
-		})		
-		// Triggered by unexpected behaviour or an exception
+
+		Reminder.create({
+			ownerId:  		userID,
+			name: 			req.body.name,
+			date: 			req.body.date,
+			endDate: 		req.body.endDate,
+			isActive: 		req.body.active,
+			dosage: 		req.body.dosage,
+			days: 			req.body.days,
+			medicine: 		req.body.medicine
+		})
+		.then((reminder) => {
+			res.send(reminder.toJSON());
+		})
 		.catch(function(err) {
 			sails.log.error('Could not create reminder:', err);
 			return res.send(err);
@@ -44,22 +39,23 @@ module.exports = {
 
 	// Executes when API is called with GET at /user/:id/reminder/
 	// Gets all the reminders registered to the userID
-	getReminders: function(req, res) {
+	getReminders: (req, res) => {
 		// Extracts variables from URL
 		var userID = req.param('userID');
+		sails.log.debug(userID);
 
-		sails.log.debug('User '+ userID +' retrieves all reminders');
-
-		// Model.find( { Criteria } )
-		// Finds all objects satisfying the criteria
-		Reminder.find({ ownerId: userID })
-		// Runs if all went well
-		.then(function(reminders) {
+		Reminder.find({'ownerId' : userID})
+		.populate('medicine')
+		.then((reminders) => {
+			for (var i = 0; i < reminders.length; i++) {
+				if (typeof reminders[i].medicine !== "undefined") {
+					reminders[i].medicine = reminders[i].medicine.serverId;
+				}
+			}
 			sails.log.debug('Reminders: ', reminders);
 			return res.send(reminders);
 		})
-		// Triggered by unexpected behaviour or an exception
-		.catch(function(err) {
+		.catch( (err) => {
 			sails.log.error('Could not retrieve reminders: ' + err);
 			return res.send( {'message' : 'Could not retrieve reminders' });
 		});
@@ -71,25 +67,37 @@ module.exports = {
 		// Extracts variables from URL
 		var userID = req.param('userID');
 		var reminderID = req.param('reminderID');
-
-		sails.log.debug('User '+ userID +' updates reminder ' + reminderID);
-
+		sails.log.debug("1. UserID: " + userID + ", reminderID: " + reminderID);
 		// Modifies :userID's reminder :reminderID 
 		// Model.update({Find Criteria}, {Updated Records})
-		Reminder.update({ reminderID: reminderID}, {
+		Reminder.update({ serverId: reminderID}, {
 			ownerId:  		userID,
 			name: 			req.body.name,
 			date: 			req.body.date,
 			endDate: 		req.body.endDate,
-			isActive: 		req.body.active,
+			isActive: 		req.body.isActive,
 			dosage: 		req.body.dosage,
-			days: 			req.body.frequency
+			days: 			req.body.days,
+			//medicine: 		req.body.medicine  
 		})
 		// Runs if all went well
-		.then(function(reminder) {
-			if (typeof reminder === 'undefined')	return Promise.reject('No such reminder');
-			sails.log.debug('Updated reminder: ' + reminder);
-			return res.send({'message' : 'reminder updated successfully'});
+		.then(reminders => {
+			sails.log.debug("Reminder array: ", reminders);
+			if (typeof reminders[0] === 'undefined') {
+				return Promise.reject('No such reminder');
+			}
+			return Reminder.findOne({'serverId' : reminderID}).populate('medicine');
+		})
+		.then(reminder => {
+			reminder.medicine = req.body.medicine;
+			reminder.save(err => {
+				if(err) return Promise.reject("Could not update medication of reminder");
+			});
+			return Promise.resolve(reminder);
+		})
+		.then(reminder => {
+			sails.log.debug("Reminder to send: ", reminder);
+			res.send(reminder);
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {

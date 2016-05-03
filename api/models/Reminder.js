@@ -8,7 +8,7 @@
 module.exports = {
 
   	attributes: {
-  		reminderId: {
+  		serverId: {
   			type: 'integer',
   			primaryKey: true,
   			unique: true,
