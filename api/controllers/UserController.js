@@ -16,29 +16,52 @@ module.exports = {
 	*	Anticipates a request with the fields 
 	*	userID, username and password. Creates a unique ID 
 	**/
+
+	// Should add function for user to set their own password
+	// and posibility to "name" children using 'username' attribute?
+
+
 	create: function(req, res) {
 		userID = UserService.generateUniqueUserID();
-		User.create({
-			userID: 	userID,
-			username: 	req.body.username,
-			password: 	req.body.password,
-			userRole:	req.body.userRole
-		})
-		.then(function(user) {
-			sails.log.debug("Created user: ", user);
-			res.send(user);
-		})
-		.catch(function(err) {
-			sails.log.error("Could not create user: ", err);
-			res.send({ "message" : "Could not create new user" });
+				
+		UserService.generateRandomHexSequence(function(pw) {
+			var jwtToken = JwtService.encodeJsonWebToken(userID);
+			User.create({
+				userID: 	userID,
+				username: 	req.body.username,
+				password: 	pw,
+				userRole:	req.body.userRole
+			})
+			.populate('jsonWebToken')
+			.then(user => {
+				user.jsonWebToken.add({
+				token: 		jwtToken.token,
+				expiry:		jwtToken.expires
+				});
+				user.save(err => {
+					if (err) return Promise.reject("Error saving jsonWebToken");
+				});
+				// The user somehow has to recieve the plaintext password
+				res.header('access_token', jwtToken.token);
+				res.header('plaintext_password', pw);
+				res.send(user);
+				sails.log.debug("Created user: ", user);
+				return Promise.resolve();
+				// return user.save(function(err){
+				// 		if (err) return Promise.reject("Could not save jwtToken");
+			})
+			.catch(function(err) {
+				sails.log.error("Could not create user: ", err);
+				res.send({ "message" : "Could not create new user" });
+			}); 
 		});
 	},
 
-	// Executes when API is called with GET at /user/:userID/children
-	// Returns all the children of the user specified by 'userID'
-	//
-	// Fails if no such user exists
-
+	/**
+	*	Executes when API is called with GET at /user/:userID/children
+	*	Returns all the children of the user specified by 'userID'
+	*	Fails if no such user exists
+	**/
 	getChildren: function(req, res) {
 		var userID = req.param('userID');
 
@@ -57,13 +80,12 @@ module.exports = {
 		});
 	},
 
-
-	// Executes when API is called with POST at /user/:userID/children, with body:
-	// childID = 'userID of child'
-	// Adds the user specified by childID as a child of the user specified by userID
-	//
-	// Fails if childID is already a child of userID or something went wrong when saving
-
+	/**
+	*	Executes when API is called with POST at /user/:userID/children, with body:
+	*	childID = 'userID of child'
+	*	Adds the user specified by childID as a child of the user specified by userID
+	*	Fails if childID is already a child of userID or something went wrong when saving
+	**/
 	addChild: function(req, res) {
 		var userID = req.param('userID');
 		var childID = req.body.childID;
@@ -83,7 +105,7 @@ module.exports = {
 				sails.log.debug(user);
 			});
 			res.send({"message": "Child was added"});
-			sails.log.debug(userID, "added ", childID, "as a child");
+			sails.log.debug(userID, "added", childID, "as a child");
 			return Promise.resolve();
 		})
 		.catch(function(err) {
@@ -92,6 +114,12 @@ module.exports = {
 		});
 	},
 	
+	/**
+	*	Executes when API is called with PUT at /user/:userID/token/:token
+	*	Fills the token field of a user with the specified token.
+	
+	*	Fails if no such user exists
+	**/
 	associateToken: function(req, res) {
 		var userID = req.param('userID');
 		var token = req.param('token');
@@ -106,46 +134,50 @@ module.exports = {
 			return res.send({"message" : "could not register token server side" + err});
 		});
 	},
-/*	
-		registerToken: function(req, res) {
+	
+	/**
+	*	Executes when API is called with GET at /user/:userID/children
+	*	Returns all the children of the user specified by 'userID'
+	*	Fails if no such user exists
+	**/
+	setGracePeriod: function(req, res) {
 		var userID = req.param('userID');
-		var gcmToken = req.body.gcmToken;
+		var gracePeriod = req.param('gracePeriod');
 
-		User.update({userID: userID}, {gcmToken: gcmToken})
-		.then(function(updated) {
-			if (typeof updated == "undefined")	return Promise.reject("Could not add gcmToken");
-			sails.log.debug(updated);
-			return res.send({"message" : "gcmToken successfully registered"});
+		User.update({ userID: userID }, {gracePeriod : gracePeriod})
+		.then(function(user) {
+			res.send({"message": "gracePerio was set."});
+			sails.log.debug(userID, " set gracePeriod: ", gracePeriod);
 		})
 		.catch(function(err) {
-			sails.log.error("Could not add gcmToken", err);
-			return res.send({"message" : "Could not register token"});
+			sails.log.error("Could not set gracePeriod: ", err);
+			return res.send({"message" : "could not set gracePeriod server side" + err});
 		});
-	}*/
+	},
 
 	initReminderSync: function(req, res) {
 		var userID = req.param('userID');
 		User.findOne({ userID  : userID })
 		.then(function(user) {
-			NotificationService.sendNotification('remindersChanged', user.token);
+			NotificationService.sendNotification('remindersChanged', "", user.token);
 			sails.log.debug("sent remindersync notifcation to", userID);
 			res.send("success");
 		})
 		.catch(function(err) {
 			sails.log.error("Could not send notification", err)
-		})
+		});
 	},
 
 	initMedicationSync: function(req, res) {
 		var userID = req.param('userID');
 		User.findOne({ userID  : userID })
 		.then(function(user) {
-			NotificationService.sendNotification('medicationsChanged', user.token);
+			NotificationService.sendNotification('medicationsChanged', "",user.token);
 			sails.log.debug("sent medicationsync notifcation to", userID);
 			res.send("success");
 		})
 		.catch(function(err) {
 			sails.log.error("Could not send notification", err)
-		})
+		});
 	}
 };
