@@ -42,6 +42,8 @@ module.exports = {
 					if (err) return Promise.reject("Error saving jsonWebToken");
 				});
 				// The user somehow has to recieve the plaintext password
+				res.header('access_token', jwtToken.token);
+				res.header('plaintext_password', pw);
 				res.send(user);
 				sails.log.debug("Created user: ", user);
 				return Promise.resolve();
