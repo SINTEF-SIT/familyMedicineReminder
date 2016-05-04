@@ -1,0 +1,24 @@
+
+//'POST https://localhost:443/jwt' 
+// access_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJFMU04dyIsInN1YiI6Ik5UTlUgSW5mb3JtYXRpY3MiLCJhdWQiOiJNeUN5RmFwcCIsImV4cCI6MTUxMzg4NDIyNS40NTIsIm5iZiI6MTQ2MjA0MDYyNS40NTUsImlhdCI6MTQ2MjA0MDYyNS40NTUsImp0aSI6ImFjYzdhMzAwLTBmMDAtMTFlNi1iZmQ0LTI3NTE1ZDVhMzhmYyJ9.KBsnHgRF1aStn-rF9uds4v9jyKFynRGS7EIpPugWEh0
+// user_id: E1M8w
+// No body data
+{
+  "invalidAttributes": {
+    "owner": [
+      {
+        "rule": "required",
+        "message": "\"required\" validation rule failed for input: null"
+      }
+    ]
+  },
+  "model": "Jwt",
+  "_e": {},
+  "rawStack": "    at WLValidationError.WLError (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/error/WLError.js:25:15)\n    at new WLValidationError (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/error/WLValidationError.js:19:28)\n    at /Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/query/validate.js:47:23\n    at allValidationsChecked (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/core/validations.js:210:5)\n    at /Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:52:16\n    at Object.async.forEachOf.async.eachOf (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:236:30)\n    at Object.async.forEach.async.each (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:209:22)\n    at Validator.validate (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/core/validations.js:207:9)\n    at /Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/query/validate.js:42:25\n    at /Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:718:13\n    at Immediate.iterate [as _onImmediate] (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:262:13)\n    at processImmediate [as _immediateCallback] (timers.js:383:17)",
+  "reason": "1 attribute is invalid",
+  "code": "E_VALIDATION",
+  "status": 400,
+  "details": "Invalid attributes sent to Jwt:\n • owner\n   • \"required\" validation rule failed for input: null\n",
+  "message": "[Error (E_VALIDATION) 1 attribute is invalid] Invalid attributes sent to Jwt:\n • owner\n   • \"required\" validation rule failed for input: null\n",
+  "stack": "Error (E_VALIDATION) :: 1 attribute is invalid\n    at WLValidationError.WLError (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/error/WLError.js:25:15)\n    at new WLValidationError (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/error/WLValidationError.js:19:28)\n    at /Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/query/validate.js:47:23\n    at allValidationsChecked (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/core/validations.js:210:5)\n    at /Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:52:16\n    at Object.async.forEachOf.async.eachOf (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:236:30)\n    at Object.async.forEach.async.each (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:209:22)\n    at Validator.validate (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/core/validations.js:207:9)\n    at /Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/lib/waterline/query/validate.js:42:25\n    at /Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:718:13\n    at Immediate.iterate [as _onImmediate] (/Users/Sondre/Kode/bachelor/familyMedicineReminder/node_modules/waterline/node_modules/async/lib/async.js:262:13)\n    at processImmediate [as _immediateCallback] (timers.js:383:17)"
+}

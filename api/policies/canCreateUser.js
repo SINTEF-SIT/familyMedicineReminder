@@ -19,7 +19,7 @@ module.exports = function(req, res, next) {
 		sails.log.error(deniedReturn);
 		return res.denied(deniedReturn);
 	} // Handles correct/incorrect input from user
-	if (systemCreateSecret === usersCreateSecret) return next();
+	if (systemCreateSecret === userCreateSecret) return next();
 	else {		
 		sails.log.error(deniedReturn);
 		return res.denied(deniedReturn);
