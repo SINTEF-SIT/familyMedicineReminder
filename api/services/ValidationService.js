@@ -1,5 +1,5 @@
 
 module.exports = {
 
-	validUnits: ['milliliter', 'pill', 'inhalation', 'mg', 'mcg', 'unit', 'gram']
+	validUnits: ['ml', 'pill(s)', 'inhalation', 'mg', 'mcg', 'g', 'unit']
 }
