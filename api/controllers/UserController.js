@@ -90,6 +90,10 @@ module.exports = {
 		var userID = req.param('userID');
 		var childID = req.body.childID;
 
+		// Check if childID is defined in HTTP body
+		if (typeof childID === 'undefined') 
+			return res.failure('\'childID\' is not defined in HTTP body. Cannot add child \'undefined\'');
+
 		User.findOne({ userID: userID })
 		.populate('children')
 		.then(function(user) {
