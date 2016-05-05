@@ -34,7 +34,8 @@ module.exports = {
 		  
 		//gcm-token for push notifications.
 		token: {
-	  		type: 'string'
+	  		type: 'string',
+	  		required: true
 	  	},
 		  
 		gracePeriod: {
