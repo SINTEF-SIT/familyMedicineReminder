@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 /**
  * LinkingRequestController
  * 
@@ -92,7 +94,17 @@ module.exports = {
 
     polling: function(req, res) {
         sails.log.info("Polling request received");
-        return res.send();
-    } 
+        var userID = req.decoded_token.iss;
+        var newLastSeen = moment().format("YYYY;MM;DD;HH;mm");
+        User.update({'userID' : userID}, {'lastSeen' : newLastSeen})
+        .then((changed) => {
+            sails.log.debug("User " + userID + " last seen at: " + newLastSeen);
+            res.send();
+            return Promise.resolve();
+        })
+        .catch((err) => {
+            sails.log.error("Could not save lastSeen!");
+        });
+    }
 };
 
