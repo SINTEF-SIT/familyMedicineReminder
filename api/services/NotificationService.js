@@ -44,16 +44,16 @@ module.exports = {
 			// 'tokens' are, if guardian with tokens exist, on the format: [[guardianID], [token]]
 			// If user has no guardian and/or no token, 'tokens' is simply 'false'
 			
-			// sails.log('notifyGuardiansOfChange tokens:', tokens);
+			// 	sails.log('notifyGuardiansOfChange tokens:', tokens);
 			if (tokens) {
 				var data = 'Your child '+childID+' has made changes';
 				for (var i = 0; i < tokens[1].length; i++){
 					sails.log("Sending notification to ",tokens[0][i]);
-					NotificationService.sendNotification('medicationsChanged', data, tokens[1][i])
+					NotificationService.sendNotification('medicationsChanged', data, tokens[1][i]);
 				} sails.log('Notifications sent to guardian(s) of',childID);
 			} else {
 				sails.log('User has no guardians with token');
 			}
-		})
-	},
-}
+		});
+	}
+};

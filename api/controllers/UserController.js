@@ -65,6 +65,9 @@ module.exports = {
 	getChildren: function(req, res) {
 		var userID = req.param('userID');
 
+		//UserService.returnChildsGuardiansToken(userID);
+		NotificationService.notifyGuardiansOfChange(userID);
+
 		User.findOne({ userID : userID })
 		.populate('children')
 		.then(function(user) {
@@ -79,6 +82,8 @@ module.exports = {
 			return res.send({ "message" : err });
 		});
 	},
+
+
 
 	/**
 	*	Executes when API is called with POST at /user/:userID/children, with body:
@@ -169,7 +174,7 @@ module.exports = {
 			res.send("success");
 		})
 		.catch(function(err) {
-			sails.log.error("Could not send notification", err)
+			sails.log.error("Could not send notification", err);
 		});
 	},
 
@@ -182,7 +187,7 @@ module.exports = {
 			res.send("success");
 		})
 		.catch(function(err) {
-			sails.log.error("Could not send notification", err)
+			sails.log.error("Could not send notification", err);
 		});
 	}
 };

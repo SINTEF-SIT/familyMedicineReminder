@@ -39,17 +39,17 @@ module.exports = {
 			} /*if (typeof user.token === 'undefined' || user.token === null) {
 				return Promise.reject('Users guardian(s) does not have gcm token');
 			}*/
-			//sails.log("User:",user);
+			sails.log("User from UserService.returnUserObject():\n",user);
 			cb(user);
 			return Promise.resolve();
 
 		})
 		.catch(function(err){
-			sails.log.error('Error in UserService.returnUserObject:',err)
+			sails.log.error('Error in UserService.returnUserObject:',err);
 			// Returns error (res not defined) - can't be reached with 'this'. not important, just log
 			// return this.res.failure("Error in UserService.returnUserObject():",err);
 			return false;
-		})
+		});
 	},
 
 	returnFullUserObject: function(userID, cb){
@@ -71,11 +71,11 @@ module.exports = {
 
 		})
 		.catch(function(err){
-			sails.log.error('Error in UserService.returnFullUserObject:',err)
+			sails.log.error('Error in UserService.returnFullUserObject:',err);
 			// Returns error - res not defined, can't reach it with 'this'. not important, just log
 			// return this.res.failure("Error in UserService.returnFullUserObject():",err);
 			return;
-		})
+		});
 	},
 
 	returnIdListOfAttributeInObject: function(json, attribute, id){
@@ -83,12 +83,17 @@ module.exports = {
 		var returnList = [];
 		// sails.log('attributeList['+attribute+']:',attributeList);
 
-		if (typeof attributeList.id === 'undefined') return false;
-		if (typeof attributeList === 'undefined' || attributeList.length == 0) return false;
+		if (typeof attributeList.id === 'undefined') {
+			sails.log('User',json.userID,'doesn\'t have an attribute user.'+attribute+'.'+id);
+			return false;
+		} if (typeof attributeList === 'undefined' || attributeList.length === 0) {
+			sails.log('User',json.userID,'doesn\'t have an object for user.'+attribute);
+			return false;
+		}
 		//if (attributeList.length == 1) return attributeList[0][id];
 
 		for (var i = 0; i < attributeList.length; i++){
-			// sails.log('attributeList[i][id]:',attributeList[i][id]);
+			// sails.log('attributeList[i][id]:',attributeList[i][id]); 
 			returnList.push(attributeList[i][id]);
 		} return returnList;
 
@@ -101,13 +106,15 @@ module.exports = {
 			// sails.log('guardianList: ',guardianList);
 			var tokenList = UserService.returnIdListOfAttributeInObject(child, 'guardians', 'token');
 			// sails.log('tokenList: ',tokenList);
+			// var changeSettings = UserService.returnIdListOfAttributeInObject(child, 'guardians', 'receiveChangeNotification');
 
 			if (guardianList && tokenList) {
 				// sails.log('User',childID,"'s guardians:",guardianList);
 				// sails.log('Guardians token:',tokenList);
 				// return list;
-				var returnList = [guardianList, tokenList]
-				sails.log('UserService.returnChildsGuardianIDs guardianID and token:',returnList);
+				var returnList = [guardianList, tokenList];
+				//var returnList = [guardianList, tokenList, changeSettings];
+				sails.log('UserService.returnChildsGuardianIDs() guardianID and token:\n',returnList);
 				cb(returnList);
 				return;
 			} else {
@@ -122,7 +129,8 @@ module.exports = {
 		UserService.returnChildsGuardianIDs(childID, function(guardianList){
 			// sails.log('returnGuardianTokens guardianList:',guardianList);
 			// var tokenList = [];
-			if (guardianList === false || typeof guardianList === 'undefined') return cb(false);
+			if (typeof guardianList === 'undefined' || guardianList === false) 
+				return cb(false);
 
 			/*for (var i = 0; i < guardianList.length; i++){
 				UserService.returnUserObject(guardianList[0], 'token', function(user){
@@ -131,10 +139,7 @@ module.exports = {
 			} var returnObj = {id: guardianList, token: tokenList};
 			sails.log('returnObj:',returnObj);*/
 			return cb(guardianList);
-		})
+		});
 	}
-
-
-
 	
-}
+};
