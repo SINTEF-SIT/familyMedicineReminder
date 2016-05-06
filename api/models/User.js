@@ -35,7 +35,8 @@ module.exports = {
 		//gcm-token for push notifications.
 		token: {
 	  		type: 'string',
-	  		required: true
+	  		required: true,
+	  		defaultsTo: 'null'
 	  	},
 		  
 		gracePeriod: {
@@ -65,6 +66,11 @@ module.exports = {
 	  	jsonWebToken: {
 	      collection: 'jwt',
 	      via: 'owner'
+    	},
+
+    	receiveChangeNotification: {
+    		type: 'boolean',
+    		defaultsTo: true
     	},
 
     	// Remove password before JSON object is printed

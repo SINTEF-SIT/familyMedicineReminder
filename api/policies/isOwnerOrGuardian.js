@@ -12,6 +12,7 @@ module.exports = function(req, res, next) {
 	//var decodedToken = req.decoded_token;
 	var userID = req.decoded_token.iss;
 	var targetUser = req.param('userID');
+	sails.log('targetUser:',targetUser);
 	var originalUrl = req.originalUrl;
 
 
