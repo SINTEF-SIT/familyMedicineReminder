@@ -16,9 +16,9 @@
 module.exports = {
     
 	createLinkingRequest: function(req, res) {
-		requestID = UserService.generateUniqueUserID();
+		//requestID = UserService.generateUniqueUserID();
 		LinkingRequest.create({
-            requestID:      requestID,
+            //requestID:      requestID,
 		    patientID:      req.param('withID'),
 		    guardianID:     req.param('userID'),
             latestMessage:  'Created linking request'
@@ -74,10 +74,14 @@ module.exports = {
                     guardian.save(function(err) {
                         if (err) Promise.reject("Could not save child");
                     });
-                    NotificationService.sendNotification('positiveLinkingResponse', patient.userID, guardianToken);      
+                    NotificationService.sendNotification('positiveLinkingResponse', patient.userID, guardianToken); 
+                    LinkingRequest.destroy({'patientID' : req.param('userID')})
+                    res.send();    
                 });  
             } else {
                 NotificationService.sendNotification('negativeLinkingResponse', "", guardianToken);
+                LinkingRequest.destroy({'patientID' : req.param('userID')})
+                res.send();
                 return Promise.resolve();
             }
         })
