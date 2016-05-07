@@ -45,6 +45,7 @@ module.exports = {
 		.then(function(created) {
 			sails.log.debug("Medication created: " + created);
 			res.send(created.toJSON());
+			NotificationService.notifyGuardiansOfChange(userID, 'Added new medication');
 			return Promise.resolve(created);
 		})
 		.catch(function(err) {
@@ -83,6 +84,7 @@ module.exports = {
 		.then( medication => {
 			sails.log.debug("User " + userID + " updated medication " + medication[0]);
 			res.send(medication[0]);
+			NotificationService.notifyGuardiansOfChange(userID, 'Changed existing medication');
 		})
 		.catch(err => {
 			sails.log.err(err);
