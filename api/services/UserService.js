@@ -29,10 +29,10 @@ module.exports = {
 		});
 	},
 
-	returnUserObject: function(userID, attribute, cb){
+	returnUserObject: function(userID, attribute/*, cb*/){
 		User.findOne({userID: userID})
 		.populate(attribute)
-		.then(function(user){
+		.then((user) => {
 			// sails.log('returnUserObject user:',user);
 			if (typeof user === 'undefined') {
 				return Promise.reject("Cannot return user object of 'undefined'");
@@ -40,15 +40,15 @@ module.exports = {
 				return Promise.reject('Users guardian(s) does not have gcm token');
 			}*/
 			// sails.log("User from UserService.returnUserObject():\n",user);
-			cb(user);
-			return Promise.resolve();
+			return Promise.resolve(user);
+			//return Promise.resolve();
 
 		})
 		.catch(function(err){
 			sails.log.error('Error in UserService.returnUserObject:',err);
 			// Returns error (res not defined) - can't be reached with 'this'. not important, just log
 			// return this.res.failure("Error in UserService.returnUserObject():",err);
-			return false;
+			//return false;
 		});
 	},
 
@@ -66,8 +66,8 @@ module.exports = {
 				return Promise.reject("Cannot return user object of 'undefined'");
 			} 
 			//sails.log("User:",user);
-			cb(user);
-			return Promise.resolve();
+			return cb(user);
+			//return Promise.resolve();
 
 		})
 		.catch(function(err){
@@ -102,8 +102,9 @@ module.exports = {
 
 	},
 
-	returnGuardianTokenData: function(childID, cb){
-		UserService.returnUserObject(childID, 'guardians', function (child){
+	returnGuardianTokenData: function(childID/*, cb*/){
+		UserService.returnUserObject(childID, 'guardians') 
+		.then(function (child){
 			//sails.log('returnGuardianTokenData child:',child);
 			var guardians = child.guardians;
 			var compiledList = [[],[],[]];
@@ -126,14 +127,29 @@ module.exports = {
 			}
 			if (compiledList[0].length > 0) {
 				sails.log('UserService.returnGuardianTokenData() compiledList:\n',compiledList);
-				return cb(compiledList);
+				return Promise.resolve(compiledList);
+				//return Promise.resolve(compiledList);
 			} else {
 				sails.log('User',childID,'doesn\'t have guardians');
 				//return false;
-				return cb(false);
+				//return cb(false);
+				return Promise.reject('User',childID,'doesn\'t have guardians');
 			}
+		})
+		.catch((err) => {
+			sails.log(err);
 		});
 	},
+
+
+
+
+
+
+
+
+
+
 
 	returnGuardianTokens: function(childID, cb) {
 		UserService.returnGuardianTokenData(childID, function(guardianList){
