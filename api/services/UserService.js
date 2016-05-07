@@ -4,7 +4,8 @@ var crypt = require('crypto');
 module.exports = {
 
 	generateUniqueUserID: function() {
-		do id = shortid.generate().slice(0,5);
+		shortid.characters('ABCDEF1234567890');
+		do id = shortid.generate().slice(0,6);
 		while (! User.find({ userID: id }));
 		sails.log('UserID generated: ', id);
 		return id;
