@@ -5,20 +5,22 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "bcrypt": "^0.8.6",
     "bluebird": "latest",
     "chai": "latest",
+    "gen-id": "^0.1.1",
     "include-all": "~0.1.6",
+    "jwt-simple": "^0.5.0",
     "mocha": "latest",
+    "moment": "^2.13.0",
     "node-gcm": "^0.14.0",
+    "node-uuid": "^1.4.7",
     "rc": "1.0.1",
     "request": "latest",
     "sails": "~0.12.1",
     "sails-disk": "^0.10.9",
     "shortid": "2.2.4",
-    "supertest": "latest",
-    "jwt-simple": "0.5.0",
-    "node-uuid": "1.4.7",
-    "moment": "2.13.0"
+    "supertest": "latest"
   },
   "scripts": {
     "debug": "node debug app.js",

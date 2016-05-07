@@ -1,11 +1,11 @@
-var shortid = require('shortid');
+var gen = require('gen-id')('aaannn');
 var crypt = require('crypto');
 
 module.exports = {
 
 	generateUniqueUserID: function() {
-		shortid.characters('ABCDEF1234567890');
-		do id = shortid.generate().slice(0,6);
+		
+		do id = gen.generate();
 		while (! User.find({ userID: id }));
 		sails.log('UserID generated: ', id);
 		return id;
