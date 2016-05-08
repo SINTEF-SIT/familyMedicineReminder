@@ -1,4 +1,4 @@
-var gen = require('gen-id')('aaannn'); //a=a-z, n=0-9
+var gen = require('gen-id')('aaann'); //a=a-z, n=0-9
 var crypt = require('crypto');
 
 module.exports = {
