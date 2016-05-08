@@ -54,6 +54,8 @@ module.exports.routes = {
   'POST /user'                                    : 'UserController.create',
   'PUT /user/:userID/token/:token'                : 'UserController.associateToken',
   'PUT /user/:userID/settings/:gracePeriod'       : 'UserController.setGracePeriod',
+  'GET /user/:userID/lastSeen'                    : 'UserController.getLastSeenStatus',
+
   
   //PURELY FOR DEVELOPMENT
   'POST /user/:userID/reminderSync'               : 'UserController.initReminderSync',
