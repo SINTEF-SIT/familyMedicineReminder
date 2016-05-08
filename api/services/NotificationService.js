@@ -41,7 +41,10 @@ module.exports = {
 	},
 
 	notifyGuardiansOfChange: function(childID, whatChanged, identifier){
+<<<<<<< HEAD
 		sails.log.info('notifyGuardiansOfChange()');
+=======
+>>>>>>> 80f892ff0a0cc467767b27b91d79d0f9bee5eb17
 		UserService.returnGuardianTokenData(childID)
 		.then(function(tokenData) {
 			// If guardian who wants to receive push and has gcm-token exist: 
@@ -61,11 +64,18 @@ module.exports = {
 				for (var i = 0; i < tokenData[0].length; i++){
 					NotificationService.sendNotification('medicationsChanged', null, tokenData[2][i], header, whatChanged);
 					sails.log('User',childID,'sent change-notification to',tokenData[0][i],':',header+': '+body);
+<<<<<<< HEAD
 				} 
 			} else {
 				sails.log('No change-notification sent');
 			}
 			return Promise.resolve();
+=======
+				}
+			} else {
+				sails.log('No change-notification sent');
+			}
+>>>>>>> 80f892ff0a0cc467767b27b91d79d0f9bee5eb17
 		})
 		.catch(function(err) {
 			sails.log.error('An error was caught in NotificationService.notifyGuardiansOfChange:\n', err);
