@@ -77,15 +77,15 @@ module.exports = {
                         if (err) Promise.reject("Could not save child");
                     });
                     NotificationService.sendNotification('positiveLinkingResponse', patient.userID, guardianToken); 
-                    LinkingRequest.destroy({'patientID' : req.param('userID')})
-                    res.send();    
+                    return LinkingRequest.destroy({'patientID' : req.param('userID')})
                 });  
             } else {
                 NotificationService.sendNotification('negativeLinkingResponse', "", guardianToken);
-                LinkingRequest.destroy({'patientID' : req.param('userID')})
-                res.send();
-                return Promise.resolve();
+                return LinkingRequest.destroy({'patientID' : req.param('userID')})
             }
+        })
+        .then(function() {
+            res.send();
         })
         .catch(function (err) {
             sails.log.error("Could not create linking request: ", err);
