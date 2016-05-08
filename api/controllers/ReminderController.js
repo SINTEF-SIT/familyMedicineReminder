@@ -30,7 +30,7 @@ module.exports = {
 		})
 		.then((reminder) => {
 			res.send(reminder.toJSON());
-			NotificationService.notifyGuardiansOfChange(userID, 'Added new reminder', req.body.name);
+			return NotificationService.notifyGuardiansOfChange(userID, 'Added new reminder', req.body.name);
 		})
 		.catch(function(err) {
 			sails.log.error('Could not create reminder:', err);

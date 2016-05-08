@@ -1,4 +1,4 @@
-var gen = require('gen-id')('aaannn'); //a=a-z, n=0-9
+var gen = require('gen-id')('aaann'); //a=a-z, n=0-9
 var crypt = require('crypto');
 
 module.exports = {
@@ -30,7 +30,8 @@ module.exports = {
 	},
 
 	returnUserObject: function(userID, attribute/*, cb*/){
-		User.findOne({userID: userID})
+		sails.log.info('returnUserObject()');
+		return User.findOne({userID: userID})
 		.populate(attribute)
 		.then((user) => {
 			// sails.log('returnUserObject user:',user);
@@ -39,7 +40,7 @@ module.exports = {
 			} /*if (typeof user.token === 'undefined' || user.token === null) {
 				return Promise.reject('Users guardian(s) does not have gcm token');
 			}*/
-			// sails.log("User from UserService.returnUserObject():\n",user);
+			sails.log("User from UserService.returnUserObject():\n",user);
 			return Promise.resolve(user);
 			//return Promise.resolve();
 
@@ -52,29 +53,27 @@ module.exports = {
 		});
 	},
 
-	returnFullUserObject: function(userID, cb){
+	returnFullUserObject: function(userID){
+		sails.log.info('returnFullUserObject()');
 		// sails.log('returnUserObject()');
 		// sails.log('userID:',userID);
-		User.findOne({userID: userID})
-		.populate('jsonWebToken')
+		return User.findOne({userID: userID})
 		.populate('guardians')
-		.populate('children')
-		.populate('medications')
-		.populate('reminders')
 		.then(function(user){
 			if (typeof user === 'undefined' ) {
 				return Promise.reject("Cannot return user object of 'undefined'");
 			} 
-			//sails.log("User:",user);
-			return cb(user);
+			sails.log("User from UserService.returnFullUserObject:",user);
+			//return cb(user);
 			//return Promise.resolve();
+			return Promise.resolve(user);
 
 		})
 		.catch(function(err){
 			sails.log.error('Error in UserService.returnFullUserObject:',err);
 			// Returns error - res not defined, can't reach it with 'this'. not important, just log
 			// return this.res.failure("Error in UserService.returnFullUserObject():",err);
-			return;
+			return false;
 		});
 	},
 
@@ -103,7 +102,9 @@ module.exports = {
 	},
 
 	returnGuardianTokenData: function(childID/*, cb*/){
-		UserService.returnUserObject(childID, 'guardians') 
+		sails.log.info('returnGuardianTokenData()');
+		return UserService.returnUserObject(childID, 'guardians') 
+		//UserService.returnFullUserObject(childID) 
 		.then(function (child){
 			//sails.log('returnGuardianTokenData child:',child);
 			var guardians = child.guardians;
@@ -140,16 +141,6 @@ module.exports = {
 			sails.log(err);
 		});
 	},
-
-
-
-
-
-
-
-
-
-
 
 	returnGuardianTokens: function(childID, cb) {
 		UserService.returnGuardianTokenData(childID, function(guardianList){
