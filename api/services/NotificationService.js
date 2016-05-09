@@ -76,7 +76,7 @@ module.exports = {
 			// Text-header of the push notification
 			var header = "Guardian has changed your data";
 			sails.log("Guardian accesses child", userID, 'and child wants to recieve changeNotification');
-			NotificationService.sendNotification(type, null, token, header, body);
+			NotificationService.sendNotification(type, userID, token, header, body);
 		} else {
 			sails.log("Guardian accesses child", userID, 'BUT child has receiveChangeNotification: false and/or no token');
 		}
@@ -98,7 +98,7 @@ module.exports = {
 
 			if (tokenData) {
 				for (var i = 0; i < tokenData[0].length; i++){
-					NotificationService.sendNotification(type, null, tokenData[2][i], header, whatChanged);
+					NotificationService.sendNotification(type, childID, tokenData[2][i], header, whatChanged);
 					sails.log('User',childID,'sent change-notification to',tokenData[0][i],':',header+': '+body);
 				} 
 			} else {
