@@ -114,19 +114,23 @@ module.exports = {
 
 		// Model.destroy( { Criteria } )
 		// Warning: Calling destroy with no criteria as parameter will delete ALL records in table
-		Reminder.destroy({ reminderID: reminderID})
+		Reminder.destroy({ serverId: reminderID })
 		// Runs if all went well or object is empty
-		.then(function(reminder){
+		.then(function(destroyed){
 			// Handle empty reminder object (trying to delete non-existing reminder)
-			if (typeof reminder[0] === 'undefined') return Promise.reject('No reminder to delete');
-			// If all went well
-			sails.log.debug('User', userID, 'deletes reminder', reminderID);
-			return res.send( {'message' : 'Reminder successfully deleted.'} );
+			if (typeof destroyed === 'undefined') {
+				return Promise.reject('No reminder to delete');
+			} else {
+				// If all went well
+				sails.log.debug('User', userID, 'deletes reminder', destroyed);
+				res.send(true);
+				return Promise.resolve();
+			}
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err){
 			sails.log.error('Could not delete reminder:', err);
-			return res.send( {'message': err} );
+			return res.send(false);
 		});
 	}
 };
