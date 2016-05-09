@@ -156,6 +156,22 @@ module.exports = {
 		});
 	},
 
+	getLastSeenStatus: function(req, res) {
+		var userID = req.param('userID');
+		User.findOne({ userID : userID })
+		.then(function(user) {
+			if(typeof user !== 'undefined') {
+				Promise.reject("No such user");
+			}
+			res.send(user.lastSeen);
+			Promise.resolve(user.lastSeen);
+		})
+		.catch((err) => {
+			sails.log.error(err);
+			res.send(err);
+		});
+	},
+
 	initReminderSync: function(req, res) {
 		var userID = req.param('userID');
 		User.findOne({ userID  : userID })

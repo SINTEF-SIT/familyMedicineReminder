@@ -85,7 +85,7 @@ module.exports = {
 			res.send(medication[0]);
 		})
 		.catch(err => {
-			sails.log.err(err);
+			sails.log.error(err);
 			res.send("Could not save medication");
 		});
 	}
