@@ -20,6 +20,7 @@ module.exports = function(req, res, next) {
     // If it's the user's own data
     if (userID === targetUser) {
      	sails.log("User "+userID+" access their own data");
+     	req.accesses_child = false;
      	return next();
 	} // Redundant? API-calls without :userID in URL has policy hasFullAccess,
 	 // so this won't be caught here. But works well for testing. Remove later
@@ -50,7 +51,21 @@ module.exports = function(req, res, next) {
 				if (targetUser === children[i].userID) {
 					var returnString = "User '"+userID+"' is guardian for '"+targetUser+"'";
 					sails.log(returnString); 
-					next();
+					// sails.log.info('CHILD ACCESSED:\N',children[i]);
+					// Limit number of DB calls, temp save data in request
+					if (children[i].receiveChangeNotification && typeof children[i].token != 'undefined' && children[i].token != 'null'){
+						req.send_notification = true;
+						//sails.log.info('req.send_notification:',req.send_notification);
+						req.accesses_child = true;
+						//sails.log.info('req.accesses_child:',req.accesses_child);
+						req.child_token = children[i].token
+						//sails.log.info('req.child_token:',req.child_token);
+					} else {
+						req.send_notification = false;
+						//sails.log.infp('req.send_notification:',req.send_notification);
+						req.accesses_child = true;
+						//sails.log.info('req.accesses_child:',req.accesses_child);
+					} next();
 					return Promise.resolve();
 				}
 			}
