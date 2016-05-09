@@ -12,22 +12,26 @@ module.exports = function(req, res, next) {
 	//var decodedToken = req.decoded_token;
 	var userID = req.decoded_token.iss;
 	var targetUser = req.param('userID');
+	sails.log('targetUser:',targetUser);
 	var originalUrl = req.originalUrl;
-
-
 
     // If it's the user's own data
     if (userID === targetUser) {
      	sails.log("User "+userID+" access their own data");
+     	req.accesses_child = false;
      	return next();
-	} // Redundant? API-calls without :userID in URL has policy hasFullAccess,
+	} 
+
+	  // Redundant? API-calls without :userID in URL has policy hasFullAccess,
 	 // so this won't be caught here. But works well for testing. Remove later
-	if (typeof targetUser === 'undefined') {
+	/*if (typeof targetUser === 'undefined') {
 		var returnString = "Access to "+originalUrl+" denied: userID is not defined in URL";
 		sails.log.error(returnString);
 		return res.denied(returnString);
-	}
- 	// If a guardian is trying to access a child's data
+	}*/
+
+	 // At this point we know the user is not accessing their own data
+ 	// This checks guardian's children if he's trying to access a child's data
 	User.findOne({ userID : userID })
 		.populate('children')
 		.then(function(user) {
@@ -39,7 +43,8 @@ module.exports = function(req, res, next) {
 				//res.denied(returnString);
 				return Promise.reject(returnString);
 			}
-			// Is the user trying to access data from one of its child?
+
+			// Check if the user trying to access data from one of its child
 			var children = user.children;
 			//sails.log("children:",children);
 			//sails.log("children.length:",children.length)
@@ -49,20 +54,29 @@ module.exports = function(req, res, next) {
 				if (targetUser === children[i].userID) {
 					var returnString = "User '"+userID+"' is guardian for '"+targetUser+"'";
 					sails.log(returnString); 
-					next();
+					// sails.log.info('CHILD ACCESSED:\N',children[i]);
+					// Limit number of DB calls, temp save data in request
+					if (children[i].receiveChangeNotification && typeof children[i].token != 'undefined' && children[i].token != 'null'){
+						req.send_notification = true;
+						//sails.log.info('req.send_notification:',req.send_notification);
+						req.accesses_child = true;
+						//sails.log.info('req.accesses_child:',req.accesses_child);
+						req.child_token = children[i].token
+						//sails.log.info('req.child_token:',req.child_token);
+					} else {
+						req.send_notification = false;
+						//sails.log.infp('req.send_notification:',req.send_notification);
+						req.accesses_child = true;
+						//sails.log.info('req.accesses_child:',req.accesses_child);
+					} next();
 					return Promise.resolve();
 				}
 			}
 			// If the code runs this far, the user is not a guardian of given userID	 
 			var returnString = "userID '"+userID+"' does not have access to user '"+targetUser+"'";
-			//sails.log.error(returnString);
-			//res.denied(returnString);
-			//Unhandled rejection Error: Can't set headers after they are sent
-			//sails.log("Error handled: "+err.message);
 			return Promise.reject(returnString);
 		})
 		.catch(function(err) {
-			//var returnString = "Access to "+originalUrl+" denied: Could not get children to see if user is guardian. Error: "+err;
 			var returnString = "Access to "+originalUrl+" denied: "+err;
 			sails.log.error(returnString);
 			return res.denied(returnString);

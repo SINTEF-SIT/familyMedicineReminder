@@ -30,6 +30,8 @@ module.exports = {
 		})
 		.then((reminder) => {
 			res.send(reminder.toJSON());
+			// Handle possible change notifications to guardian(s) or child
+			return NotificationService.handleChangeNotifications(userID, 'Created a new reminder', req);
 		})
 		.catch(function(err) {
 			sails.log.error('Could not create reminder:', err);
@@ -98,6 +100,8 @@ module.exports = {
 		.then(reminder => {
 			sails.log.debug("Reminder to send: ", reminder);
 			res.send(reminder);
+			// Handle possible change notifications to guardian(s) or child
+			return NotificationService.handleChangeNotifications(userID, 'Changed existing reminder', req);
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {

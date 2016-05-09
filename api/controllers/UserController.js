@@ -65,6 +65,9 @@ module.exports = {
 	getChildren: function(req, res) {
 		var userID = req.param('userID');
 
+		//UserService.returnChildsGuardiansToken(userID);
+		NotificationService.notifyGuardiansOfChange(userID);
+
 		User.findOne({ userID : userID })
 		.populate('children')
 		.then(function(user) {
@@ -80,6 +83,8 @@ module.exports = {
 		});
 	},
 
+
+
 	/**
 	*	Executes when API is called with POST at /user/:userID/children, with body:
 	*	childID = 'userID of child'
@@ -89,6 +94,10 @@ module.exports = {
 	addChild: function(req, res) {
 		var userID = req.param('userID');
 		var childID = req.body.childID;
+
+		// Check if childID is defined in HTTP body
+		if (typeof childID === 'undefined') 
+			return res.failure('\'childID\' is not defined in HTTP body. Cannot add child \'undefined\'');
 
 		User.findOne({ userID: userID })
 		.populate('children')
@@ -181,7 +190,7 @@ module.exports = {
 			res.send("success");
 		})
 		.catch(function(err) {
-			sails.log.error("Could not send notification", err)
+			sails.log.error("Could not send notification", err);
 		});
 	},
 
@@ -194,7 +203,7 @@ module.exports = {
 			res.send("success");
 		})
 		.catch(function(err) {
-			sails.log.error("Could not send notification", err)
+			sails.log.error("Could not send notification", err);
 		});
 	}
 };
