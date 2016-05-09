@@ -45,6 +45,7 @@ module.exports = {
 		.then(function(created) {
 			sails.log.debug("Medication created: " + created);
 			res.send(created.toJSON());
+			// Handle possible change notifications to guardian(s) or child
 			NotificationService.handleChangeNotifications(userID, 'Created a new medication', req);
 			return Promise.resolve(created);
 		})
@@ -84,6 +85,7 @@ module.exports = {
 		.then( medication => {
 			sails.log.debug("User " + userID + " updated medication " + medication[0]);
 			res.send(medication[0]);
+			// Handle possible change notifications to guardian(s) or child
 			return NotificationService.handleChangeNotifications(userID, 'Changed an existing medication', req);
 		})
 		.catch(err => {

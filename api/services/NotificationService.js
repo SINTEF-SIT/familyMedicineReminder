@@ -41,24 +41,39 @@ module.exports = {
 	},
 
 	handleChangeNotifications: function(userID, whatChanged, req) {
+		// Handles to types of notification. If a child has created/changed/deleted a medication
+		// or reminder, guardian will recieve a change notification (utilizes notifyGuardiansOfChange()).
+		// The other type of notification happends if a guardian has changed a childs data. In this 
+		// case the child will recieve a push saying guardian made a change (utilizes notifyChildOfChanges())
 		sails.log.info('handleChangeNotifications()');
 		var type = (req.options.model === 'reminder') ? 'remindersChanged' : 'medicationsChanged';
 		sails.log.info('type:', type);
 		sails.log.info('req.accesses_child:', req.accesses_child);
-	
+
+		// req.accesses_child is set to true (conversely false) if a guardian changes a child's data
+		// This and other attributes are also created and set in isOwnerOrGuardian policy
 		if (req.accesses_child){
+			// The request object is utilized to limit number of DB calls. The attributes have different purpose
+			// req.body.name = the user input name of the reminder or medication
+			// req.send_notification = boolean checking if user (child) in settings has changed receiveChangeNotification = true
+			// req.child_token = the childs Google Cloud Messaging (GCM) token for sending push notification
 			return NotificationService.notifyChildOfChange(userID, type, whatChanged, req.body.name, req.send_notification, req.child_token);
 		} else {
+			// If user accesses their own data; receiveChangeNotification, GCM token and relating data will be 
+			// checked in UserService function utilized by notifyGuardiansOfChange
 			return NotificationService.notifyGuardiansOfChange(userID, type, whatChanged, req.body.name);
 		}
 	},
 
 	notifyChildOfChange: function(userID, type, whatChanged, identifier, wantsNotification, token){
 		sails.log('notifyChildOfChange()');
+
+		// Does the child have receiveChangeNotification = true? The value is true på default, but can be changed
 		if (wantsNotification) {
-			sails.log.info('whatChanged:',whatChanged,'identifier:',identifier);
+			// Text-body of the push notification
 			var body = (typeof identifier === 'undefined') ? whatChanged : whatChanged + ': ' + identifier;
-			sails.log.info('body:',body);
+			//sails.log.info('body:',body);
+			// Text-header of the push notification
 			var header = "Guardian has changed your data";
 			sails.log("Guardian accesses child", userID, 'and child wants to recieve changeNotification');
 			NotificationService.sendNotification(type, null, token, header, body);

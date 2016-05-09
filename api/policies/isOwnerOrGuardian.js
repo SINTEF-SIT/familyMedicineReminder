@@ -15,8 +15,6 @@ module.exports = function(req, res, next) {
 	sails.log('targetUser:',targetUser);
 	var originalUrl = req.originalUrl;
 
-
-
     // If it's the user's own data
     if (userID === targetUser) {
      	sails.log("User "+userID+" access their own data");
