@@ -92,5 +92,25 @@ module.exports = {
 			sails.log.error(err);
 			res.send("Could not save medication");
 		});
+	},
+
+	delete: function(req, res) {
+		var userID = req.param('userID');
+		var medicationID = req.param('medicationID');
+
+		Medication.destroy({serverId : medicationID})
+		.then(function(destroyed) {
+			if (typeof destroyed === 'undefined') {
+				return Promise.reject("Could not delete medication: was undefined");
+			} else {
+				sails.log.debug("User " + userID + " deleted a medication.");
+				res.send(true);
+				return Promise.resolve();
+			}
+		})
+		.catch(function(err) {
+			sails.log.error(err);
+			res.send(false);
+		});
 	}
 };
