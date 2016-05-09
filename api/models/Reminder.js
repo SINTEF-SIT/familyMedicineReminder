@@ -51,8 +51,10 @@ module.exports = {
         defaultsTo: '0000000'
       },
 
-      isTaken: {
-        type: 'string'
+      timeTaken: {
+        type: 'string',
+        required: true,
+        defaultsTo: '0'
       }
   	}
 };

@@ -80,6 +80,7 @@ module.exports = {
 			isActive: 		req.body.isActive,
 			dosage: 		req.body.dosage,
 			days: 			req.body.days,
+			timeTaken:  	req.body.timeTaken
 			//medicine: 		req.body.medicine  
 		})
 		// Runs if all went well
