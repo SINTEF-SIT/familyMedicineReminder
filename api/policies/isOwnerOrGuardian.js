@@ -22,14 +22,18 @@ module.exports = function(req, res, next) {
      	sails.log("User "+userID+" access their own data");
      	req.accesses_child = false;
      	return next();
-	} // Redundant? API-calls without :userID in URL has policy hasFullAccess,
+	} 
+
+	  // Redundant? API-calls without :userID in URL has policy hasFullAccess,
 	 // so this won't be caught here. But works well for testing. Remove later
-	if (typeof targetUser === 'undefined') {
+	/*if (typeof targetUser === 'undefined') {
 		var returnString = "Access to "+originalUrl+" denied: userID is not defined in URL";
 		sails.log.error(returnString);
 		return res.denied(returnString);
-	}
- 	// If a guardian is trying to access a child's data
+	}*/
+
+	 // At this point we know the user is not accessing their own data
+ 	// This checks guardian's children if he's trying to access a child's data
 	User.findOne({ userID : userID })
 		.populate('children')
 		.then(function(user) {
@@ -41,7 +45,8 @@ module.exports = function(req, res, next) {
 				//res.denied(returnString);
 				return Promise.reject(returnString);
 			}
-			// Is the user trying to access data from one of its child?
+
+			// Check if the user trying to access data from one of its child
 			var children = user.children;
 			//sails.log("children:",children);
 			//sails.log("children.length:",children.length)
@@ -71,14 +76,9 @@ module.exports = function(req, res, next) {
 			}
 			// If the code runs this far, the user is not a guardian of given userID	 
 			var returnString = "userID '"+userID+"' does not have access to user '"+targetUser+"'";
-			//sails.log.error(returnString);
-			//res.denied(returnString);
-			//Unhandled rejection Error: Can't set headers after they are sent
-			//sails.log("Error handled: "+err.message);
 			return Promise.reject(returnString);
 		})
 		.catch(function(err) {
-			//var returnString = "Access to "+originalUrl+" denied: Could not get children to see if user is guardian. Error: "+err;
 			var returnString = "Access to "+originalUrl+" denied: "+err;
 			sails.log.error(returnString);
 			return res.denied(returnString);

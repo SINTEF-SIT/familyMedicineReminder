@@ -42,11 +42,10 @@ module.exports = {
 
 	handleChangeNotifications: function(userID, whatChanged, req) {
 		sails.log.info('handleChangeNotifications()');
-		// sails.log('User', userID, 'made a change on the childs data:')
 		var type = (req.options.model === 'reminder') ? 'remindersChanged' : 'medicationsChanged';
 		sails.log.info('type:', type);
 		sails.log.info('req.accesses_child:', req.accesses_child);
-
+	
 		if (req.accesses_child){
 			return NotificationService.notifyChildOfChange(userID, type, whatChanged, req.body.name, req.send_notification, req.child_token);
 		} else {
@@ -63,15 +62,9 @@ module.exports = {
 			var header = "Guardian has changed your data";
 			sails.log("Guardian accesses child", userID, 'and child wants to recieve changeNotification');
 			NotificationService.sendNotification(type, null, token, header, body);
-			//NotificationService.sendNotification('remindersChanged', null, tokenData[2][i], header, whatChanged);
 		} else {
 			sails.log("Guardian accesses child", userID, 'BUT child has receiveChangeNotification: false and/or no token');
 		}
-
-		// req.send_notification = true;
-		// req.accesses_child = true;
-		// req.child_token = children[i].token
-		
 	},
 
 	notifyGuardiansOfChange: function(childID, type, whatChanged, identifier){
@@ -83,15 +76,10 @@ module.exports = {
 			// If user has no guardian and/or no token and/or doesn't want to receive:
 			// tokenData == false
 
-			//sails.log('whatChanged: + data:',whatChanged,);
-
-			//sails.log('data:',data);
 			sails.log.info('whatChanged:',whatChanged,'identifier:',identifier);
 			var body = (typeof identifier === 'undefined') ? whatChanged : whatChanged + ': ' + identifier;
 			sails.log.info('body:',body);
 			var header = "Your child has made a change";
-
-			// var type = (req.options.model == 'reminder') ? 'remindersChanged' : 'medicationsChanged';
 
 			if (tokenData) {
 				for (var i = 0; i < tokenData[0].length; i++){
