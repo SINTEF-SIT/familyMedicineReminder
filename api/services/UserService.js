@@ -40,7 +40,7 @@ module.exports = {
 			} /*if (typeof user.token === 'undefined' || user.token === null) {
 				return Promise.reject('Users guardian(s) does not have gcm token');
 			}*/
-			sails.log("User from UserService.returnUserObject():\n",user);
+			// sails.log("User from UserService.returnUserObject():\n",user);
 			return Promise.resolve(user);
 			//return Promise.resolve();
 
@@ -49,7 +49,7 @@ module.exports = {
 			sails.log.error('Error in UserService.returnUserObject:',err);
 			// Returns error (res not defined) - can't be reached with 'this'. not important, just log
 			// return this.res.failure("Error in UserService.returnUserObject():",err);
-			//return false;
+			return false;
 		});
 	},
 
@@ -114,10 +114,10 @@ module.exports = {
 			var compiledList = [[],[],[]];
 			for (var i = 0; i < guardians.length; i++) {
 				// debug
-				sails.log('compiledList['+i+']:')
-				sails.log('userID:',guardians[i]['userID']);
-				sails.log('receiveChangeNotification:', guardians[i]['receiveChangeNotification']);
-				sails.log('token:',guardians[i]['token']);
+				// sails.log('compiledList['+i+']:')
+				// sails.log('userID:',guardians[i]['userID']);
+				// sails.log('receiveChangeNotification:', guardians[i]['receiveChangeNotification']);
+				// sails.log('token:',guardians[i]['token']);
 				// Validate guardian wants and is able to receive push notification about change
 				if (typeof guardians[i]['token'] === 'undefined' || guardians[i]['token'] === null) {
 					sails.log(childID+"'s guardian "+guardians[i]['userID']+" doesn't have a defined gcm token");
@@ -130,7 +130,7 @@ module.exports = {
 				}
 			}
 			if (compiledList[0].length > 0) {
-				sails.log('UserService.returnGuardianTokenData() compiledList:\n',compiledList);
+				// sails.log('UserService.returnGuardianTokenData() compiledList:\n',compiledList);
 				return Promise.resolve(compiledList);
 				//return Promise.resolve(compiledList);
 			} else {
