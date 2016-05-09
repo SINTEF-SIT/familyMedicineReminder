@@ -73,6 +73,11 @@ module.exports = {
     		defaultsTo: true
     	},
 
+    	lastSeen: {
+    		type: 'string',
+    		defaultsTo: 'never'
+    	},
+
     	// Remove password before JSON object is printed
 
 	  	toJSON: function() {

@@ -89,7 +89,7 @@ module.exports = {
 			return NotificationService.handleChangeNotifications(userID, 'Changed an existing medication', req);
 		})
 		.catch(err => {
-			sails.log.err(err);
+			sails.log.error(err);
 			res.send("Could not save medication");
 		});
 	}
