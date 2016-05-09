@@ -30,6 +30,8 @@ module.exports = {
 		})
 		.then((reminder) => {
 			res.send(reminder.toJSON());
+			// Handle possible change notifications to guardian(s) or child
+			return NotificationService.handleChangeNotifications(userID, 'Created a new reminder', req);
 		})
 		.catch(function(err) {
 			sails.log.error('Could not create reminder:', err);
@@ -98,6 +100,8 @@ module.exports = {
 		.then(reminder => {
 			sails.log.debug("Reminder to send: ", reminder);
 			res.send(reminder);
+			// Handle possible change notifications to guardian(s) or child
+			return NotificationService.handleChangeNotifications(userID, 'Changed existing reminder', req);
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err) {
@@ -121,7 +125,10 @@ module.exports = {
 			if (typeof reminder[0] === 'undefined') return Promise.reject('No reminder to delete');
 			// If all went well
 			sails.log.debug('User', userID, 'deletes reminder', reminderID);
-			return res.send( {'message' : 'Reminder successfully deleted.'} );
+			// return res.send( {'message' : 'Reminder successfully deleted.'} );
+			res.send( {'message' : 'Reminder successfully deleted.'} );
+			// Handle possible change notifications to guardian(s) or child
+			return NotificationService.notifyGuardiansOfChange(userID, "Deleted a reminder", req);
 		})
 		// Triggered by unexpected behaviour or an exception
 		.catch(function(err){

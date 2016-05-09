@@ -16,18 +16,17 @@
 module.exports = function failure(msg) {
 
   // Get access to 'req', 'res', & 'sails'
-  var req = this.req;
+  // var req = this.req;
   var res = this.res;
-  var sails = req._sails;
+  // var sails = req._sails;
 
 
   //We log the response  
-  sails.log.silly('res.failure() :: Sending failure response with data');
+  sails.log.error('Request failure:',msg);
 
   // Set status code
   res.status(400);
   res.send({
-    "status": "failure",
-    "data": msg
+    "Request failure": msg
   });
 };

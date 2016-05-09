@@ -34,7 +34,9 @@ module.exports = {
 		  
 		//gcm-token for push notifications.
 		token: {
-	  		type: 'string'
+	  		type: 'string',
+	  		required: true,
+	  		defaultsTo: 'null'
 	  	},
 		  
 		gracePeriod: {
@@ -64,6 +66,11 @@ module.exports = {
 	  	jsonWebToken: {
 	      collection: 'jwt',
 	      via: 'owner'
+    	},
+
+    	receiveChangeNotification: {
+    		type: 'boolean',
+    		defaultsTo: true
     	},
 
     	lastSeen: {
