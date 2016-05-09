@@ -49,6 +49,10 @@ module.exports = {
       days: {
         type: 'string',
         defaultsTo: '0000000'
+      },
+
+      isTaken: {
+        type: 'string'
       }
   	}
 };
