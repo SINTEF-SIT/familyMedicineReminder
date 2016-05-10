@@ -57,15 +57,15 @@ module.exports = function(req, res, next) {
 					// sails.log.info('CHILD ACCESSED:\N',children[i]);
 					// Limit number of DB calls, temp save data in request
 					if (children[i].receiveChangeNotification && typeof children[i].token != 'undefined' && children[i].token != 'null'){
-						req.send_notification = true;
-						//sails.log.info('req.send_notification:',req.send_notification);
+						req.wants_notification = true;
+						//sails.log.info('req.wants_notification:',req.wants_notification);
 						req.accesses_child = true;
 						//sails.log.info('req.accesses_child:',req.accesses_child);
 						req.child_token = children[i].token
 						//sails.log.info('req.child_token:',req.child_token);
 					} else {
-						req.send_notification = false;
-						//sails.log.infp('req.send_notification:',req.send_notification);
+						req.wants_notification = false;
+						//sails.log.infp('req.wants_notification:',req.wants_notification);
 						req.accesses_child = true;
 						//sails.log.info('req.accesses_child:',req.accesses_child);
 					} next();
