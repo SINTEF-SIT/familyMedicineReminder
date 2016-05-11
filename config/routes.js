@@ -53,8 +53,9 @@ module.exports.routes = {
   'POST /user/:userID/children'                   : 'UserController.addChild',
   'POST /user'                                    : 'UserController.create',
   'PUT /user/:userID/token/:token'                : 'UserController.associateToken',
-  'PUT /user/:userID/settings/:gracePeriod'       : 'UserController.setGracePeriod',
+  'PUT /user/:userID/settings/graceperiod/:minutes': 'UserController.setGracePeriod',
   'GET /user/:userID/lastSeen'                    : 'UserController.getLastSeenStatus',
+  'PUT /user/:userID/settings/receivechanges/:bool': 'UserController.setReceiveChangeNotification',
 
   
   //PURELY FOR DEVELOPMENT
