@@ -16,11 +16,9 @@
     "node-gcm": "^0.14.0",
     "node-uuid": "^1.4.7",
     "rc": "1.0.1",
-    "request": "latest",
     "sails": "~0.12.1",
     "sails-disk": "^0.10.9",
-    "shortid": "2.2.4",
-    "supertest": "latest"
+    "shortid": "2.2.4"
   },
   "scripts": {
     "debug": "node debug app.js",
