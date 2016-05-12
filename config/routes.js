@@ -55,7 +55,7 @@ module.exports.routes = {
   'PUT /user/:userID/token/:token'                : 'UserController.associateToken',
   'PUT /user/:userID/settings/graceperiod/:minutes': 'UserController.setGracePeriod',
   'GET /user/:userID/lastSeen'                    : 'UserController.getLastSeenStatus',
-  'PUT /user/:userID/settings/receivechanges/:bool': 'UserController.setReceiveChangeNotification',
+  'PUT /user/:userID/settings/receivechange/:bool': 'UserController.setReceiveChangeNotification',
 
   
   //PURELY FOR DEVELOPMENT
