@@ -203,35 +203,25 @@ module.exports = {
 		});
 	},
 
-	/**
-	 * 
-	 */
-	initReminderSync: function(req, res) {
+	removeAllChildren: function(req, res) {
 		var userID = req.param('userID');
-		User.findOne({ userID  : userID })
-		.then(function(user) {
-			NotificationService.sendNotification('remindersChanged', "", user.token);
-			sails.log.debug("sent remindersync notifcation to", userID);
-			res.send("success");
+		User.find({userID : userID})
+		.populate('children')
+		.then(user => {
+			for (var i = 0; i < user.children.length; i++) {
+				user.children.remove(user.children[i].userID);
+			}
+			user.children.save(err => {
+				if (err) {
+					Promise.reject(err);
+				} else {
+					Promise.resolve();
+				}
+			});
 		})
-		.catch(function(err) {
-			sails.log.error("Could not send notification", err);
-		});
-	},
-	
-	/**
-	 * 
-	 */
-	initMedicationSync: function(req, res) {
-		var userID = req.param('userID');
-		User.findOne({ userID  : userID })
-		.then(function(user) {
-			NotificationService.sendNotification('medicationsChanged', "",user.token);
-			sails.log.debug("sent medicationsync notifcation to", userID);
-			res.send("success");
-		})
-		.catch(function(err) {
-			sails.log.error("Could not send notification", err);
+		.catch(err => {
+			sails.log.error(err);
+			res.send("Could not remove all children")
 		});
 	}
 };
