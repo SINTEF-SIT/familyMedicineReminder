@@ -55,6 +55,11 @@ module.exports = {
         type: 'string',
         required: true,
         defaultsTo: '0'
+      },
+      
+      hasSentNotification: {
+        type: 'boolean',
+        defaultsTo: false
       }
   	}
 };
