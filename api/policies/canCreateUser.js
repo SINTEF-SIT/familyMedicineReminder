@@ -8,7 +8,7 @@ module.exports = function(req, res, next) {
 		return next();
     }
 
-	var systemCreateSecret = sails.config.globals.createSecret;
+	var systemCreateSecret = sails.config.jwt.createSecret;
 	var userCreateSecret = req.headers.create_secret;
 	var originalUrl = req.originalUrl;
 
