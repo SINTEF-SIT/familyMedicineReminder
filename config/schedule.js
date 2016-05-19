@@ -22,20 +22,12 @@ module.exports.schedule = {
 
                             patient.reminders.forEach(function(reminder) { // for each of the patients reminders 
                                 sails.log.debug(reminder);
-                                if(timeTaken === '0') { // if the medicine is not taken
-                                    var timeToTake = moment(reminder.date);
-                                    sails.log.debug(timeToTake);
-                                    var timeToSendReminder = moment(timeToTake).add(gracePeriod, "minutes");
-                                    
-                                    if()
-                                    sails.log.debug(timeToTake);
-                                    sails.log.debug(timeToSendReminder);
-                                    
-                                    /*if(timeToSendReminder.isAfter(moment())) {
-                                        sails.log.debug("Has to send reminder");
-                                        
-                                        
-                                    }*/
+                                if(reminder.timeTaken === '0') { // if the medicine is not taken
+                                    var timeToSendReminder = moment(reminder.date, 'YYYY;MM;DD;HH;mm;ss').add(gracePeriod, "minutes").add(1, 'month'); //add one month due to zero indexed month.
+                                    var now = moment();
+                                    if (timeToSendReminder.isBefore(now)) {
+                                        NotificationService.sendNotification('childForgotReminder', "", guardian.token, "Forgotten reminder", "Your child may have forgotten their reminder, you should reach out to them.");      
+                                    }
                                 }  
                             })   
                         })
@@ -44,22 +36,8 @@ module.exports.schedule = {
                 .catch(function(err) {
                     sails.log.error(err);
                 });
-               // NotificationService.sendNotification('childForgotReminder', "", user.token);      
             },
             context : {}
         }
     }
 };
-
-/*                User.find({'userRole': 'guardian'})
-                    .populate('children')
-                    .then(function(users) {
-                        users.forEach(function(user) {
-                            
-                        }, this);
-                    })
-                    .catch(function(err) {
-                        
-                    });
-                
-                */

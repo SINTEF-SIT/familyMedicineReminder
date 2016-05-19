@@ -30,7 +30,8 @@ module.exports = {
 				userID: 	userID,
 				username: 	req.body.username,
 				password: 	pw,
-				userRole:	req.body.userRole
+				userRole:	req.body.userRole,
+				gracePeriod: "30"
 			})
 			.populate('jsonWebToken')
 			.then(user => {
