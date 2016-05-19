@@ -31,7 +31,8 @@ module.exports = {
 				username: 	req.body.username,
 				password: 	pw,
 				userRole:	req.body.userRole,
-				gracePeriod: "30"
+				gracePeriod: "30",
+				receiveChangeNotification: "true"
 			})
 			.populate('jsonWebToken')
 			.then(user => {
@@ -166,7 +167,7 @@ module.exports = {
 	},
 	
 	/**
-	*	Executes when API is called with GET at /user/:userID/settings/receivechanges/:bool
+	*	Executes when API is called with PUT at /user/:userID/settings/receivechanges/:bool
 	*	
 	**/
 	setReceiveChangeNotification: function(req, res) {
