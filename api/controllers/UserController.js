@@ -206,7 +206,7 @@ module.exports = {
 
 	removeAllChildren: function(req, res) {
 		var userID = req.param('userID');
-		User.find({userID : userID})
+		User.findOne({userID : userID})
 		.populate('children')
 		.then(user => {
 			for (var i = 0; i < user.children.length; i++) {
