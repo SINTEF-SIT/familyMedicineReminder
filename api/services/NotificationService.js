@@ -9,7 +9,8 @@ module.exports = {
 		'medicationsChanged',
 		'linkingRequest',
 		'positiveLinkingResponse', 
-		'negativeLinkingResponse'
+		'negativeLinkingResponse',
+		'childForgotReminder'
 		/*, 'onlineCheck'*/],
 
 	sendNotification: function(type, data, token, title, body) {
