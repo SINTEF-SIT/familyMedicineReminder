@@ -212,7 +212,7 @@ module.exports = {
 			for (var i = 0; i < user.children.length; i++) {
 				user.children.remove(user.children[i].userID);
 			}
-			user.children.save(err => {
+			user.save(err => {
 				if (err) {
 					Promise.reject(err);
 				} else {
