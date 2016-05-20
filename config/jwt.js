@@ -4,6 +4,10 @@ module.exports.jwt = {
     // TODO: CRITICAL - CHANGE THIS SECRET BEFORE PRODUCTION
     // INCLUDE THIS FILE IN YOUR .GITIGNORE IF FINAL PRODUCTION VERSION IS ON GITHUB
     secret: '#MyCyFAppToken//007',
+
+    // How should the JWT work before expiry? As of now there is no automatic distribution of new
+    // tokens when old ones are expired. The thought was using it this way, and rather revoking
+    // a token if user wants to delete account and such. 
     expiry:{
       unit: 'days',
       length: '600'
@@ -19,18 +23,6 @@ module.exports.jwt = {
     
     // To not leave any route of the API exposed without authentification, a secret is needed to create a user
     // This should be changed before production, as this token has been public on github. Needs to be changed in client also
-    createSecret: "myfirstsecret",
+    createSecret: "myfirstsecret"
 
-    // tracks jwt usage if set to true - Unlikely to work now
-    trackUsage: true,
-
-    stateless: true, // was false
-
-    // set the name of the jwt token property
-    // in the JSON response
-    tokenProperty: 'token',
-
-    // set the name of the expires property
-    // in the JSON response
-    expiresProperty: 'expires'
 };
