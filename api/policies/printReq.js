@@ -2,9 +2,11 @@
 
 module.exports = function(req, res, next) {
 
-	// Print HTTP requests and their headers for debug purposes
-	//sails.log("HTTP REQUEST HEADER");
-	//sails.log(JSON.stringify(req.headers));
+	// ONLY FOR DEBUG PURPOSES
+	// Print HTTP requests and their headers before it reaches the controller
+
+	// sails.log("HTTP REQUEST HEADER");
+	// sails.log(req.headers);
 
 	// Extensive, full HTTP request
 	// sails.log("HTTP FULL");

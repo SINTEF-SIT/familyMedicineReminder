@@ -81,7 +81,7 @@ module.exports = {
 	},
 
 	hasFullAccess: function(accessToken) {
-		// Checks if input-token is part of the list of admin tokens
+		// Checks if input-token is part of the list of admin-tokens
 		var allowedTokens = sails.config.jwt.adminTokens;
 
 		// If access token is not defined in HTTP header

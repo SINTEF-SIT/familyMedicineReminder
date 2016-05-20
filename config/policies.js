@@ -19,20 +19,33 @@
 
 module.exports.policies = {
 
+    // All controllers are specified with policies below, the first one is to not leave new controllers
+    // exposed after creation, if specifying policy is forgot. This is a default policy and is enforced
+    // on every controller. However default policies does not 'trickle down' and will not be applied to  
+    // any controller that is given an explicit mapping. Look under further down for example.
+    // A client request needs to pass a controller's policies before it can use the controller itself.
+    // Policies are executed from left to right. Policies 'hasJsonWebToken', 'isOwnerOrGuardian' and
+    // 'canCreateUser' first check if request token is admin. As such, an admin-token will bypass all
+    // other policies. When listing policies, request has to pass all of them (',' works as AND)
+
     '*': ['hasJsonWebToken', 'isOwnerOrGuardian'], 
 
     UserController: {
         '*': ['hasJsonWebToken', 'isOwnerOrGuardian'],
+        // User has not received JWT yet and uses a string-secret for authentification. Default policies
+        // does not 'trickle down', and policy for 'create' overrides and removes policies '*' gives above
         create: 'canCreateUser'
     }, 
 
     JwtController: {
         getJsonWebToken: ['hasJsonWebToken', 'isOwnerOrGuardian'],
+        // Controller methods only available to users with admin token. Consider closing these off for admin
+        // as well. It was created for debug purposes and poses a big security risk (in the wrong hands), 
+        // as it returns all the users in the database along with their token.
         getAllJsonWebTokens: ['hasFullAccess'],
         deleteJsonWebToken: ['hasFullAccess']
     },
     
-
     ReminderController: {
         '*': ['hasJsonWebToken', 'isOwnerOrGuardian']
     },
@@ -47,34 +60,3 @@ module.exports.policies = {
     }
   
 };
-
-  /***************************************************************************
-  *                                                                          *
-  * Default pol'icy for all controllers and actions (`true` allows public     *
-  * access)                                                                  *
-  *                                                                          *
-  ***************************************************************************/
-
-  // '*': true,
-
-  /***************************************************************************
-  *                                                                          *
-  * Here's an example of mapping some policies to run before a controller    *
-  * and its actions                                                          *
-  *                                                                          *
-  ***************************************************************************/
-	// RabbitController: {
-
-		// Apply the `false` policy as the default for all of RabbitController's actions
-		// (`false` prevents all access, which ensures that nothing bad happens to our rabbits)
-		// '*': false,
-
-		// For the action `nurture`, apply the 'isRabbitMother' policy
-		// (this overrides `false` above)
-		// nurture	: 'isRabbitMother',
-
-		// Apply the `isNiceToAnimals` AND `hasRabbitFood` policies
-		// before letting any users feed our rabbits
-		// feed : ['isNiceToAnimals', 'hasRabbitFood']
-	// }
-
