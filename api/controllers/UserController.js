@@ -30,7 +30,9 @@ module.exports = {
 				userID: 	userID,
 				username: 	req.body.username,
 				password: 	pw,
-				userRole:	req.body.userRole
+				userRole:	req.body.userRole,
+				gracePeriod: "30",
+				receiveChangeNotification: "true"
 			})
 			.populate('jsonWebToken')
 			.then(user => {
@@ -146,17 +148,16 @@ module.exports = {
 	},
 	
 	/**
-	*	Executes when API is called with GET at /user/:userID/children
-	*	Returns all the children of the user specified by 'userID'
-	*	Fails if no such user exists
+	*	Executes when API is called with GET at /user/:userID/settings/graceperiod/:minutes'
+	*	
 	**/
 	setGracePeriod: function(req, res) {
 		var userID = req.param('userID');
-		var gracePeriod = req.param('gracePeriod');
+		var gracePeriod = req.param('minutes');
 
 		User.update({ userID: userID }, {gracePeriod : gracePeriod})
 		.then(function(user) {
-			res.send({"message": "gracePerio was set."});
+			res.send({"message": "gracePeriod was set."});
 			sails.log.debug(userID, " set gracePeriod: ", gracePeriod);
 		})
 		.catch(function(err) {
@@ -164,7 +165,29 @@ module.exports = {
 			return res.send({"message" : "could not set gracePeriod server side" + err});
 		});
 	},
+	
+	/**
+	*	Executes when API is called with PUT at /user/:userID/settings/receivechanges/:bool
+	*	
+	**/
+	setReceiveChangeNotification: function(req, res) {
+		var userID = req.param('userID');
+		var receiveChangeNotification = req.param('bool');
 
+		User.update({ userID: userID }, {receiveChangeNotification : receiveChangeNotification})
+		.then(function(user) {
+			res.send({"message": "Receive change-notification set to:" + receiveChangeNotification});
+			sails.log.debug(userID, "set receiveChangeNotification: ", receiveChangeNotification);
+		})
+		.catch(function(err) {
+			sails.log.error("Could not set receiveChangeNotification: ", err);
+			return res.send({"message" : "Could not set receive change setting" + err});
+		});
+	},
+
+	/**
+	 * 
+	 */
 	getLastSeenStatus: function(req, res) {
 		var userID = req.param('userID');
 		User.findOne({ userID : userID })
@@ -181,29 +204,25 @@ module.exports = {
 		});
 	},
 
-	initReminderSync: function(req, res) {
+	removeAllChildren: function(req, res) {
 		var userID = req.param('userID');
-		User.findOne({ userID  : userID })
-		.then(function(user) {
-			NotificationService.sendNotification('remindersChanged', "", user.token);
-			sails.log.debug("sent remindersync notifcation to", userID);
-			res.send("success");
+		User.findOne({userID : userID})
+		.populate('children')
+		.then(user => {
+			for (var i = 0; i < user.children.length; i++) {
+				user.children.remove(user.children[i].userID);
+			}
+			user.save(err => {
+				if (err) {
+					Promise.reject(err);
+				} else {
+					Promise.resolve();
+				}
+			});
 		})
-		.catch(function(err) {
-			sails.log.error("Could not send notification", err);
-		});
-	},
-
-	initMedicationSync: function(req, res) {
-		var userID = req.param('userID');
-		User.findOne({ userID  : userID })
-		.then(function(user) {
-			NotificationService.sendNotification('medicationsChanged', "",user.token);
-			sails.log.debug("sent medicationsync notifcation to", userID);
-			res.send("success");
-		})
-		.catch(function(err) {
-			sails.log.error("Could not send notification", err);
+		.catch(err => {
+			sails.log.error(err);
+			res.send("Could not remove all children")
 		});
 	}
 };
