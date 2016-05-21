@@ -1,7 +1,11 @@
 /**
  * Jwt.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @description :: Model for representing a JSON Web Token (JWT) used in the authentification process.
+ 				   It's created and associated with a new user right after its creation in UserController.create.
+ 				   Token-string is an encrypted JSON object which contains userID, expiry and other attributes.
+ 				   Relation:
+ 				   owner: 1-1 with User
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
@@ -25,18 +29,6 @@ module.exports = {
 		  	type: 'boolean',
 		  	defaultsTo: false 
 		}
-  	} //,
-
-  	// Should not be possible anyway, but this checks that token is not null
-  	/*
-  	beforeCreate: function(jwt, cb) {
-		if (jwt.token === null) {
-			jwt.token = 'Something wrong happend when generating JWT';
-			sail.log.error('User',jwt.owner,'has token null. Something went wrong in generating JWT');
-		} 
-
-		cb(null, jwt);	
-	}
-	*/
+  	}
 };
 
