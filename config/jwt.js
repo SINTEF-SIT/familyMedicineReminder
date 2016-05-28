@@ -17,11 +17,11 @@ module.exports.jwt = {
     audience: 'MyCyFapp',
     subject: 'NTNU Informatics',
 
-    // Add a list of pre-approved JWT tokens given access to every API route. This circumvents all other policies/authentifications
+    // Add a list of pre-approved JWT tokens given access to every API route. This circumvents all other policies/authentications
     // This should be deleted/changed before production, as this token has been public on github
     adminTokens: ["eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJFMU04dyIsInN1YiI6Ik5UTlUgSW5mb3JtYXRpY3MiLCJhdWQiOiJNeUN5RmFwcCIsImV4cCI6MTUxMzg4NDIyNS40NTIsIm5iZiI6MTQ2MjA0MDYyNS40NTUsImlhdCI6MTQ2MjA0MDYyNS40NTUsImp0aSI6ImFjYzdhMzAwLTBmMDAtMTFlNi1iZmQ0LTI3NTE1ZDVhMzhmYyJ9.KBsnHgRF1aStn-rF9uds4v9jyKFynRGS7EIpPugWEh0"],
     
-    // To not leave any route of the API exposed without authentification, a secret is needed to create a user
+    // To not leave any route of the API exposed without authentication, a secret is needed to create a user
     // This should be changed before production, as this token has been public on github. Needs to be changed in client also
     createSecret: "myfirstsecret"
 

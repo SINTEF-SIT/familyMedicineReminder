@@ -11,7 +11,7 @@ module.exports = {
 
 		// This encoded user- and device-uniqe key is sent in the HTTP header with each request by the client. 
 		// This is to avoid sending userID and password in cleartext, and includes device- and server uniqe data.
-		// The JWT authentification is dependent on HTTPS to be secure, as a hacker can sniff the HTTP header if
+		// The JWT authentication is dependent on HTTPS to be secure, as a hacker can sniff the HTTP header if
 		// it's not encrypted. However, even if an attacker gets ahold of a JWT - it says nothing about which user 
 		// it is associated and reveals no data unless it's decoded with the server secret. HTTP over SSL/TLS can
 		// easily be configured in config/local.js by changing port and adding a SSL certificate.

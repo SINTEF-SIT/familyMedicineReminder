@@ -32,7 +32,7 @@ module.exports.policies = {
 
     UserController: {
         '*': ['hasJsonWebToken', 'isOwnerOrGuardian'],
-        // User has not received JWT yet and uses a string-secret for authentification. Default policies
+        // User has not received JWT yet and uses a string-secret for authentication. Default policies
         // does not 'trickle down', and policy for 'create' overrides and removes policies '*' gives above
         create: 'canCreateUser'
     }, 

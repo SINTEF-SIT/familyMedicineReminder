@@ -1,7 +1,7 @@
 /**
  * Jwt.js
  *
- * @description :: Model for representing a JSON Web Token (JWT) used in the authentification process.
+ * @description :: Model for representing a JSON Web Token (JWT) used in the authentication process.
  				   It's created and associated with a new user right after its creation in UserController.create.
  				   Token-string is an encrypted JSON object which contains userID, expiry and other attributes.
  				   Relation:

@@ -4,7 +4,7 @@ module.exports = function(req, res, next) {
 	// To create user, the client has to provide a create_secret in the HTTP header
 	// The accepted secret is defined in config.jwt.createSecret.
 
-	 // If user has token with admin privileges, bypass all authentification.
+	 // If user has token with admin privileges, bypass all authentication.
 	if (JwtService.hasFullAccess(req.headers.access_token)) {
     	sails.log("Admin granted access to "+req.originalUrl);
 		return next();
