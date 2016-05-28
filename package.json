@@ -1,7 +1,7 @@
 {
-  "name": "reminder-server",
+  "name": "MyCyFApp Family Medicine Reminder",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
@@ -15,7 +15,7 @@
     "moment": "^2.13.0",
     "node-gcm": "^0.14.0",
     "node-uuid": "^1.4.7",
-    "rc": "1.0.1sub
+    "rc": "1.0.1sub",
     "sails": "~0.12.1",
     "sails-disk": "^0.10.9",
     "shortid": "2.2.4"
@@ -27,8 +27,8 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Eirik/reminder-server.git"
+    "url": "git://github.com/SINTEF-SIT/familyMedicineReminder"
   },
-  "author": "Eirik",
-  "license": ""
+  "author": "MyCyFApp",
+  "license": "Apache 2.0"
 }
