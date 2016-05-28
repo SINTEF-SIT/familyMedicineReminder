@@ -11,8 +11,8 @@ module.exports = function(req, res, next) {
 
 	// This file is default for Sails and uses sessions to validate a user through a login
 	// This project does not use this file, but have left it here in case further development
-	// wishes to use session-authentification. For us this was unwanted, as we're using a 
-	// stateless REST API and session-based authentification wouldn't be appropriate
+	// wishes to use session-authentication. For us this was unwanted, as we're using a 
+	// stateless REST API and session-based authentication wouldn't be appropriate
   
 	if (req.session.authenticated) {
 	return next();

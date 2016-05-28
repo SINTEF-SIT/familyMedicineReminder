@@ -5,7 +5,7 @@ module.exports = function(req, res, next) {
 	// user is requesting data on themselves or a guardee. This checks that and ensures nobody has can
 	// access anyone elses data, that is not their child's. 
 
-	// If user has token with admin privileges, bypass all authentification. Have to check
+	// If user has token with admin privileges, bypass all authentication. Have to check
 	// first, because request object won't include decoded_token if user is admin, causing error
     if (JwtService.hasFullAccess(req.headers.access_token)) {
     	sails.log("Admin granted access to "+req.originalUrl);

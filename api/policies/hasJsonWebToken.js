@@ -4,7 +4,7 @@ module.exports = function(req, res, next) {
     // If the JWT is on valid format, expiry etc, it is then checked if it's an active token in the database
     // The decoded token is saved in the request object, to be used further in isOwnerOrGuardian policy.
 
-    // If authentification failes, the user-returned message is now very specific for debugging. This should 
+    // If authentication failes, the user-returned message is now very specific for debugging. This should 
     // be changed to more discrete before production, as not to help an attacker understand server stucture
 
     var accessToken = req.headers.access_token;
@@ -18,7 +18,7 @@ module.exports = function(req, res, next) {
         return res.denied(returnStr);
     } 
 
-    // If user has token with admin privileges, bypass all authentification
+    // If user has token with admin privileges, bypass all authentication
     if (JwtService.hasFullAccess(accessToken)) return next();
 
     // Decode the JSON web token using service-function. At the same time it is validated in the module

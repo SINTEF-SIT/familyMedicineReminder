@@ -1,7 +1,13 @@
 /**
  * Medication.js
  *
- * @description :: Model for representing medications
+ * @description :: Model for representing medication. A medication must be associated with a user,
+ 				   but doesn't have to associated with a reminder. But it can be linked to several
+ 				   reminders - meaning a medication can have zero or unlimited reminders. Attribute
+ 				   'unit' has to one of the values in ValidationService.validUnits, error occurs 
+ 				   otherwise. Relations:
+ 				   1-1 with user
+ 				   0-N with reminder
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 

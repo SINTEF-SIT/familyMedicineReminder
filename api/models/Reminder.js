@@ -1,7 +1,10 @@
 /**
  * Reminder.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @description :: Model for reminder. Created and edited by client in ReminderController.
+                   Relation:
+                   ownerId: 1-1 with User
+                   medicine: 0-1 with Medication
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
@@ -14,6 +17,7 @@ module.exports = {
   			unique: true,
   			autoIncrement: true
   		},
+
   		ownerId: {
   			model: 'user'
   		},
@@ -57,6 +61,7 @@ module.exports = {
         defaultsTo: '0'
       },
       
+      // Reset each night in config/schedule.js
       hasSentNotification: {
         type: 'boolean',
         defaultsTo: false
