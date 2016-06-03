@@ -17,13 +17,13 @@ This is the back-end server for the Android app [FamiliMedicineReminderClient](h
 
 ###Collaborators###
 
-* Martin Dørum
-* Eirik Vikanes
-* Sondre Hjetland
-* Nikolai Hegelstad
-* Sondre Johan Widmark
-* Hanna Sollie Storaker
-
+* [Martin Dørum](https://github.com/martidor)
+* [Eirik Vikanes](https://github.com/Snikanes)
+* [Sondre Hjetland](https://github.com/Sondrehj)
+* [Nikolai Hegelstad](https://github.com/hegelstad)
+* [Sondre Johan Widmark](https://github.com/sondrew)
+* [Hanna Sollie Storaker](https://github.com/hannasollie)
+	
 ###License###
 This project is licensed under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0):
 
