@@ -7,13 +7,13 @@ The [MyCyFAPP project](http://www.mycyfapp.eu/en/) is concerned with helping peo
 
 This is the back-end server for the Android app [FamiliMedicineReminderClient](https://github.com/SINTEF-SIT/familyMedicineReminderClient).
 
-[Chapter 1: Setting Up](1. Setting Up)     
-[Chapter 2: User Guide](2. User Guide)   
-[Chapter 3: REST and Conceptual Design](3. Rest and Conceptual Design)   
-[Chapter 4: MVC and Architecture](4. MVC and Architecture)   
-[Chapter 5: Authentication and Access Control](5. Authentication and Access Control)   
-[Chapter 6: Expansion Possibilities](6. Expansion Possibilities)   
-[Chapter 7: Libraries and Frameworks](7. Libraries and Frameworks)   
+[Chapter 1: Setting Up](https://github.com/SINTEF-SIT/familyMedicineReminder/wiki/1.-Setting-up)     
+[Chapter 2: User Guide](https://github.com/SINTEF-SIT/familyMedicineReminder/wiki/2.-User-Guide)   
+[Chapter 3: REST and Conceptual Design](https://github.com/SINTEF-SIT/familyMedicineReminder/wiki/3.-REST-and-conceptual-design)   
+[Chapter 4: MVC and Architecture](https://github.com/SINTEF-SIT/familyMedicineReminder/wiki/4.-MVC-and-architecture)   
+[Chapter 5: Authentication and Access Control](https://github.com/SINTEF-SIT/familyMedicineReminder/wiki/5.-Authentication-and-Access-Control)   
+[Chapter 6: Expansion Possibilities](https://github.com/SINTEF-SIT/familyMedicineReminder/wiki/6.-Expansion-possibilities)   
+[Chapter 7: Libraries and Frameworks](https://github.com/SINTEF-SIT/familyMedicineReminder/wiki/7.-Libraries-and-frameworks)   
 
 ###Collaborators###
 
