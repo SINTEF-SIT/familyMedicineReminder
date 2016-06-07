@@ -1,7 +1,7 @@
 {
-  "name": "MyCyFApp-Family-Medicine-Reminder",
+  "name": "MyCyFApp-Family-Medicine-Reminder-Server",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
@@ -16,7 +16,7 @@
     "node-gcm": "^0.14.0",
     "node-uuid": "^1.4.7",
     "rc": "1.0.1",
-    "sails": "~0.12.1",
+    "sails": "0.12.1",
     "sails-disk": "^0.10.9",
     "sails-hook-schedule": "^0.2.2",
     "sails-mysql": "^0.12.1",
