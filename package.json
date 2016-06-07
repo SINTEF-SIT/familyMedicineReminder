@@ -1,5 +1,5 @@
 {
-  "name": "MyCyFApp Family Medicine Reminder",
+  "name": "MyCyFApp-Family-Medicine-Reminder",
   "private": true,
   "version": "0.1.0",
   "description": "a Sails application",
@@ -15,9 +15,11 @@
     "moment": "^2.13.0",
     "node-gcm": "^0.14.0",
     "node-uuid": "^1.4.7",
-    "rc": "1.0.1sub",
+    "rc": "1.0.1",
     "sails": "~0.12.1",
     "sails-disk": "^0.10.9",
+    "sails-hook-schedule": "^0.2.2",
+    "sails-mysql": "^0.12.1",
     "shortid": "2.2.4"
   },
   "scripts": {
