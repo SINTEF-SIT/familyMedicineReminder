@@ -15,9 +15,9 @@ module.exports = {
 
 	    token: {
 	    	type: 'string',
-	    	size: 310,
+	    	size: 320,
 	    	primaryKey: true,
-	  		unique: true
+	    	unique: true
 	    },
 		expiry: {
 		  	type: 'string'
