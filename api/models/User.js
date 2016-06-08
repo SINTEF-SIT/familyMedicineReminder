@@ -51,6 +51,7 @@ module.exports = {
 		token: {
 	  		type: 'string',
 	  		required: true,
+	  		size: 200,
 	  		defaultsTo: 'null'
 	  	},
 		  
