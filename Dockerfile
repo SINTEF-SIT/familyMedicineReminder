@@ -1,10 +1,8 @@
 FROM node:4-onbuild
-
-RUN mkdir -p /usr/src/sails
-COPY . /usr/src/sails
-RUN npm -g install sails@0.12.1
-RUN cd /usr/src/sails; npm install
-
+RUN git clone https://github.com/SINTEF-SIT/familyMedicineReminder.git
+RUN mkdir -p /usr/src/sails/
+RUN cp -r familyMedicineReminder /usr/src/sails
+RUN npm -g install sails
+RUN cd /usr/src/sails/familyMedicineReminder; npm install
 EXPOSE 1337
-
-CMD cd /usr/src/sails; sails lift
+CMD cd /usr/src/sails/familyMedicineReminder; sails lift
